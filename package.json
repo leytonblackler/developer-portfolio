@@ -3,10 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "lodash": "^4.17.15",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
+    "react-page-scroller": "^2.0.0-beta",
     "react-pose": "^4.0.9",
     "react-scripts": "3.2.0",
+    "react-skroll": "^0.7.3",
+    "react-spring": "^8.0.27",
     "react-typed": "^1.2.0",
     "styled-components": "^4.4.1"
   },
