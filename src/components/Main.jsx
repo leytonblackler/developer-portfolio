@@ -1,49 +1,74 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import ReactPageScroller from "react-page-scroller";
+import windowSize from "react-window-size";
+import ReactFullpage from "@fullpage/react-fullpage";
 import Header from "./header/Header";
-import Introduction from "./pages/introduction/Introduction";
-import About from "./pages/about/About";
-import Portfolio from "./pages/portfolio/Portfolio";
-import Contact from "./pages/contact/Contact";
+import Introduction from "./sections/introduction/Introduction";
+import About from "./sections/about/About";
+import Portfolio from "./sections/portfolio/Portfolio";
+import Contact from "./sections/contact/Contact";
 import MobileComingSoon from "./MobileComingSoon";
 
 class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentPage: 0
+      currentSection: 1
     };
   }
 
-  handlePageChange = page => {
-    this.reactPageScroller.goToPage(page);
-    this.setState({ currentPage: page });
+  handleSectionChange = section => {
+    this.fullpageApi.moveTo(section, 0);
+    this.setState({ currentSection: section });
   };
 
+  onLeave(origin, destination, direction) {
+    this.setState({ currentSection: destination.index + 1 });
+  }
+  afterLoad(origin, destination, direction) {
+    console.log("After load: " + destination.index);
+  }
+
   render = () => {
-    return (
+    const mobileView = this.props.windowWidth < 1000;
+    return !mobileView ? (
       <React.Fragment>
-        <MainContainer>
+        <HeaderContainer>
           <Header
-            onPageLinkClicked={this.handlePageChange}
-            currentPage={this.state.currentPage}
+            onPageLinkClicked={this.handleSectionChange}
+            currentSection={this.state.currentSection}
           />
-          <ReactPageScroller
-            ref={element => (this.reactPageScroller = element)}
-            pageOnChange={this.handlePageChange}
-            animationTimer={750}
-          >
-            <Introduction />
-            <About />
-            <Portfolio />
-            <Contact />
-          </ReactPageScroller>
-        </MainContainer>
-        <MobileComingSoonContainer>
-          <MobileComingSoon />
-        </MobileComingSoonContainer>
+        </HeaderContainer>
+        <ReactFullpage
+          scrollOverflow={true}
+          onLeave={this.onLeave.bind(this)}
+          afterLoad={this.afterLoad.bind(this)}
+          render={({ state, fullpageApi }) => {
+            this.fullpageApi = fullpageApi;
+            console.log("state", state.destination);
+            return (
+              <MainContainer>
+                <Section className="section">
+                  <Introduction />
+                </Section>
+                <Section className="section">
+                  <About />
+                </Section>
+                <Section className="section">
+                  <Portfolio />
+                </Section>
+                <Section className="section">
+                  <Contact />
+                </Section>
+              </MainContainer>
+            );
+          }}
+        />
       </React.Fragment>
+    ) : (
+      <MobileComingSoonContainer>
+        <MobileComingSoon />
+      </MobileComingSoonContainer>
     );
   };
 }
@@ -51,6 +76,20 @@ class Main extends Component {
 const MainContainer = styled.div`
   width: 100%;
   height: 100%;
+`;
+
+const Section = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
+const HeaderContainer = styled.div`
+  width: 100%;
+  height: 80px !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
 `;
 
 const MobileComingSoonContainer = styled.div`
@@ -72,7 +111,7 @@ const MobileComingSoonContainer = styled.div`
   }
 `;
 
-export default Main;
+export default windowSize(Main);
 
 // @media (min-width:320px)  { /* smartphones, portrait iPhone, portrait 480x320 phones (Android) */ }
 // @media (min-width:480px)  { /* smartphones, Android phones, landscape iPhone */ }
@@ -80,3 +119,42 @@ export default Main;
 // @media (min-width:801px)  { /* tablet, landscape iPad, lo-res laptops ands desktops */ }
 // @media (min-width:1025px) { /* big landscape tablets, laptops, and desktops */ }
 // @media (min-width:1281px) { /* hi-res laptops and desktops */ }
+
+// <React.Fragment>
+//         <MainContainer>
+// <Header
+//   onPageLinkClicked={this.handleSectionChange}
+//   currentSection={this.state.currentSection}
+// />
+//           <ReactPageScroller
+//             pageOnChange={this.handleSectionChange}
+//             customPageNumber={this.state.currentSection}
+//             renderAllPagesOnFirstRender
+//             animationTimer={750}
+//           >
+//             <Introduction />
+//             <About />
+//             <Portfolio />
+//             <Contact />
+//           </ReactPageScroller>
+//         </MainContainer>
+//         <MobileComingSoonContainer>
+//           <MobileComingSoon />
+//         </MobileComingSoonContainer>
+//       </React.Fragment>
+
+// <React.Fragment>
+//         <MainContainer>
+//           <Header
+//             onPageLinkClicked={this.handleSectionChange}
+//             currentSection={this.state.currentSection}
+//           />
+// <Introduction id="introduction" />
+// <About id="about" />
+// <Portfolio id="portfolio" />
+// <Contact id="contact" />
+//         </MainContainer>
+//         <MobileComingSoonContainer>
+//           <MobileComingSoon />
+//         </MobileComingSoonContainer>
+//       </React.Fragment>

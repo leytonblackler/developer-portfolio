@@ -5,7 +5,7 @@ import RoundedButton from "../../common/RoundedButton";
 
 export default class Introduction extends Component {
   render = () => (
-    <MainContainer className="disable-select">
+    <MainContainer>
       <InnerContent>
         <LeftSection>
           <TypedText
@@ -14,10 +14,10 @@ export default class Introduction extends Component {
             backDelay={1500}
           />
           <SecondaryText>
-            I'm currently looking for my next exciting career opportunity, keep
-            scrolling to learn more about me.
+            I'm a full-stack developer who enjoys creating useful and
+            interesting solutions and has a passion for clean design.
           </SecondaryText>
-          <RoundedButton> Hire Me</RoundedButton>
+          <RoundedButton>Contact Me</RoundedButton>
         </LeftSection>
         <PhotoCircle src="/images/profile_photo.png" />
       </InnerContent>
@@ -64,11 +64,11 @@ const LeftSection = styled.div`
 
 const TypedText = styled(Typed)`
   @media (min-width: 0px) {
-    height: 180px;
+    height: 190px;
     width: 320px;
   }
   @media (min-width: 1300px) {
-    height: 140px;
+    height: 135px;
     width: auto;
   }
   font-size: 32pt;

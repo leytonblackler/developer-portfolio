@@ -3,26 +3,26 @@ import styled from "styled-components";
 import posed from "react-pose";
 
 const Header = props => {
-  const { onPageLinkClicked, currentPage } = props;
+  const { onPageLinkClicked, currentSection } = props;
   return (
     <MainContainer className="disable-select">
       <InnerContent>
-        <Logo src="/images/logo.png" onClick={() => onPageLinkClicked(0)} />
+        <Logo src="/images/logo.png" onClick={() => onPageLinkClicked(1)} />
         <LinkText
-          onClick={() => onPageLinkClicked(1)}
-          pose={currentPage === 1 ? "active" : "inactive"}
+          onClick={() => onPageLinkClicked(2)}
+          pose={currentSection === 2 ? "active" : "inactive"}
         >
           About
         </LinkText>
         <LinkText
-          onClick={() => onPageLinkClicked(2)}
-          pose={currentPage === 2 ? "active" : "inactive"}
+          onClick={() => onPageLinkClicked(3)}
+          pose={currentSection === 3 ? "active" : "inactive"}
         >
           Portfolio
         </LinkText>
         <LinkText
-          onClick={() => onPageLinkClicked(3)}
-          pose={currentPage === 3 ? "active" : "inactive"}
+          onClick={() => onPageLinkClicked(4)}
+          pose={currentSection === 4 ? "active" : "inactive"}
         >
           Contact
         </LinkText>
@@ -32,15 +32,11 @@ const Header = props => {
 };
 
 const MainContainer = styled.div`
-  position: fixed;
   width: 100vw;
   height: 80px;
-  top: 0;
-  left: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999;
 `;
 
 const InnerContent = styled.div`
