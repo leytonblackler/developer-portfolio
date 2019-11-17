@@ -40,6 +40,7 @@ class Main extends Component {
           />
         </HeaderContainer>
         <ReactFullpage
+          licenseKey="7CDGxdU?n5"
           scrollOverflow={true}
           onLeave={this.onLeave.bind(this)}
           afterLoad={this.afterLoad.bind(this)}
@@ -119,42 +120,3 @@ export default windowSize(Main);
 // @media (min-width:801px)  { /* tablet, landscape iPad, lo-res laptops ands desktops */ }
 // @media (min-width:1025px) { /* big landscape tablets, laptops, and desktops */ }
 // @media (min-width:1281px) { /* hi-res laptops and desktops */ }
-
-// <React.Fragment>
-//         <MainContainer>
-// <Header
-//   onPageLinkClicked={this.handleSectionChange}
-//   currentSection={this.state.currentSection}
-// />
-//           <ReactPageScroller
-//             pageOnChange={this.handleSectionChange}
-//             customPageNumber={this.state.currentSection}
-//             renderAllPagesOnFirstRender
-//             animationTimer={750}
-//           >
-//             <Introduction />
-//             <About />
-//             <Portfolio />
-//             <Contact />
-//           </ReactPageScroller>
-//         </MainContainer>
-//         <MobileComingSoonContainer>
-//           <MobileComingSoon />
-//         </MobileComingSoonContainer>
-//       </React.Fragment>
-
-// <React.Fragment>
-//         <MainContainer>
-//           <Header
-//             onPageLinkClicked={this.handleSectionChange}
-//             currentSection={this.state.currentSection}
-//           />
-// <Introduction id="introduction" />
-// <About id="about" />
-// <Portfolio id="portfolio" />
-// <Contact id="contact" />
-//         </MainContainer>
-//         <MobileComingSoonContainer>
-//           <MobileComingSoon />
-//         </MobileComingSoonContainer>
-//       </React.Fragment>

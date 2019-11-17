@@ -20,7 +20,7 @@ const MainContainer = posed(styled.div`
   border-radius: 100px;
   box-shadow: 0px 8px 30px rgba(138, 43, 226, 0.3);
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 600;
 `)({
   hoverable: true,
   init: {
