@@ -4,26 +4,30 @@ import Typed from "react-typed";
 import RoundedButton from "../../common/RoundedButton";
 
 export default class Introduction extends Component {
-  render = () => (
-    <MainContainer>
-      <InnerContent>
-        <LeftSection>
-          <TypedText
-            strings={["Hi, I'm Leyton.<br> I'm a Software Developer."]}
-            typeSpeed={40}
-            backDelay={1500}
-          />
-          <SecondaryText>
-            I'm a full-stack developer who enjoys creating useful and
-            interesting solutions and has a passion for clean design.
-          </SecondaryText>
-          <RoundedButton>Contact Me</RoundedButton>
-        </LeftSection>
-        <PhotoCircle src="/images/profile_photo.png" />
-      </InnerContent>
-      <BackgroundShape />
-    </MainContainer>
-  );
+  render = () => {
+    const { pageLoaded } = this.props;
+    return (
+      <MainContainer>
+        <InnerContent>
+          <LeftSection>
+            <TypedText
+              stopped={pageLoaded}
+              strings={["Hi, I'm Leyton.<br> I'm a Software Developer."]}
+              typeSpeed={40}
+              backDelay={1500}
+            />
+            <SecondaryText>
+              I'm a full-stack developer who enjoys creating useful and
+              interesting solutions and has a passion for clean design.
+            </SecondaryText>
+            <RoundedButton>Contact Me</RoundedButton>
+          </LeftSection>
+          <PhotoCircle src="/images/profile_photo.png" />
+        </InnerContent>
+        <BackgroundShape />
+      </MainContainer>
+    );
+  };
 }
 
 const MainContainer = styled.div`

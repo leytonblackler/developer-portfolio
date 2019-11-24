@@ -8,13 +8,18 @@ import About from "./sections/about/About";
 import Portfolio from "./sections/portfolio/Portfolio";
 import Contact from "./sections/contact/Contact";
 import MobileComingSoon from "./MobileComingSoon";
+import LoadingScreen from "./LoadingScreen";
+import OnImagesLoaded from "react-on-images-loaded";
 
 class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      imagesLoaded: false,
+      loaderShownForMinimumTime: false,
       currentSection: 1
     };
+    setTimeout(() => this.setState({ loaderShownForMinimumTime: true }), 1000);
   }
 
   handleSectionChange = section => {
@@ -25,46 +30,48 @@ class Main extends Component {
   onLeave(origin, destination, direction) {
     this.setState({ currentSection: destination.index + 1 });
   }
-  afterLoad(origin, destination, direction) {
-    console.log("After load: " + destination.index);
-  }
 
   render = () => {
+    const { imagesLoaded, loaderShownForMinimumTime } = this.state;
+    const pageLoaded = imagesLoaded && loaderShownForMinimumTime;
     const mobileView = this.props.windowWidth < 1000;
     return !mobileView ? (
       <React.Fragment>
-        <HeaderContainer>
+        <LoadingScreen visible={!pageLoaded} />
+        <OnImagesLoaded
+          onLoaded={() => this.setState({ imagesLoaded: true })}
+          onTimeout={() => console.log("OnImagesLoaded timeout.")}
+          timeout={7000}
+        >
           <Header
             onPageLinkClicked={this.handleSectionChange}
             currentSection={this.state.currentSection}
           />
-        </HeaderContainer>
-        <ReactFullpage
-          licenseKey="7CDGxdU?n5"
-          scrollOverflow={true}
-          onLeave={this.onLeave.bind(this)}
-          afterLoad={this.afterLoad.bind(this)}
-          render={({ state, fullpageApi }) => {
-            this.fullpageApi = fullpageApi;
-            console.log("state", state.destination);
-            return (
-              <MainContainer>
-                <Section className="section">
-                  <Introduction />
-                </Section>
-                <Section className="section">
-                  <About />
-                </Section>
-                <Section className="section">
-                  <Portfolio />
-                </Section>
-                <Section className="section">
-                  <Contact />
-                </Section>
-              </MainContainer>
-            );
-          }}
-        />
+          <ReactFullpage
+            licenseKey="7CDGxdU?n5"
+            scrollOverflow={true}
+            onLeave={this.onLeave.bind(this)}
+            render={({ state, fullpageApi }) => {
+              this.fullpageApi = fullpageApi;
+              return (
+                <MainContainer>
+                  <Section className="section">
+                    <Introduction pageLoaded={pageLoaded} />
+                  </Section>
+                  <Section className="section">
+                    <About />
+                  </Section>
+                  <Section className="section">
+                    <Portfolio />
+                  </Section>
+                  <Section className="section">
+                    <Contact />
+                  </Section>
+                </MainContainer>
+              );
+            }}
+          />
+        </OnImagesLoaded>
       </React.Fragment>
     ) : (
       <MobileComingSoonContainer>
@@ -84,22 +91,11 @@ const Section = styled.div`
   height: 100%;
 `;
 
-const HeaderContainer = styled.div`
-  width: 100%;
-  height: 80px !important;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 9999;
-`;
-
 const MobileComingSoonContainer = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
+  position: absolute;
   width: 100vw;
   height: 100vh;
-  z-index: 9999;
+  z-index: 90;
   background-color: white;
   display: flex;
   justify-content: center;

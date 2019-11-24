@@ -7,10 +7,12 @@ import { mdiGithubCircle, mdiLinkedin } from "@mdi/js";
 const goToURL = url => window.open(url, "_blank");
 const iconButtons = [
   {
+    id: "github",
     icon: mdiGithubCircle,
     onClick: () => goToURL("https://github.com/leytonblackler")
   },
   {
+    id: "linkedin",
     icon: mdiLinkedin,
     onClick: () => goToURL("https://www.linkedin.com/in/leytonblackler/")
   }
@@ -44,7 +46,7 @@ const Header = props => {
         </Left>
         <Right>
           {iconButtons.map(iconButton => (
-            <IconButton {...iconButton} />
+            <IconButton key={iconButton.id} {...iconButton} />
           ))}
         </Right>
       </InnerContent>
@@ -53,6 +55,8 @@ const Header = props => {
 };
 
 const MainContainer = styled.div`
+  position: absolute;
+  z-index: 90;
   width: 100vw;
   height: 80px;
   display: flex;
