@@ -9,7 +9,7 @@ const LoadingScreen = props => (
     style={{ pointerEvents: props.visible ? "default" : "none" }}
   >
     <LoaderContainer pose={props.visible ? "visible" : "hidden"}>
-      <Logo src="/images/logo.png" />
+      <Logo src="/images/logo.png" alt="Logo" />
       <ClipLoader size={110} color="#8a2be2" loading={true} />
     </LoaderContainer>
   </MainContainer>

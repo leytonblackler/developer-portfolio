@@ -22,7 +22,7 @@ export default class Introduction extends Component {
             </SecondaryText>
             <RoundedButton>Contact Me</RoundedButton>
           </LeftSection>
-          <PhotoCircle src="/images/profile_photo.png" />
+          <PhotoCircle src="/images/profile_photo.png" alt="Profile photo" />
         </InnerContent>
         <BackgroundShape />
       </MainContainer>

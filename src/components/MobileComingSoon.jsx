@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const MobileComingSoon = props => (
   <MainContainer>
-    <Logo src="/images/logo.png" />
+    <Logo src="/images/logo.png" alt="Logo" />
     <Text>The mobile version of this site is still in development.</Text>
     <Text>
       To view the full content, please try viewing this site on a larger device.

@@ -24,7 +24,11 @@ const Header = props => {
     <MainContainer className="disable-select">
       <InnerContent>
         <Left>
-          <Logo src="/images/logo.png" onClick={() => onPageLinkClicked(1)} />
+          <Logo
+            src="/images/logo.png"
+            alt="Logo"
+            onClick={() => onPageLinkClicked(1)}
+          />
           <LinkText
             onClick={() => onPageLinkClicked(2)}
             pose={currentSection === 2 ? "active" : "inactive"}
