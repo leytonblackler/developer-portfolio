@@ -1,8 +1,9 @@
-import React from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
-import posed from "react-pose";
+import { motion } from "framer-motion";
 import IconButton from "./IconButton";
 import { mdiGithubCircle, mdiLinkedin } from "@mdi/js";
+import { HamburgerSqueeze } from "react-animated-burgers";
 
 const goToURL = url => window.open(url, "_blank");
 const iconButtons = [
@@ -18,32 +19,74 @@ const iconButtons = [
   }
 ];
 
-const Header = props => {
-  const { onPageLinkClicked, currentSection } = props;
-  return (
-    <MainContainer className="disable-select">
-      <InnerContent>
+export default class Header extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { navigationOpen: false };
+  }
+
+  renderDesktopView = () => {
+    const { onPageLinkClicked, currentSection } = this.props;
+    const logoVariants = {
+      default: {
+        width: 50,
+        height: 50,
+        marginLeft: 0,
+        marginRight: 60
+      },
+      hover: {
+        width: 56,
+        height: 56,
+        marginLeft: -3,
+        marginRight: 57
+      }
+    };
+    const linkTextVariants = {
+      hover: {
+        backgroundColor: "#f2f3f5"
+      },
+      inactive: {
+        color: "#424963"
+      },
+      active: {
+        color: "#4e67eb"
+      }
+    };
+    return (
+      <React.Fragment>
         <Left>
           <Logo
             src="/images/logo.png"
             alt="Logo"
+            variants={logoVariants}
+            initial={logoVariants.default}
+            whileHover={logoVariants.hover}
             onClick={() => onPageLinkClicked(1)}
           />
           <LinkText
+            variants={linkTextVariants}
+            initial="inactive"
+            whileHover={linkTextVariants.hover}
+            animate={currentSection === 2 ? "active" : "inactive"}
             onClick={() => onPageLinkClicked(2)}
-            pose={currentSection === 2 ? "active" : "inactive"}
           >
             About
           </LinkText>
           <LinkText
+            variants={linkTextVariants}
+            initial="inactive"
+            whileHover={linkTextVariants.hover}
+            animate={currentSection === 3 ? "active" : "inactive"}
             onClick={() => onPageLinkClicked(3)}
-            pose={currentSection === 3 ? "active" : "inactive"}
           >
             Portfolio
           </LinkText>
           <LinkText
+            variants={linkTextVariants}
+            initial="inactive"
+            whileHover={linkTextVariants.hover}
+            animate={currentSection === 4 ? "active" : "inactive"}
             onClick={() => onPageLinkClicked(4)}
-            pose={currentSection === 4 ? "active" : "inactive"}
           >
             Contact
           </LinkText>
@@ -53,10 +96,51 @@ const Header = props => {
             <IconButton key={iconButton.id} {...iconButton} />
           ))}
         </Right>
-      </InnerContent>
-    </MainContainer>
-  );
-};
+      </React.Fragment>
+    );
+  };
+
+  renderMobileView = () => {
+    const { navigationOpen } = this.state;
+    const { onPageLinkClicked } = this.props;
+    return (
+      <React.Fragment>
+        <Left>
+          <Logo
+            src="/images/logo.png"
+            alt="Logo"
+            onClick={() => onPageLinkClicked(1)}
+          />
+        </Left>
+        <Right>
+          <Hamburger
+            buttonWidth={35}
+            isActive={navigationOpen}
+            toggleButton={() => {
+              console.log("toggle");
+              this.setState(previousState => ({
+                navigationOpen: !previousState.navigationOpen
+              }));
+            }}
+            buttonColor="rgba(255, 255, 255, 0)"
+            barColor="#4e67eb"
+          />
+        </Right>
+      </React.Fragment>
+    );
+  };
+
+  render() {
+    const { mobileView } = this.props;
+    return (
+      <MainContainer className="disable-select">
+        <InnerContent>
+          {mobileView ? this.renderMobileView() : this.renderDesktopView()}
+        </InnerContent>
+      </MainContainer>
+    );
+  }
+}
 
 const MainContainer = styled.div`
   position: absolute;
@@ -77,10 +161,18 @@ const InnerContent = styled.div`
   height: 100%;
   margin-top: 20px;
   @media (min-width: 0px) {
+    width: 100vw;
+    max-width: 100vw;
+    padding-left: 25px;
+    padding-right: 15px;
+  }
+  @media (min-width: 1025px) {
+    padding: 0;
     width: 900px;
     max-width: 900px;
   }
   @media (min-width: 1300px) {
+    padding: 0;
     width: 1200px;
     max-width: 1200px;
   }
@@ -101,25 +193,11 @@ const Right = styled.div`
   align-items: center;
 `;
 
-const Logo = posed(styled.img`
+const Logo = styled(motion.img)`
   cursor: pointer;
-`)({
-  hoverable: true,
-  init: {
-    width: 50,
-    height: 50,
-    marginLeft: 0,
-    marginRight: 60
-  },
-  hover: {
-    width: 56,
-    height: 56,
-    marginLeft: -3,
-    marginRight: 57
-  }
-});
+`;
 
-const LinkText = posed(styled.div`
+const LinkText = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -131,20 +209,9 @@ const LinkText = posed(styled.div`
   height: 40px;
   border-radius: 50px;
   cursor: pointer;
-`)({
-  hoverable: true,
-  init: {
-    backgroundColor: "rgba(255, 255, 255, 1)"
-  },
-  hover: {
-    backgroundColor: "#f2f3f5"
-  },
-  inactive: {
-    color: "#424963"
-  },
-  active: {
-    color: "#8a2be2"
-  }
-});
+  background-color: rgba(255, 255, 255, 1);
+`;
 
-export default Header;
+const Hamburger = styled(HamburgerSqueeze)`
+  margin-bottom: 10px;
+`;

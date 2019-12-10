@@ -1,14 +1,17 @@
 import React from "react";
 import styled from "styled-components";
-import posed from "react-pose";
+import { motion } from "framer-motion";
 
-const RoundedButton = props => (
-  <MainContainer className="disable-select">
-    <Text>{props.children}</Text>
-  </MainContainer>
-);
+const RoundedButton = props => {
+  const variants = { hover: { backgroundColor: "#3035c7" } };
+  return (
+    <MainContainer className="disable-select" whileHover={variants.hover}>
+      <Text>{props.children}</Text>
+    </MainContainer>
+  );
+};
 
-const MainContainer = posed(styled.div`
+const MainContainer = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,18 +21,11 @@ const MainContainer = posed(styled.div`
   padding-top: 5px;
   padding-bottom: 5px;
   border-radius: 100px;
-  box-shadow: 0px 8px 30px rgba(138, 43, 226, 0.3);
+  box-shadow: 0px 8px 30px rgba(78, 103, 235, 0.3);
   cursor: pointer;
   font-weight: 600;
-`)({
-  hoverable: true,
-  init: {
-    backgroundColor: "#8a2be2"
-  },
-  hover: {
-    backgroundColor: "#5e16a2"
-  }
-});
+  background-color: #4e67eb;
+`;
 
 const Text = styled.span`
   color: white;
@@ -37,10 +33,3 @@ const Text = styled.span`
 `;
 
 export default RoundedButton;
-
-// init: {
-//   backgroundColor: "#8a2be2"
-// },
-// hover: {
-//   backgroundColor: "#5e16a2"
-// }

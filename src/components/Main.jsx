@@ -34,8 +34,8 @@ class Main extends Component {
   render = () => {
     const { imagesLoaded, loaderShownForMinimumTime } = this.state;
     const pageLoaded = imagesLoaded && loaderShownForMinimumTime;
-    const mobileView = this.props.windowWidth < 1000;
-    return !mobileView ? (
+    const mobileView = this.props.windowWidth < 800;
+    return (
       <React.Fragment>
         <LoadingScreen visible={!pageLoaded} />
         <OnImagesLoaded
@@ -46,6 +46,7 @@ class Main extends Component {
           <Header
             onPageLinkClicked={this.handleSectionChange}
             currentSection={this.state.currentSection}
+            mobileView={mobileView}
           />
           <ReactFullpage
             licenseKey="7CDGxdU?n5"
@@ -56,16 +57,19 @@ class Main extends Component {
               return (
                 <MainContainer>
                   <Section className="section">
-                    <Introduction pageLoaded={pageLoaded} />
+                    <Introduction
+                      pageLoaded={pageLoaded}
+                      mobileView={mobileView}
+                    />
                   </Section>
                   <Section className="section">
-                    <About />
+                    <About mobileView={mobileView} />
                   </Section>
                   <Section className="section">
-                    <Portfolio />
+                    <Portfolio mobileView={mobileView} />
                   </Section>
                   <Section className="section">
-                    <Contact />
+                    <Contact mobileView={mobileView} />
                   </Section>
                 </MainContainer>
               );
@@ -73,10 +77,6 @@ class Main extends Component {
           />
         </OnImagesLoaded>
       </React.Fragment>
-    ) : (
-      <MobileComingSoonContainer>
-        <MobileComingSoon />
-      </MobileComingSoonContainer>
     );
   };
 }

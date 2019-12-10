@@ -9,6 +9,10 @@ body {
   background-color: transparent;
 }
 
+button:focus {
+  outline: 0;
+}
+
 .disable-select {
   -webkit-touch-callout: none;
   -webkit-user-select: none;

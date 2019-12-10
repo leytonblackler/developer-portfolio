@@ -1,15 +1,22 @@
 import React from "react";
 import styled from "styled-components";
-import posed from "react-pose";
+import { motion } from "framer-motion";
 import Icon from "@mdi/react";
 
-const IconButton = props => (
-  <MainContainer className="disable-select" onClick={props.onClick}>
-    <Icon path={props.icon} size={0.8} color="#424963" />
-  </MainContainer>
-);
+const IconButton = props => {
+  const variants = { hover: { backgroundColor: "#f2f3f5" } };
+  return (
+    <MainContainer
+      className="disable-select"
+      whileHover={variants.hover}
+      onClick={props.onClick}
+    >
+      <Icon path={props.icon} size={0.8} color="#424963" />
+    </MainContainer>
+  );
+};
 
-const MainContainer = posed(styled.div`
+const MainContainer = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,20 +25,7 @@ const MainContainer = posed(styled.div`
   margin-left: 20px;
   border-radius: 100px;
   cursor: pointer;
-`)({
-  hoverable: true,
-  init: {
-    backgroundColor: "rgba(255, 255, 255, 1)"
-  },
-  hover: {
-    backgroundColor: "#f2f3f5"
-  },
-  inactive: {
-    color: "#424963"
-  },
-  active: {
-    color: "#8a2be2"
-  }
-});
+  background-color: rgba(255, 255, 255, 1);
+`;
 
 export default IconButton;
