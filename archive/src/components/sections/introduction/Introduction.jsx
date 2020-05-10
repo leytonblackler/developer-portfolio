@@ -11,7 +11,7 @@ export default class Introduction extends Component {
         <LeftSection>
           <TypedText
             stopped={pageLoaded}
-            strings={["Quality digital"]}
+            strings={["Hi, I'm Leyton.<br> I'm a Software Developer."]}
             typeSpeed={40}
             backDelay={1500}
           />
