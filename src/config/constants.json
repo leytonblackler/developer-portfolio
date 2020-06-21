@@ -1,0 +1,18 @@
+{
+  "breakpoints": {
+    "wideView": 1300,
+    "columnView": 600
+  },
+  "mobile": {
+    "minimumLayoutPadding": 30,
+    "logoSize": 40,
+    "menuToggleSize": 30
+  },
+  "desktop": {
+    "maximumContentWidth": 1600,
+    "leftContentWidth": 700,
+    "minimumLayoutPadding": 60,
+    "logoSize": 60,
+    "menuToggleSize": 50
+  }
+}

@@ -1,0 +1,51 @@
+@font-face {
+  font-family: 'Avenir Next';
+  font-weight: 100;
+  src: local('AvenirNextLTPro-Ultralight'), url(./AvenirNextLTPro-Ultralight.otf) format('opentype');
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  font-weight: 200;
+  src: local('AvenirNextLTPro-Thin'), url(./AvenirNextLTPro-Thin.otf) format('opentype');
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  font-weight: 300;
+  src: local('AvenirNextLTPro-Light'), url(./AvenirNextLTPro-Light.otf) format('opentype');
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  font-weight: 400;
+  src: local('AvenirNextLTPro-Regular'), url(./AvenirNextLTPro-Regular.otf) format('opentype');
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  font-weight: 500;
+  src: local('AvenirNextLTPro-Medium'), url(./AvenirNextLTPro-Medium.otf) format('opentype');
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  font-weight: 600;
+  src: local('AvenirNextLTPro-Demi'), url(./AvenirNextLTPro-Demi.otf) format('opentype');
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  font-weight: 700 800;
+  src: local('AvenirNextLTPro-Bold'), url(./AvenirNextLTPro-Bold.otf) format('opentype');
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  font-weight: 900;
+  src: local('AvenirNextLTPro-Heavy'), url(./AvenirNextLTPro-Heavy.otf) format('opentype');
+}
+
+
+
+

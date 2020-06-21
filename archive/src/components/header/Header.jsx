@@ -5,6 +5,80 @@ import IconButton from "./IconButton";
 import { mdiGithubCircle, mdiLinkedin } from "@mdi/js";
 import { HamburgerSqueeze } from "react-animated-burgers";
 
+const MainContainer = styled.div`
+  position: absolute;
+  z-index: 90;
+  width: 100vw;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const InnerContent = styled.div`
+  //   background-color: rgba(92, 211, 255, 0.3);
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+  margin-top: 20px;
+  @media (min-width: 0px) {
+    width: 100vw;
+    max-width: 100vw;
+    padding-left: 25px;
+    padding-right: 15px;
+  }
+  @media (min-width: 1025px) {
+    padding: 0;
+    width: 900px;
+    max-width: 900px;
+  }
+  @media (min-width: 1300px) {
+    padding: 0;
+    width: 1200px;
+    max-width: 1200px;
+  }
+`;
+
+const Left = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
+const Right = styled.div`
+  margin-left: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
+const Logo = styled(motion.img)`
+  cursor: pointer;
+`;
+
+const LinkText = styled(motion.div)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12pt;
+  font-weight: 600;
+  margin-right: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 40px;
+  border-radius: 50px;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 1);
+`;
+
+const Hamburger = styled(HamburgerSqueeze)`
+  margin-bottom: 10px;
+`;
+
 const goToURL = url => window.open(url, "_blank");
 const iconButtons = [
   {
@@ -141,77 +215,3 @@ export default class Header extends Component {
     );
   }
 }
-
-const MainContainer = styled.div`
-  position: absolute;
-  z-index: 90;
-  width: 100vw;
-  height: 80px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const InnerContent = styled.div`
-  //   background-color: rgba(92, 211, 255, 0.3);
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  height: 100%;
-  margin-top: 20px;
-  @media (min-width: 0px) {
-    width: 100vw;
-    max-width: 100vw;
-    padding-left: 25px;
-    padding-right: 15px;
-  }
-  @media (min-width: 1025px) {
-    padding: 0;
-    width: 900px;
-    max-width: 900px;
-  }
-  @media (min-width: 1300px) {
-    padding: 0;
-    width: 1200px;
-    max-width: 1200px;
-  }
-`;
-
-const Left = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-`;
-
-const Right = styled.div`
-  margin-left: auto;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-`;
-
-const Logo = styled(motion.img)`
-  cursor: pointer;
-`;
-
-const LinkText = styled(motion.div)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 12pt;
-  font-weight: 600;
-  margin-right: 20px;
-  padding-left: 20px;
-  padding-right: 20px;
-  height: 40px;
-  border-radius: 50px;
-  cursor: pointer;
-  background-color: rgba(255, 255, 255, 1);
-`;
-
-const Hamburger = styled(HamburgerSqueeze)`
-  margin-bottom: 10px;
-`;

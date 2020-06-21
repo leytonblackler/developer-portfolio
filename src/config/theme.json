@@ -1,0 +1,35 @@
+{
+  "colour": {
+    "primary": "#015fff"
+  },
+  "text": {
+    "h1": {
+      "large": "44.8px",
+      "small": "32px"
+    },
+    "h2": {
+      "large": "25.9px",
+      "small": "23px"
+    },
+    "h3": {
+      "large": "21px",
+      "small": "18px"
+    },
+    "h4": {
+      "large": "18px",
+      "small": "16px"
+    },
+    "h5": {
+      "large": "16px",
+      "small": "14px"
+    },
+    "summary": {
+      "large": "25.9px",
+      "small": "23px"
+    },
+    "p": {
+      "large": "18px",
+      "small": "16px"
+    }
+  }
+}
