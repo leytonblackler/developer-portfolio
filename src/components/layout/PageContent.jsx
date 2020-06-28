@@ -6,23 +6,11 @@ import { breakpoints, mobile, desktop } from "../../config/constants.json";
 
 const ContentContainer = styled.div`
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   justify-content: flex-start;
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
   position: relative;
-
-  /* max-width: none; */
-  margin-left: 0;
-  padding-right: 0;
-  @media (min-width: ${breakpoints.columnView}px) {
-    /* max-width: ${desktop.maximumContentWidth}px; */
-    margin-left: 7%;
-    /* padding-right: ${desktop.logoSize}px; */
-  }
-  /* @media (min-width: ${breakpoints.wideView}px) {
-    margin-left: ${desktop.logoSize * 2}px;
-  } */
 
   background-color: lime;
 

@@ -1,4 +1,7 @@
 {
+  "general": {
+    "sectionTransitionDuration": 1
+  },
   "breakpoints": {
     "wideView": 1300,
     "columnView": 600

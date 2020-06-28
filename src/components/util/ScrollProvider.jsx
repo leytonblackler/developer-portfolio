@@ -1,37 +1,43 @@
 import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
-import styled from "styled-components";
 import { Swipeable } from "react-swipeable";
+import { general } from "../../config/constants.json";
 
-const MAX_INDEX = 5;
+const MAX_INDEX = 1;
 
-const nextSectionIndex = (direction, currentIndex, maxIndex) => {
-  if (direction === "up") {
+const evaluateNextSectionIndex = (deltaY, currentIndex) => {
+  if (deltaY < 0) {
     if (currentIndex > 0) {
       return currentIndex - 1;
     }
-  } else if (direction === "down") {
-    if (currentIndex < maxIndex) {
-      return currentIndex + 1;
-    }
+  } else if (currentIndex < MAX_INDEX) {
+    return currentIndex + 1;
   }
-  return currentIndex;
+  return currentIndex; // Don't update state if the index remains the same.
 };
+
+let transitionActive = false;
 
 const ScrollProvider = ({ children }) => {
   const [sectionIndex, setSectionIndex] = useState(0);
 
-  const handleScroll = ({ deltaY }) => {
-    if (deltaY !== 0) {
-      if (deltaY > 0) {
-        setSectionIndex((currentIndex) =>
-          nextSectionIndex("down", currentIndex, MAX_INDEX)
-        );
-      } else {
-        setSectionIndex((currentIndex) =>
-          nextSectionIndex("up", currentIndex, MAX_INDEX)
-        );
-      }
+  const handleScroll = ({ deltaY, shiftKey }) => {
+    // Only trigger a scroll if:
+    // - There is no current transition.
+    // - The scroll is vertical (shift key not being held).
+    if (!transitionActive && !shiftKey) {
+      setSectionIndex((currentIndex) => {
+        const nextSectionIndex = evaluateNextSectionIndex(deltaY, currentIndex);
+
+        if (nextSectionIndex !== currentIndex) {
+          transitionActive = true;
+          setTimeout(() => {
+            transitionActive = false;
+          }, general.sectionTransitionDuration * 1000);
+        }
+
+        return nextSectionIndex;
+      });
     }
   };
 

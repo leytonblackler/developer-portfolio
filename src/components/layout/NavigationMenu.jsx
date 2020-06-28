@@ -5,7 +5,6 @@ const NavigationMenuContainer = styled.div`
   width: 100vw;
   height: 100vh;
   position: fixed;
-  /* background-color: orange; */
 `;
 
 export default () => (

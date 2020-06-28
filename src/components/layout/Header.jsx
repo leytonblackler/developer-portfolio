@@ -13,7 +13,7 @@ const HeaderBar = styled(motion.div)`
   justify-content: center;
   position: fixed;
   box-sizing: border-box;
-  background-color: red;
+  /* background-color: red; */
   z-index: 100;
 
   padding-left: ${mobile.minimumLayoutPadding}px;
@@ -40,7 +40,7 @@ const HeaderContent = styled.div`
     margin-top: ${desktop.logoSize}px;
   }
 
-  background-color: orange;
+  /* background-color: orange; */
 `;
 
 const LogoContainer = styled(motion.div)`
