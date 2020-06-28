@@ -40,6 +40,13 @@ const Body = styled.div`
   background-color: yellow;
 `;
 
+// const TITLES = [{'ABOUT'}]
+
+const SECTIONS = [
+  { title: null, component: Introduction },
+  { title: "ABOUT", component: About },
+];
+
 const Layout = ({ sectionIndex }) => {
   const wideView = useMediaQuery({
     query: `(min-width: ${breakpoints.columnView}px)`,
@@ -55,23 +62,17 @@ const Layout = ({ sectionIndex }) => {
       <Body>
         {wideView && (
           <LeftBar
-            showSocialIcons={sectionIndex === 0}
-            label={sectionIndex > 0 ? "ABOUT" : null}
+            sectionIndex={sectionIndex}
+            // showSocialIcons={sectionIndex === 0}
+            // label={sectionIndex > 0 ? "ABOUT" : null}
           />
         )}
         <SectionContainer sectionIndex={sectionIndex}>
-          <PageContent>
-            <Introduction />
-          </PageContent>
-          <PageContent>
-            <About />
-          </PageContent>
+          {SECTIONS.map((section) => {
+            const LeftContent = section.component;
+            return <PageContent leftContent={<LeftContent />} />;
+          })}
         </SectionContainer>
-
-        {/* <PageContent>
-          <Introduction />
-          <About />
-        </PageContent> */}
       </Body>
     </LayoutContainer>
   );

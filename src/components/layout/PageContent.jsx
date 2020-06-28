@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useMediaQuery } from "react-responsive";
 import LeftBar from "./LeftBar";
@@ -69,18 +70,28 @@ const RightContent = styled.div`
 //   background-color: magenta;
 // `;
 
-const PageContent = ({ children }) => {
+const PageContent = ({ leftContent, rightContent }) => {
   const wideView = useMediaQuery({
     query: `(min-width: ${breakpoints.wideView}px)`,
   });
   return (
     <ContentContainer>
       {/* <InnerContainer> */}
-      <LeftContent>{children}</LeftContent>
-      {wideView && <RightContent />}
+      <LeftContent>{leftContent}</LeftContent>
+      {wideView && <RightContent>{rightContent}</RightContent>}
       {/* </InnerContainer> */}
     </ContentContainer>
   );
+};
+
+PageContent.defaultProps = {
+  leftContent: null,
+  rightContent: null,
+};
+
+PageContent.propTypes = {
+  leftContent: PropTypes.node,
+  rightContent: PropTypes.node,
 };
 
 export default PageContent;

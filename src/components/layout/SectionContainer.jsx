@@ -18,7 +18,6 @@ const ScrollArea = styled(motion.div)`
 
 const SectionContainer = ({ children, sectionIndex }) => (
   <ScrollArea
-    sectionIndex={sectionIndex}
     transition={{
       type: "tween",
       ease: "easeOut",
