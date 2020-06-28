@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useMediaQuery } from "react-responsive";
 import Header from "./Header";
@@ -39,7 +40,7 @@ const Body = styled.div`
   background-color: yellow;
 `;
 
-export default ({ sectionIndex }) => {
+const Layout = ({ sectionIndex }) => {
   const wideView = useMediaQuery({
     query: `(min-width: ${breakpoints.columnView}px)`,
   });
@@ -52,7 +53,12 @@ export default ({ sectionIndex }) => {
     <LayoutContainer>
       <Header />
       <Body>
-        {wideView && <LeftBar />}
+        {wideView && (
+          <LeftBar
+            showSocialIcons={sectionIndex === 0}
+            label={sectionIndex > 0 ? "ABOUT" : null}
+          />
+        )}
         <SectionContainer sectionIndex={sectionIndex}>
           <PageContent>
             <Introduction />
@@ -70,3 +76,9 @@ export default ({ sectionIndex }) => {
     </LayoutContainer>
   );
 };
+
+Layout.propTypes = {
+  sectionIndex: PropTypes.number.isRequired,
+};
+
+export default Layout;
