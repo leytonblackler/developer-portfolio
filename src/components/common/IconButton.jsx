@@ -6,8 +6,8 @@ import { breakpoints, mobile, desktop } from "../../config/constants.json";
 
 const Button = styled(motion.a)`
   cursor: pointer;
-  color: #ffffff;
   user-select: none;
+  /* color: #FFFFFF; */
   /* width: ${mobile.logoSize / 2}px;
   height: ${mobile.logoSize / 2}px;
   margin-top: ${mobile.logoSize / 2}px;
@@ -20,9 +20,9 @@ const Button = styled(motion.a)`
   } */
 
   width: ${desktop.logoSize / 2}px;
-    height: ${desktop.logoSize / 2}px;
-    margin-top: ${desktop.logoSize / 2}px;
-    margin-bottom: ${desktop.logoSize / 2}px;
+  height: ${desktop.logoSize / 2}px;
+  margin-top: ${desktop.logoSize / 2}px;
+  margin-bottom: ${desktop.logoSize / 2}px;
 `;
 
 const variants = {

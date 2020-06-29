@@ -8,7 +8,6 @@ const SectionTitleContainer = styled.div`
   font-weight: 800;
   font-size: 20px;
   line-height: 20px;
-  color: #ffffff;
   user-select: none;
 `;
 

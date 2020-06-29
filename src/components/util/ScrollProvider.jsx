@@ -3,14 +3,14 @@ import PropTypes from "prop-types";
 import { Swipeable } from "react-swipeable";
 import { general } from "../../config/constants.json";
 
-const MAX_INDEX = 1;
+const MAX_SCROLL_INDEX = 4;
 
 const evaluateNextSectionIndex = (deltaY, currentIndex) => {
   if (deltaY < 0) {
     if (currentIndex > 0) {
       return currentIndex - 1;
     }
-  } else if (currentIndex < MAX_INDEX) {
+  } else if (currentIndex < MAX_SCROLL_INDEX) {
     return currentIndex + 1;
   }
   return currentIndex; // Don't update state if the index remains the same.
@@ -19,7 +19,7 @@ const evaluateNextSectionIndex = (deltaY, currentIndex) => {
 let transitionActive = false;
 
 const ScrollProvider = ({ children }) => {
-  const [sectionIndex, setSectionIndex] = useState(0);
+  const [scrollIndex, setSectionIndex] = useState(0);
 
   const handleScroll = ({ deltaY, shiftKey }) => {
     // Only trigger a scroll if:
@@ -57,7 +57,7 @@ const ScrollProvider = ({ children }) => {
       onSwipedUp={() => handleScroll({ deltaY: 1 })}
       onSwipedDown={() => handleScroll({ deltaY: -1 })}
     >
-      {React.cloneElement(children, { sectionIndex })}
+      {React.cloneElement(children, { scrollIndex })}
     </Swipeable>
   );
 };

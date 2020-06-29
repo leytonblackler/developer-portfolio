@@ -10,8 +10,8 @@ export default () => (
     <Router>
       <ThemeProvider theme={theme}>
         <ScrollProvider>
-          {/* sectionIndex is 0 by default, but is overridden by ScrollProvider */}
-          <Layout sectionIndex={0} />
+          {/* scrollIndex is 0 by default, but is overridden by ScrollProvider */}
+          <Layout scrollIndex={0} />
         </ScrollProvider>
       </ThemeProvider>
     </Router>

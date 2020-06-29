@@ -64,7 +64,7 @@ const variants = {
   },
 };
 
-export default () => (
+export default ({ colour }) => (
   <HeaderBar>
     <HeaderContent>
       <LogoContainer
@@ -75,7 +75,7 @@ export default () => (
           console.log("clicked logo");
         }}
       >
-        <LogoSvg fill="#FFFFFF" />
+        <LogoSvg fill={colour} />
       </LogoContainer>
       <Menu />
     </HeaderContent>

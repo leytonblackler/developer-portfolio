@@ -16,7 +16,7 @@ const ScrollArea = styled(motion.div)`
   }
 `;
 
-const SectionContainer = ({ children, sectionIndex }) => (
+const SectionContainer = ({ children, scrollIndex }) => (
   <ScrollArea
     transition={{
       type: "tween",
@@ -24,7 +24,7 @@ const SectionContainer = ({ children, sectionIndex }) => (
       duration: general.sectionTransitionDuration,
     }}
     initial={{ top: 0 }}
-    animate={{ top: `${sectionIndex * -100}vh` }}
+    animate={{ top: `${scrollIndex * -100}vh` }}
   >
     {children}
   </ScrollArea>
@@ -32,7 +32,7 @@ const SectionContainer = ({ children, sectionIndex }) => (
 
 SectionContainer.propTypes = {
   children: PropTypes.node.isRequired,
-  sectionIndex: PropTypes.number.isRequired,
+  scrollIndex: PropTypes.number.isRequired,
 };
 
 export default SectionContainer;
