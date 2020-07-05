@@ -3,14 +3,18 @@ import PropTypes from "prop-types";
 import { Swipeable } from "react-swipeable";
 import { general } from "../../config/constants.json";
 
-const MAX_SCROLL_INDEX = 4;
+let MAX_SCROLL_INDEX = 0;
 
-const evaluateNextSectionIndex = (deltaY, currentIndex) => {
+export const setMaxScrollIndex = (index) => {
+  MAX_SCROLL_INDEX = index;
+};
+
+const evaluateNextSectionIndex = (deltaY, currentIndex, maxIndex) => {
   if (deltaY < 0) {
     if (currentIndex > 0) {
       return currentIndex - 1;
     }
-  } else if (currentIndex < MAX_SCROLL_INDEX) {
+  } else if (currentIndex < maxIndex) {
     return currentIndex + 1;
   }
   return currentIndex; // Don't update state if the index remains the same.
@@ -27,7 +31,11 @@ const ScrollProvider = ({ children }) => {
     // - The scroll is vertical (shift key not being held).
     if (!transitionActive && !shiftKey) {
       setSectionIndex((currentIndex) => {
-        const nextSectionIndex = evaluateNextSectionIndex(deltaY, currentIndex);
+        const nextSectionIndex = evaluateNextSectionIndex(
+          deltaY,
+          currentIndex,
+          MAX_SCROLL_INDEX
+        );
 
         if (nextSectionIndex !== currentIndex) {
           transitionActive = true;

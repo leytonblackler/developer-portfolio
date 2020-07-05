@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 
-export default class Portfolio extends Component {
+export default class Projects extends Component {
   render = () => (
     <MainContainer className="disable-select">
-      <InnerContent>Portfolio</InnerContent>
+      <InnerContent>Projects</InnerContent>
     </MainContainer>
   );
 }

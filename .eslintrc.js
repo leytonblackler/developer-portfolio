@@ -7,8 +7,8 @@ module.exports = {
     'no-debugger': 'warn',
     'no-unused-vars': 'warn',
     'react/jsx-props-no-spreading': 'off',
-    'react/prop-types': 'warn'
-    
+    'react/prop-types': 'warn',
+    'import/no-unresolved': 'off',
   },
   env: {
     jest: true,

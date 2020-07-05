@@ -5,7 +5,7 @@ import ReactFullpage from "@fullpage/react-fullpage";
 import Header from "./header/Header";
 import Introduction from "./sections/introduction/Introduction";
 import About from "./sections/about/About";
-import Portfolio from "./sections/portfolio/Portfolio";
+import Projects from "./sections/projects/Projects";
 import Contact from "./sections/contact/Contact";
 import MobileComingSoon from "./MobileComingSoon";
 import LoadingScreen from "./LoadingScreen";
@@ -66,7 +66,7 @@ class Main extends Component {
                     <About mobileView={mobileView} />
                   </Section>
                   <Section className="section">
-                    <Portfolio mobileView={mobileView} />
+                    <Projects mobileView={mobileView} />
                   </Section>
                   <Section className="section">
                     <Contact mobileView={mobileView} />

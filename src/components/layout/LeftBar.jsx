@@ -43,7 +43,7 @@ const SECTIONS = [
     colour: "#000000",
   },
   {
-    content: <SectionTitle>PORTFOLIO</SectionTitle>,
+    content: <SectionTitle>PROJECTS</SectionTitle>,
     indexRange: [3, 3],
     colour: "#000000",
   },

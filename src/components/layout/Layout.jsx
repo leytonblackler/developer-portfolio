@@ -7,10 +7,11 @@ import Header from "./Header";
 import PageContent from "./PageContent";
 import Introduction from "../sections/introduction/Introduction";
 import About from "../sections/about/About";
-import Portfolio from "../sections/portfolio/Portfolio";
+import Projects from "../sections/projects/Projects";
 import Contact from "../sections/contact/Contact";
 import LeftBar from "./LeftBar";
 import SectionContainer from "./SectionContainer";
+import { setMaxScrollIndex } from "../util/ScrollProvider";
 import {
   general,
   breakpoints,
@@ -52,16 +53,38 @@ const Body = styled.div`
 // const TITLES = [{'ABOUT'}]
 
 const SECTIONS = [
-  { title: null, component: Introduction },
-  { title: "ABOUT", component: About },
-  { title: "PORTFOLIO", component: Portfolio },
-  { title: "CONTACT", component: Contact },
+  {
+    title: null,
+    component: Introduction,
+    indexRange: [0, 0],
+  },
+  {
+    title: "ABOUT",
+    component: About,
+    indexRange: [1, 2],
+  },
+  {
+    title: "PROJECTS",
+    component: Projects,
+    indexRange: [2, 3],
+  },
+  {
+    title: "CONTACT",
+    component: Contact,
+    indexRange: [4, 4],
+  },
 ];
 
 const Layout = ({ scrollIndex }) => {
   const wideView = useMediaQuery({
     query: `(min-width: ${breakpoints.columnView}px)`,
   });
+
+  // Find the max index based on sections, and set it in the ScrollProvider.
+  useEffect(
+    () => setMaxScrollIndex(SECTIONS[SECTIONS.length - 1].indexRange[1]),
+    []
+  );
 
   return (
     <LayoutContainer

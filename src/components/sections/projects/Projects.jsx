@@ -11,6 +11,6 @@ const MainContainer = styled.div`
   color: #ffffff;
 `;
 
-const Portfolio = () => <MainContainer>Portfolio</MainContainer>;
+const Projects = () => <MainContainer>Projects</MainContainer>;
 
-export default Portfolio;
+export default Projects;

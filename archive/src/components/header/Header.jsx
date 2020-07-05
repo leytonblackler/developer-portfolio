@@ -153,7 +153,7 @@ export default class Header extends Component {
             animate={currentSection === 3 ? "active" : "inactive"}
             onClick={() => onPageLinkClicked(3)}
           >
-            Portfolio
+            Projects
           </LinkText>
           <LinkText
             variants={linkTextVariants}
