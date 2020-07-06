@@ -1,16 +1,33 @@
 import React from "react";
 import styled from "styled-components";
+import SplitContent from "../../layout/SplitContent";
 
-const MainContainer = styled.div`
+const MainContainer = styled(({ textColour, ...rest }) => <div {...rest} />)`
+  width: 100%;
+  height: 100%;
+  color: ${({ textColour }) => textColour};
+`;
+
+const PlaceholderContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: mediumvioletred;
-  color: #ffffff;
 `;
 
-const Contact = () => <MainContainer>CONTENT</MainContainer>;
+const Contact = ({ section, subSectionIndex }) => (
+  <MainContainer textColour={section.colours.text}>
+    <SplitContent
+      leftContent={<PlaceholderContainer>Contact Left</PlaceholderContainer>}
+      rightContent={
+        <PlaceholderContainer>
+          Contact Right {subSectionIndex}
+        </PlaceholderContainer>
+      }
+    />
+  </MainContainer>
+);
 
 export default Contact;

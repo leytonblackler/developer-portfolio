@@ -10,13 +10,11 @@ const ContentContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   position: relative;
-  color: #ffffff;
 `;
 
 const LeftContent = styled.div`
   height: 100%;
   box-sizing: border-box;
-  background-color: purple;
 
   width: 100%;
   max-width: 100%;

@@ -5,7 +5,7 @@ import { useMediaQuery } from "react-responsive";
 import { motion } from "framer-motion";
 import Header from "./Header";
 import LeftBar from "./LeftBar";
-import SectionContainer from "./SectionContainer";
+import SectionsContainer from "./SectionsContainer";
 import {
   general,
   breakpoints,
@@ -46,17 +46,15 @@ const Layout = ({ sections, scrollIndex }) => {
   });
 
   // Evaluate the section index based on the current scroll index and the index ranges of the sections.
-  const [indexes, setIndexes] = useState({ section: 0, subSection: 0 });
+  const [sectionIndex, setSectionIndex] = useState(0);
   useEffect(() => {
-    const sectionIndex = sections.findIndex(
-      (section) =>
-        scrollIndex >= section.indexRange[0] &&
-        scrollIndex <= section.indexRange[1]
+    setSectionIndex(
+      sections.findIndex(
+        (section) =>
+          scrollIndex >= section.indexRange[0] &&
+          scrollIndex <= section.indexRange[1]
+      )
     );
-    setIndexes({
-      section: sectionIndex,
-      subSection: scrollIndex - sections[sectionIndex].indexRange[0],
-    });
   }, [scrollIndex, sections]);
 
   return (
@@ -68,15 +66,19 @@ const Layout = ({ sections, scrollIndex }) => {
       }}
       initial={{ backgroundColor: sections[0].colours.background }}
       animate={{
-        backgroundColor: sections[indexes.section].colours.background,
+        backgroundColor: sections[sectionIndex].colours.background,
       }}
     >
-      <Header colour={sections[indexes.section].colours.text} />
+      <Header colour={sections[sectionIndex].colours.text} />
       <Body>
         {wideView && (
-          <LeftBar sections={sections} sectionIndex={indexes.section} />
+          <LeftBar sections={sections} sectionIndex={sectionIndex} />
         )}
-        <SectionContainer sections={sections} indexes={indexes} />
+        <SectionsContainer
+          sections={sections}
+          sectionIndex={sectionIndex}
+          scrollIndex={scrollIndex}
+        />
       </Body>
     </LayoutContainer>
   );
