@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { motion } from "framer-motion";
@@ -31,43 +31,7 @@ const ContentContainer = styled(motion.div)`
   }
 `;
 
-const SECTIONS = [
-  {
-    content: <SocialIconButtons />,
-    indexRange: [0, 0],
-    colour: "#FFFFFF",
-  },
-  {
-    content: <SectionTitle>ABOUT</SectionTitle>,
-    indexRange: [1, 2],
-    colour: "#000000",
-  },
-  {
-    content: <SectionTitle>PROJECTS</SectionTitle>,
-    indexRange: [3, 3],
-    colour: "#000000",
-  },
-  {
-    content: <SectionTitle>CONTACT</SectionTitle>,
-    indexRange: [4, 4],
-    colour: "#000000",
-  },
-];
-
-const LeftBar = ({ scrollIndex, label, showSocialIcons }) => {
-  // console.log("label", label);
-
-  const [titleIndex, setTitleIndex] = useState(0);
-  useEffect(() => {
-    setTitleIndex(
-      SECTIONS.findIndex(
-        (section) =>
-          scrollIndex >= section.indexRange[0] &&
-          scrollIndex <= section.indexRange[1]
-      )
-    );
-  }, [scrollIndex]);
-
+const LeftBar = ({ sections, sectionIndex }) => {
   return (
     <ScrollArea
       transition={{
@@ -77,12 +41,13 @@ const LeftBar = ({ scrollIndex, label, showSocialIcons }) => {
       }}
       initial={{ top: 0 }}
       animate={{
-        top: `${titleIndex * -100}vh`,
+        top: `${sectionIndex * -100}vh`,
       }}
     >
-      {SECTIONS.map((section, index) => (
+      {sections.map((section, index) => (
         <ContentContainer
-          colour={section.colour}
+          key={section.title}
+          colour={section.colours.text}
           transition={{
             type: "tween",
             ease: "easeOut",
@@ -90,28 +55,35 @@ const LeftBar = ({ scrollIndex, label, showSocialIcons }) => {
           }}
           initial={{ opacity: 0 }}
           animate={{
-            opacity:
-              scrollIndex >= section.indexRange[0] &&
-              scrollIndex <= section.indexRange[1]
-                ? 1
-                : 0,
+            opacity: sectionIndex === index ? 1 : 0,
           }}
         >
-          {section.content}
+          {/* Render the title if it exists for the given section, otherwise render social icon buttons. */}
+          {section.title ? (
+            <SectionTitle>{section.title}</SectionTitle>
+          ) : (
+            <SocialIconButtons />
+          )}
         </ContentContainer>
       ))}
     </ScrollArea>
   );
 };
 
-SectionTitle.defaultProps = {
-  label: null,
-  showSocialIcons: false,
-};
-
-SectionTitle.propTypes = {
-  label: PropTypes.string,
-  showSocialIcons: PropTypes.bool,
+LeftBar.propTypes = {
+  sections: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string,
+      path: PropTypes.string,
+      content: PropTypes.elementType,
+      colours: PropTypes.shape({
+        text: PropTypes.string,
+        background: PropTypes.string,
+      }),
+      indexRange: PropTypes.arrayOf(PropTypes.number),
+    })
+  ).isRequired,
+  sectionIndex: PropTypes.number.isRequired,
 };
 
 export default LeftBar;

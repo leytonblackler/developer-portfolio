@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Swipeable } from "react-swipeable";
+import { useLocation, useHistory } from "react-router-dom";
 import { general } from "../../config/constants.json";
 
-let MAX_SCROLL_INDEX = 0;
-
-export const setMaxScrollIndex = (index) => {
-  MAX_SCROLL_INDEX = index;
-};
-
-const evaluateNextSectionIndex = (deltaY, currentIndex, maxIndex) => {
+const evaluateNextScrollIndex = (deltaY, currentIndex, maxIndex) => {
   if (deltaY < 0) {
     if (currentIndex > 0) {
       return currentIndex - 1;
@@ -22,29 +17,67 @@ const evaluateNextSectionIndex = (deltaY, currentIndex, maxIndex) => {
 
 let transitionActive = false;
 
-const ScrollProvider = ({ children }) => {
-  const [scrollIndex, setSectionIndex] = useState(0);
+const ScrollProvider = ({ children, sections }) => {
+  // Find the max index based on sections on mount, and set it in the ScrollProvider.
+  const maxScrollIndex = sections[sections.length - 1].indexRange[1];
+
+  const [scrollIndex, setScrollIndex] = useState(0);
+
+  const location = useLocation();
+  const history = useHistory();
+
+  useEffect(() => {
+    // TODO: Convert to use find().
+    // TODO
+    // for (
+    //   let sectionIndex = 0;
+    //   sectionIndex < sections.length;
+    //   sectionIndex += 1
+    // ) {
+    //   if (
+    //     sections[sectionIndex].path === location.pathname &&
+    //     scrollIndex !== sections[sectionIndex].indexRange[0]
+    //   ) {
+    //     // eslint-disable-next-line prefer-destructuring
+    //     setScrollIndex(sections[sectionIndex].indexRange[0]);
+    //     break;
+    //   }
+    // }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location]);
 
   const handleScroll = ({ deltaY, shiftKey }) => {
     // Only trigger a scroll if:
     // - There is no current transition.
     // - The scroll is vertical (shift key not being held).
     if (!transitionActive && !shiftKey) {
-      setSectionIndex((currentIndex) => {
-        const nextSectionIndex = evaluateNextSectionIndex(
+      setScrollIndex((currentIndex) => {
+        const nextScrollIndex = evaluateNextScrollIndex(
           deltaY,
           currentIndex,
-          MAX_SCROLL_INDEX
+          maxScrollIndex
         );
 
-        if (nextSectionIndex !== currentIndex) {
+        if (nextScrollIndex !== currentIndex) {
           transitionActive = true;
           setTimeout(() => {
             transitionActive = false;
+
+            // TODO
+            // Set the new path if the section has changed.
+            // const newPath = sections.find(
+            //   (section) =>
+            //     nextScrollIndex >= section.indexRange[0] &&
+            //     nextScrollIndex <= section.indexRange[1]
+            // ).path;
+            // console.log(location.pathname, newPath);
+            // if (location.pathname !== newPath) {
+            //   history.replace(newPath);
+            // }
           }, general.sectionTransitionDuration * 1000);
         }
 
-        return nextSectionIndex;
+        return nextScrollIndex;
       });
     }
   };
@@ -76,6 +109,18 @@ ScrollProvider.defaultProps = {
 
 ScrollProvider.propTypes = {
   children: PropTypes.node,
+  sections: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string,
+      path: PropTypes.string,
+      content: PropTypes.elementType,
+      colours: PropTypes.shape({
+        text: PropTypes.string,
+        background: PropTypes.string,
+      }),
+      indexRange: PropTypes.arrayOf(PropTypes.number),
+    })
+  ).isRequired,
 };
 
 export default ScrollProvider;

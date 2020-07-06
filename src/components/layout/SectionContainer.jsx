@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { motion } from "framer-motion";
@@ -16,23 +16,44 @@ const ScrollArea = styled(motion.div)`
   }
 `;
 
-const SectionContainer = ({ children, scrollIndex }) => (
-  <ScrollArea
-    transition={{
-      type: "tween",
-      ease: "easeOut",
-      duration: general.sectionTransitionDuration,
-    }}
-    initial={{ top: 0 }}
-    animate={{ top: `${scrollIndex * -100}vh` }}
-  >
-    {children}
-  </ScrollArea>
-);
+const SectionContainer = ({ sections, indexes }) => {
+  return (
+    <ScrollArea
+      transition={{
+        type: "tween",
+        ease: "easeOut",
+        duration: general.sectionTransitionDuration,
+      }}
+      initial={{ top: 0 }}
+      animate={{ top: `${indexes.section * -100}vh` }}
+    >
+      {sections.map((section) => {
+        const Content = section.content;
+        return (
+          <Content key={section.title} subSectionIndex={indexes.subSection} />
+        );
+      })}
+    </ScrollArea>
+  );
+};
 
 SectionContainer.propTypes = {
-  children: PropTypes.node.isRequired,
-  scrollIndex: PropTypes.number.isRequired,
+  sections: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string,
+      path: PropTypes.string,
+      content: PropTypes.elementType,
+      colours: PropTypes.shape({
+        text: PropTypes.string,
+        background: PropTypes.string,
+      }),
+      indexRange: PropTypes.arrayOf(PropTypes.number),
+    })
+  ).isRequired,
+  indexes: PropTypes.shape({
+    section: PropTypes.number,
+    subSection: PropTypes.number,
+  }).isRequired,
 };
 
 export default SectionContainer;

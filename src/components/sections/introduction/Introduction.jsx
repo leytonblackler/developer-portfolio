@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Typed from "react-typed";
+import SplitContent from "../../layout/SplitContent";
 import { breakpoints, mobile, desktop } from "../../../config/constants.json";
 
 const MainContainer = styled.div`
@@ -54,19 +55,23 @@ const Subtext = styled.div`
 `;
 
 const Introduction = () => (
-  <MainContainer>
-    <TypedText
-      // stopped={pageLoaded}
-      strings={["Hi, I'm Leyton.<br> I'm a Software Developer."]}
-      typeSpeed={40}
-      backDelay={1500}
-    />
-    <Subtext>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pretium
-      pharetra ipsum, eget sagittis ipsum rhoncus ac. Duis ut cursus mi. Morbi
-      at mi sit amet turpis hendrerit rhoncus id egestas nulla.
-    </Subtext>
-  </MainContainer>
+  <SplitContent
+    leftContent={
+      <MainContainer>
+        <TypedText
+          // stopped={pageLoaded}
+          strings={["Hi, I'm Leyton.<br>I'm a Software Developer."]}
+          typeSpeed={40}
+          backDelay={1500}
+        />
+        <Subtext>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pretium
+          pharetra ipsum, eget sagittis ipsum rhoncus ac. Duis ut cursus mi.
+          Morbi at mi sit amet turpis hendrerit rhoncus id egestas nulla.
+        </Subtext>
+      </MainContainer>
+    }
+  />
 );
 
 export default Introduction;

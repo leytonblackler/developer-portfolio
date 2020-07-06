@@ -1,24 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import styled, { useTheme } from "styled-components";
+import styled from "styled-components";
 import { useMediaQuery } from "react-responsive";
 import { motion } from "framer-motion";
 import Header from "./Header";
-import PageContent from "./PageContent";
-import Introduction from "../sections/introduction/Introduction";
-import About from "../sections/about/About";
-import Projects from "../sections/projects/Projects";
-import Contact from "../sections/contact/Contact";
 import LeftBar from "./LeftBar";
 import SectionContainer from "./SectionContainer";
-import { setMaxScrollIndex } from "../util/ScrollProvider";
 import {
   general,
   breakpoints,
   mobile,
   desktop,
 } from "../../config/constants.json";
-import { colour } from "../../config/theme.json";
 
 const LayoutContainer = styled(motion.div)`
   width: 100vw;
@@ -35,8 +28,6 @@ const LayoutContainer = styled(motion.div)`
     padding-left: ${desktop.minimumLayoutPadding}px;
     padding-right: ${desktop.minimumLayoutPadding}px;
   }
-
-  /* background-color: ${({ theme }) => theme.colour.primary}; */
 `;
 
 const Body = styled.div`
@@ -47,44 +38,26 @@ const Body = styled.div`
   box-sizing: border-box;
   position: relative;
   max-width: ${desktop.maximumContentWidth}px;
-  /* background-color: yellow; */
 `;
 
-// const TITLES = [{'ABOUT'}]
-
-const SECTIONS = [
-  {
-    title: null,
-    component: Introduction,
-    indexRange: [0, 0],
-  },
-  {
-    title: "ABOUT",
-    component: About,
-    indexRange: [1, 2],
-  },
-  {
-    title: "PROJECTS",
-    component: Projects,
-    indexRange: [2, 3],
-  },
-  {
-    title: "CONTACT",
-    component: Contact,
-    indexRange: [4, 4],
-  },
-];
-
-const Layout = ({ scrollIndex }) => {
+const Layout = ({ sections, scrollIndex }) => {
   const wideView = useMediaQuery({
     query: `(min-width: ${breakpoints.columnView}px)`,
   });
 
-  // Find the max index based on sections, and set it in the ScrollProvider.
-  useEffect(
-    () => setMaxScrollIndex(SECTIONS[SECTIONS.length - 1].indexRange[1]),
-    []
-  );
+  // Evaluate the section index based on the current scroll index and the index ranges of the sections.
+  const [indexes, setIndexes] = useState({ section: 0, subSection: 0 });
+  useEffect(() => {
+    const sectionIndex = sections.findIndex(
+      (section) =>
+        scrollIndex >= section.indexRange[0] &&
+        scrollIndex <= section.indexRange[1]
+    );
+    setIndexes({
+      section: sectionIndex,
+      subSection: scrollIndex - sections[sectionIndex].indexRange[0],
+    });
+  }, [scrollIndex, sections]);
 
   return (
     <LayoutContainer
@@ -93,32 +66,40 @@ const Layout = ({ scrollIndex }) => {
         ease: "easeOut",
         duration: general.sectionTransitionDuration * 0.5,
       }}
-      initial={{ backgroundColor: colour.primary }}
+      initial={{ backgroundColor: sections[0].colours.background }}
       animate={{
-        backgroundColor: scrollIndex > 0 ? "#FFFFFF" : colour.primary,
+        backgroundColor: sections[indexes.section].colours.background,
       }}
     >
-      <Header colour={scrollIndex > 0 ? "#000000" : "#FFFFFF"} />
+      <Header colour={sections[indexes.section].colours.text} />
       <Body>
-        {wideView && <LeftBar scrollIndex={scrollIndex} />}
-        <SectionContainer scrollIndex={scrollIndex}>
-          {SECTIONS.map((section) => {
-            const LeftContent = section.component;
-            return (
-              <PageContent
-                leftContent={<LeftContent />}
-                rightContent={<LeftContent />}
-              />
-            );
-          })}
-        </SectionContainer>
+        {wideView && (
+          <LeftBar sections={sections} sectionIndex={indexes.section} />
+        )}
+        <SectionContainer sections={sections} indexes={indexes} />
       </Body>
     </LayoutContainer>
   );
 };
 
+Layout.defaultProps = {
+  scrollIndex: 0,
+};
+
 Layout.propTypes = {
-  scrollIndex: PropTypes.number.isRequired,
+  scrollIndex: PropTypes.number,
+  sections: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string,
+      path: PropTypes.string,
+      content: PropTypes.elementType,
+      colours: PropTypes.shape({
+        text: PropTypes.string,
+        background: PropTypes.string,
+      }),
+      indexRange: PropTypes.arrayOf(PropTypes.number),
+    })
+  ).isRequired,
 };
 
 export default Layout;
