@@ -3,12 +3,12 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { general, breakpoints } from "../../config/constants.json";
+import SlidingArea from "./SlidingArea";
 
-const ScrollArea = styled(motion.div)`
+const MainContainer = styled(motion.div)`
   width: 100%;
-  box-sizing: border-box;
+  height: 100%;
   position: relative;
-
   margin-left: 0;
   padding-right: 0;
   @media (min-width: ${breakpoints.columnView}px) {
@@ -18,22 +18,16 @@ const ScrollArea = styled(motion.div)`
 
 const SectionContainer = ({ sections, indexes }) => {
   return (
-    <ScrollArea
-      transition={{
-        type: "tween",
-        ease: "easeOut",
-        duration: general.sectionTransitionDuration,
-      }}
-      initial={{ top: 0 }}
-      animate={{ top: `${indexes.section * -100}vh` }}
-    >
-      {sections.map((section) => {
-        const Content = section.content;
-        return (
-          <Content key={section.title} subSectionIndex={indexes.subSection} />
-        );
-      })}
-    </ScrollArea>
+    <MainContainer>
+      <SlidingArea index={indexes.section}>
+        {sections.map((section) => {
+          const Content = section.content;
+          return (
+            <Content key={section.title} subSectionIndex={indexes.subSection} />
+          );
+        })}
+      </SlidingArea>
+    </MainContainer>
   );
 };
 
