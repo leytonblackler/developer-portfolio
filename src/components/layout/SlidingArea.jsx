@@ -19,7 +19,7 @@ const SlidingArea = ({ children, index }) => {
         duration: general.sectionTransitionDuration,
       }}
       initial={{ top: 0 }}
-      animate={{ top: `${index * -100}vh` }}
+      animate={{ transform: `translateY(${index * -100}vh)` }}
     >
       {children}
     </MainContainer>

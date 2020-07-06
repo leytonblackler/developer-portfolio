@@ -40,9 +40,7 @@ const LeftBar = ({ sections, sectionIndex }) => {
         duration: general.sectionTransitionDuration * 0.8,
       }}
       initial={{ top: 0 }}
-      animate={{
-        top: `${sectionIndex * -100}vh`,
-      }}
+      animate={{ transform: `translateY(${sectionIndex * -100}vh)` }}
     >
       {sections.map((section, index) => (
         <ContentContainer
@@ -54,9 +52,7 @@ const LeftBar = ({ sections, sectionIndex }) => {
             duration: general.sectionTransitionDuration * 0.3,
           }}
           initial={{ opacity: 0 }}
-          animate={{
-            opacity: sectionIndex === index ? 1 : 0,
-          }}
+          animate={{ opacity: sectionIndex === index ? 1 : 0 }}
         >
           {/* Render the title if it exists for the given section, otherwise render social icon buttons. */}
           {section.title ? (
