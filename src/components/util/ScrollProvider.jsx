@@ -15,9 +15,13 @@ const evaluateNextScrollIndex = (deltaY, currentIndex, maxIndex) => {
   return currentIndex; // Don't update state if the index remains the same.
 };
 
+// Represents whether a scroll change is causing the path to update.
 let updatingPath = false;
+
+// Represents whether pages are currently being transitioned between.
 let transitionActive = false;
 
+// Determines whether a given index is within a given range.
 const indexWithinRange = (index, range) =>
   index >= range[0] && index <= range[1];
 
@@ -30,29 +34,24 @@ const ScrollProvider = ({ children, sections }) => {
   const location = useLocation();
   const history = useHistory();
 
+  // When the path changes, update the scroll index if needed (first load or manually navigated).
   useEffect(() => {
-    // TODO: Convert to use find().
-    // TODO
-    for (
-      let sectionIndex = 0;
-      sectionIndex < sections.length;
-      sectionIndex += 1
-    ) {
-      if (
-        sections[sectionIndex].path === location.pathname &&
-        !indexWithinRange(scrollIndex, sections[sectionIndex].indexRange) &&
+    const sectionToRouteTo = sections.find(
+      (section) =>
+        section.path === location.pathname &&
+        !indexWithinRange(scrollIndex, section.indexRange) &&
         !updatingPath
-      ) {
-        // eslint-disable-next-line prefer-destructuring
-        setScrollIndex(sections[sectionIndex].indexRange[0]);
-        break;
-      }
+    );
+
+    if (sectionToRouteTo) {
+      setScrollIndex(sectionToRouteTo.indexRange[0]);
     }
+
     if (updatingPath) {
       updatingPath = false;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location]);
+  }, [location.pathname]);
 
   useEffect(() => {
     // Set the new path if the section has changed.
@@ -60,7 +59,6 @@ const ScrollProvider = ({ children, sections }) => {
       indexWithinRange(scrollIndex, section.indexRange)
     ).path;
     if (location.pathname !== newPath) {
-      console.log("replacing path");
       updatingPath = true;
       history.replace(newPath);
     }
