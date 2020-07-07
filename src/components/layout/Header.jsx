@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import { useHistory } from "react-router-dom";
 import { breakpoints, mobile, desktop } from "../../config/constants.json";
 import Menu from "../common/Menu";
 
@@ -13,7 +14,6 @@ const HeaderBar = styled(motion.div)`
   justify-content: center;
   position: fixed;
   box-sizing: border-box;
-  /* background-color: red; */
   z-index: 100;
 
   padding-left: ${mobile.minimumLayoutPadding}px;
@@ -39,8 +39,6 @@ const HeaderContent = styled.div`
     height: ${desktop.logoSize}px;
     margin-top: ${desktop.logoSize}px;
   }
-
-  /* background-color: orange; */
 `;
 
 const LogoContainer = styled(motion.div)`
@@ -64,20 +62,25 @@ const variants = {
   },
 };
 
-export default ({ colour }) => (
-  <HeaderBar>
-    <HeaderContent>
-      <LogoContainer
-        initial={variants.logo.default}
-        whileHover={variants.logo.hover}
-        whileTap={variants.logo.default}
-        onClick={() => {
-          console.log("clicked logo");
-        }}
-      >
-        <LogoSvg fill={colour} />
-      </LogoContainer>
-      <Menu />
-    </HeaderContent>
-  </HeaderBar>
-);
+const Header = ({ colour }) => {
+  const history = useHistory();
+  return (
+    <HeaderBar>
+      <HeaderContent>
+        <LogoContainer
+          initial={variants.logo.default}
+          whileHover={variants.logo.hover}
+          whileTap={variants.logo.default}
+          onClick={() => {
+            history.replace("/");
+          }}
+        >
+          <LogoSvg fill={colour} />
+        </LogoContainer>
+        <Menu />
+      </HeaderContent>
+    </HeaderBar>
+  );
+};
+
+export default Header;

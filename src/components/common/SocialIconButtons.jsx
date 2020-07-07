@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
 import { Linkedin, Github } from "@styled-icons/boxicons-logos";
 import { Send } from "@styled-icons/boxicons-regular";
 import IconButton from "./IconButton";
@@ -9,16 +10,17 @@ const BUTTONS = [
   {
     label: "LinkedIn",
     icon: Linkedin,
-    url: "https://www.linkedin.com/in/leytonblackler/",
+    href: "https://www.linkedin.com/in/leytonblackler/",
   },
   {
     label: "GitHub",
     icon: Github,
-    url: "https://github.com/leytonblackler",
+    href: "https://github.com/leytonblackler",
   },
   {
     label: "Contact",
     icon: Send,
+    path: "/contact",
   },
 ];
 
@@ -27,18 +29,21 @@ const MainContainer = styled(({ direction, ...rest }) => <div {...rest} />)`
   flex-direction: ${({ direction }) => direction};
 `;
 
-const SocialIconButtons = ({ direction }) => (
-  <MainContainer direction={direction}>
-    {BUTTONS.map((button) => (
-      <IconButton
-        key={button.label}
-        Icon={button.icon}
-        href={button.url || null}
-        onClick={button.onClick || null}
-      />
-    ))}
-  </MainContainer>
-);
+const SocialIconButtons = ({ direction }) => {
+  const history = useHistory();
+  return (
+    <MainContainer direction={direction}>
+      {BUTTONS.map((button) => (
+        <IconButton
+          key={button.label}
+          Icon={button.icon}
+          href={button.href || null}
+          onClick={button.path ? () => history.replace(button.path) : null}
+        />
+      ))}
+    </MainContainer>
+  );
+};
 
 SocialIconButtons.defaultProps = {
   direction: "column",
