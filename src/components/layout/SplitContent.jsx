@@ -10,6 +10,7 @@ const ContentContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   position: relative;
+  overflow: hidden;
 `;
 
 const LeftContent = styled.div`
