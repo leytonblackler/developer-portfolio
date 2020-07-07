@@ -15,7 +15,11 @@ const evaluateNextScrollIndex = (deltaY, currentIndex, maxIndex) => {
   return currentIndex; // Don't update state if the index remains the same.
 };
 
+let updatingPath = false;
 let transitionActive = false;
+
+const indexWithinRange = (index, range) =>
+  index >= range[0] && index <= range[1];
 
 const ScrollProvider = ({ children, sections }) => {
   // Find the max index based on sections on mount, and set it in the ScrollProvider.
@@ -29,22 +33,39 @@ const ScrollProvider = ({ children, sections }) => {
   useEffect(() => {
     // TODO: Convert to use find().
     // TODO
-    // for (
-    //   let sectionIndex = 0;
-    //   sectionIndex < sections.length;
-    //   sectionIndex += 1
-    // ) {
-    //   if (
-    //     sections[sectionIndex].path === location.pathname &&
-    //     scrollIndex !== sections[sectionIndex].indexRange[0]
-    //   ) {
-    //     // eslint-disable-next-line prefer-destructuring
-    //     setScrollIndex(sections[sectionIndex].indexRange[0]);
-    //     break;
-    //   }
-    // }
+    for (
+      let sectionIndex = 0;
+      sectionIndex < sections.length;
+      sectionIndex += 1
+    ) {
+      if (
+        sections[sectionIndex].path === location.pathname &&
+        !indexWithinRange(scrollIndex, sections[sectionIndex].indexRange) &&
+        !updatingPath
+      ) {
+        // eslint-disable-next-line prefer-destructuring
+        setScrollIndex(sections[sectionIndex].indexRange[0]);
+        break;
+      }
+    }
+    if (updatingPath) {
+      updatingPath = false;
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
+
+  useEffect(() => {
+    // Set the new path if the section has changed.
+    const newPath = sections.find((section) =>
+      indexWithinRange(scrollIndex, section.indexRange)
+    ).path;
+    if (location.pathname !== newPath) {
+      console.log("replacing path");
+      updatingPath = true;
+      history.replace(newPath);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scrollIndex]);
 
   const handleScroll = ({ deltaY, shiftKey }) => {
     // Only trigger a scroll if:
@@ -62,18 +83,6 @@ const ScrollProvider = ({ children, sections }) => {
           transitionActive = true;
           setTimeout(() => {
             transitionActive = false;
-
-            // TODO
-            // Set the new path if the section has changed.
-            // const newPath = sections.find(
-            //   (section) =>
-            //     nextScrollIndex >= section.indexRange[0] &&
-            //     nextScrollIndex <= section.indexRange[1]
-            // ).path;
-            // console.log(location.pathname, newPath);
-            // if (location.pathname !== newPath) {
-            //   history.replace(newPath);
-            // }
           }, general.sectionTransitionDuration * 1000);
         }
 
