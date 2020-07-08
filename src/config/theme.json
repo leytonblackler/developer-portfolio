@@ -1,6 +1,10 @@
 {
   "colour": {
-    "primary": "#015fff"
+    "primary": "#00ffa2",
+    "secondary": "#004466",
+    "alternate": "#015fff",
+    "alternate2": "#EB8A57",
+    "alternate2Contrast": "#5CE5EC"
   },
   "text": {
     "h1": {

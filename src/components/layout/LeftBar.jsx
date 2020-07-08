@@ -37,7 +37,7 @@ const LeftBar = ({ sections, sectionIndex }) => {
       transition={{
         type: "tween",
         ease: "easeOut",
-        duration: general.sectionTransitionDuration * 0.8,
+        duration: general.sectionTransitionDuration * 0.9,
       }}
       initial={{ top: 0 }}
       animate={{ transform: `translateY(${sectionIndex * -100}vh)` }}

@@ -14,18 +14,14 @@ const PlaceholderContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: mediumvioletred;
+  /* background-color: mediumvioletred; */
 `;
 
-const Contact = ({ section, subSectionIndex }) => (
+const Contact = ({ section }) => (
   <MainContainer textColour={section.colours.text}>
     <SplitContent
       leftContent={<PlaceholderContainer>Contact Left</PlaceholderContainer>}
-      rightContent={
-        <PlaceholderContainer>
-          Contact Right {subSectionIndex}
-        </PlaceholderContainer>
-      }
+      rightContent={<PlaceholderContainer>Contact Right</PlaceholderContainer>}
     />
   </MainContainer>
 );

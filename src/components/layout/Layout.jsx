@@ -5,6 +5,7 @@ import { useMediaQuery } from "react-responsive";
 import { motion } from "framer-motion";
 import Header from "./Header";
 import LeftBar from "./LeftBar";
+import FadingContainer from "./FadingContainer";
 import SectionsContainer from "./SectionsContainer";
 import {
   general,
@@ -57,18 +58,19 @@ const Layout = ({ sections, scrollIndex }) => {
     );
   }, [scrollIndex, sections]);
 
+  const loaded = true; // TODO
+
   return (
     <LayoutContainer
       transition={{
         type: "tween",
         ease: "easeOut",
-        duration: general.sectionTransitionDuration * 0.5,
+        duration: general.sectionTransitionDuration * 0.7,
       }}
       initial={{ backgroundColor: sections[0].colours.background }}
-      animate={{
-        backgroundColor: sections[sectionIndex].colours.background,
-      }}
+      animate={{ backgroundColor: sections[sectionIndex].colours.background }}
     >
+      {/* <FadingContainer visible={loaded}> */}
       <Header colour={sections[sectionIndex].colours.text} />
       <Body>
         {wideView && (
@@ -80,6 +82,7 @@ const Layout = ({ sections, scrollIndex }) => {
           scrollIndex={scrollIndex}
         />
       </Body>
+      {/* </FadingContainer> */}
     </LayoutContainer>
   );
 };

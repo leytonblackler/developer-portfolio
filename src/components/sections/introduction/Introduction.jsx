@@ -4,13 +4,13 @@ import Typed from "react-typed";
 import SplitContent from "../../layout/SplitContent";
 import { breakpoints, mobile, desktop } from "../../../config/constants.json";
 
-const MainContainer = styled.div`
+const MainContainer = styled(({ textColour, ...rest }) => <div {...rest} />)`
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  color: #ffffff;
+  color: ${({ textColour }) => textColour};
 `;
 
 const TypedText = styled(Typed)`
@@ -54,10 +54,10 @@ const Subtext = styled.div`
   }
 `;
 
-const Introduction = () => (
+const Introduction = ({ section }) => (
   <SplitContent
     leftContent={
-      <MainContainer>
+      <MainContainer textColour={section.colours.text}>
         <TypedText
           // stopped={pageLoaded}
           strings={["Hi, I'm Leyton.<br>I'm a Software Developer."]}
@@ -65,9 +65,9 @@ const Introduction = () => (
           backDelay={1500}
         />
         <Subtext>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pretium
-          pharetra ipsum, eget sagittis ipsum rhoncus ac. Duis ut cursus mi.
-          Morbi at mi sit amet turpis hendrerit rhoncus id egestas nulla.
+          {
+            "I build useful and high quality software solutions to real-world problems through modern human-centric design."
+          }
         </Subtext>
       </MainContainer>
     }

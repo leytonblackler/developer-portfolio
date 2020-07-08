@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import { general, breakpoints } from "../../config/constants.json";
 import SlidingArea from "./SlidingArea";
+import FadingContainer from "./FadingContainer";
 
 const MainContainer = styled(motion.div)`
   width: 100%;
@@ -33,17 +34,21 @@ const SectionsContainer = ({ sections, sectionIndex, scrollIndex }) => {
   return (
     <MainContainer>
       <SlidingArea index={sectionIndex}>
-        {sections.map((section) => {
+        {sections.map((section, index) => {
           const Content = section.content;
           return (
-            <Content
+            <FadingContainer
               key={section.title}
-              section={section}
-              subSectionIndex={calculateSubSectionIndex(
-                scrollIndex,
-                section.indexRange
-              )}
-            />
+              visible={sectionIndex === index}
+            >
+              <Content
+                section={section}
+                subSectionIndex={calculateSubSectionIndex(
+                  scrollIndex,
+                  section.indexRange
+                )}
+              />
+            </FadingContainer>
           );
         })}
       </SlidingArea>

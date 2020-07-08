@@ -15,7 +15,7 @@ const SECTIONS = [
     path: "/",
     content: Introduction,
     colours: {
-      text: "#FFFFFF",
+      text: colour.secondary,
       background: colour.primary,
     },
     indexRange: [0, 0],
@@ -25,7 +25,7 @@ const SECTIONS = [
     path: "/about",
     content: About,
     colours: {
-      text: "#000000",
+      text: colour.secondary,
       background: "#FFFFFF",
     },
     indexRange: [1, 2],
@@ -35,7 +35,7 @@ const SECTIONS = [
     path: "/projects",
     content: Projects,
     colours: {
-      text: "#000000",
+      text: colour.secondary,
       background: "#FFFFFF",
     },
     indexRange: [3, 4],
@@ -45,7 +45,7 @@ const SECTIONS = [
     path: "/contact",
     content: Contact,
     colours: {
-      text: "#000000",
+      text: colour.secondary,
       background: "#FFFFFF",
     },
     indexRange: [5, 5],

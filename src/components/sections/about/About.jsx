@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import SplitContent from "../../layout/SplitContent";
 import SlidingArea from "../../layout/SlidingArea";
+import FadingContainer from "../../layout/FadingContainer";
 
 const MainContainer = styled(({ textColour, ...rest }) => <div {...rest} />)`
   width: 100%;
@@ -16,17 +17,25 @@ const PlaceholderContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: tomato;
+  /* background-color: tomato; */
 `;
 
 const About = ({ section, subSectionIndex }) => (
   <MainContainer textColour={section.colours.text}>
     <SplitContent
-      leftContent={<PlaceholderContainer>About Left</PlaceholderContainer>}
+      leftContent={
+        <PlaceholderContainer>
+          {"I'm a full-stack developer based in Wellington, New Zealand."}
+        </PlaceholderContainer>
+      }
       rightContent={
         <SlidingArea index={subSectionIndex}>
-          <PlaceholderContainer>About Right 0</PlaceholderContainer>
-          <PlaceholderContainer>About Right 1</PlaceholderContainer>
+          <FadingContainer visible={subSectionIndex === 0}>
+            <PlaceholderContainer>About Right 0</PlaceholderContainer>
+          </FadingContainer>
+          <FadingContainer visible={subSectionIndex === 1}>
+            <PlaceholderContainer>About Right 1</PlaceholderContainer>
+          </FadingContainer>
         </SlidingArea>
       }
     />

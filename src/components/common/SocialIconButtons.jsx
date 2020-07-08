@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
-import { Linkedin, Github } from "@styled-icons/boxicons-logos";
+import { Linkedin, Github, Instagram } from "@styled-icons/boxicons-logos";
 import { Send } from "@styled-icons/boxicons-regular";
 import IconButton from "./IconButton";
 
@@ -16,6 +16,11 @@ const BUTTONS = [
     label: "GitHub",
     icon: Github,
     href: "https://github.com/leytonblackler",
+  },
+  {
+    label: "Instagram",
+    icon: Instagram,
+    href: "https://www.instagram.com/leytonblackler/",
   },
   {
     label: "Contact",
