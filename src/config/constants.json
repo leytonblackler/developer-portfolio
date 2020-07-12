@@ -4,7 +4,8 @@
   },
   "breakpoints": {
     "wideView": 1300,
-    "columnView": 600
+    "columnView": 600,
+    "introductionBanner": 1450
   },
   "mobile": {
     "minimumLayoutPadding": 30,

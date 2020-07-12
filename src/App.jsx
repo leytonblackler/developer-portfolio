@@ -15,7 +15,7 @@ const SECTIONS = [
     path: "/",
     content: Introduction,
     colours: {
-      text: colour.secondary,
+      text: "#FFFFFF",
       background: colour.primary,
     },
     indexRange: [0, 0],

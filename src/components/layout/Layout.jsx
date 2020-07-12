@@ -3,9 +3,11 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useMediaQuery } from "react-responsive";
 import { motion } from "framer-motion";
+import { useWindowWidth } from "@react-hook/window-size";
 import Header from "./Header";
 import LeftBar from "./LeftBar";
 import FadingContainer from "./FadingContainer";
+import IntroductionBanner from "../sections/introduction/IntroductionBanner";
 import SectionsContainer from "./SectionsContainer";
 import {
   general,
@@ -17,7 +19,7 @@ import {
 const LayoutContainer = styled(motion.div)`
   width: 100vw;
   height: 100vh;
-  overflow-y: hidden;
+  overflow: hidden;
   display: flex;
   justify-content: center;
   box-sizing: border-box;
@@ -44,6 +46,10 @@ const Body = styled.div`
 const Layout = ({ sections, scrollIndex }) => {
   const wideView = useMediaQuery({
     query: `(min-width: ${breakpoints.columnView}px)`,
+  });
+
+  const showIntroductionBanner = useMediaQuery({
+    query: `(min-width: ${breakpoints.introductionBanner}px)`,
   });
 
   // Evaluate the section index based on the current scroll index and the index ranges of the sections.
@@ -81,6 +87,9 @@ const Layout = ({ sections, scrollIndex }) => {
           sectionIndex={sectionIndex}
           scrollIndex={scrollIndex}
         />
+        {/* {showIntroductionBanner && (
+          <IntroductionBanner visible={sectionIndex === 0} />
+        )} */}
       </Body>
       {/* </FadingContainer> */}
     </LayoutContainer>

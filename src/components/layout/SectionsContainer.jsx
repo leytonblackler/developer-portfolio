@@ -36,13 +36,12 @@ const SectionsContainer = ({ sections, sectionIndex, scrollIndex }) => {
       <SlidingArea index={sectionIndex}>
         {sections.map((section, index) => {
           const Content = section.content;
+          const sectionActive = sectionIndex === index;
           return (
-            <FadingContainer
-              key={section.title}
-              visible={sectionIndex === index}
-            >
+            <FadingContainer key={section.title} visible={sectionActive}>
               <Content
                 section={section}
+                sectionActive={sectionActive}
                 subSectionIndex={calculateSubSectionIndex(
                   scrollIndex,
                   section.indexRange

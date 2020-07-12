@@ -10,7 +10,7 @@ const ContentContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   position: relative;
-  overflow: hidden;
+  /* overflow: hidden; */
 `;
 
 const LeftContent = styled.div`
@@ -31,6 +31,7 @@ const RightContent = styled.div`
   flex: 1;
   height: 100%;
   box-sizing: border-box;
+  position: relative;
 `;
 
 // const TopContent = styled.div`
