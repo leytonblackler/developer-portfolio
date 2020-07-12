@@ -108,7 +108,9 @@ const Introduction = ({ section, sectionActive }) => {
           <MainContainer textColour={section.colours.text}>
             <TypedText
               // stopped={pageLoaded}
-              strings={["Hi, I'm Leyton.<br>I'm a Software Developer."]}
+              strings={[
+                "Hi, I'm Leyton.<br>I'm a <span style=\"color: #36FBCA\">Software Developer</span>.",
+              ]}
               typeSpeed={40}
               backDelay={1500}
             />
