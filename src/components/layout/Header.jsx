@@ -68,6 +68,7 @@ const Header = ({ colour }) => {
     <HeaderBar>
       <HeaderContent>
         <LogoContainer
+          className="clickable"
           initial={variants.logo.default}
           whileHover={variants.logo.hover}
           whileTap={variants.logo.default}

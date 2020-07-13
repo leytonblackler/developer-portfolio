@@ -38,6 +38,7 @@ const variants = {
 
 const IconButton = ({ Icon, href, onClick }) => (
   <Button
+    className="clickable"
     initial={variants.button.default}
     whileHover={variants.button.hover}
     whileTap={variants.button.default}
