@@ -109,7 +109,7 @@ const Introduction = ({ section, sectionActive }) => {
             <TypedText
               // stopped={pageLoaded}
               strings={[
-                "Hi, I'm Leyton.<br>I'm a <span style=\"color: #36FBCA\">Software Developer</span>.",
+                "Hi, I'm Leyton.<br>I'm a <span style=\"color: #35FAC4\">Software Developer</span>.",
               ]}
               typeSpeed={40}
               backDelay={1500}

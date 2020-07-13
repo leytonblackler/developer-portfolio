@@ -1,3 +1,8 @@
+* {
+  cursor: none;
+  user-select: none;
+}
+
 body > #root > div {
   height: 100vh;
 }

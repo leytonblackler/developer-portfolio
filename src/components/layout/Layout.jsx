@@ -9,6 +9,7 @@ import LeftBar from "./LeftBar";
 import FadingContainer from "./FadingContainer";
 import IntroductionBanner from "../sections/introduction/IntroductionBanner";
 import SectionsContainer from "./SectionsContainer";
+import Cursor from "./Cursor";
 import {
   general,
   breakpoints,
@@ -92,6 +93,7 @@ const Layout = ({ sections, scrollIndex }) => {
         )} */}
       </Body>
       {/* </FadingContainer> */}
+      <Cursor sectionIndex={sectionIndex} />
     </LayoutContainer>
   );
 };
