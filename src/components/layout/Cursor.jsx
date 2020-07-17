@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
@@ -20,8 +21,6 @@ const Cursor = ({ sectionIndex }) => {
   const [mouseInWindow, setMouseInWindow] = useState(false);
   const [mouseOverClickable, setMouseOverClickable] = useState(false);
 
-  // const
-
   useEffect(() => {
     // Add mouse down and mouse up listeners to set whether the cursor is being pressed.
     document.onmousedown = () => setMouseDown(true);
@@ -33,11 +32,6 @@ const Cursor = ({ sectionIndex }) => {
 
     // Add a mouse move listener to set the cursor position.
     document.onmousemove = (event) => {
-      console.log("mouse move");
-      // if (!mouseInWindow) {
-      //   setMouseInWindow(true);
-      // }
-
       const x = event.clientX;
       const y = event.clientY;
 
@@ -84,6 +78,13 @@ const Cursor = ({ sectionIndex }) => {
     currentStyle.backgroundColor = "rgba(255, 255, 255, 1)";
   }
 
+  let sizeDuration = 0.5;
+  if (mouseDown) {
+    sizeDuration = 3;
+  } else if (mouseOverClickable) {
+    sizeDuration = 0.1;
+  }
+
   return (
     <Circle
       transition={{
@@ -93,11 +94,11 @@ const Cursor = ({ sectionIndex }) => {
         },
         width: {
           type: "tween",
-          duration: mouseDown ? 3 : 0.5,
+          duration: sizeDuration,
         },
         height: {
           type: "tween",
-          duration: mouseDown ? 3 : 0.5,
+          duration: sizeDuration,
         },
       }}
       initial={{
@@ -109,6 +110,10 @@ const Cursor = ({ sectionIndex }) => {
       animate={currentStyle}
     />
   );
+};
+
+Cursor.propTypes = {
+  sectionIndex: PropTypes.number.isRequired,
 };
 
 export default Cursor;

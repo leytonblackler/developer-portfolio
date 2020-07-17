@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { useWindowWidth } from "@react-hook/window-size";
@@ -79,6 +80,10 @@ const IntroductionBanner = ({ visible }) => {
       </PhotoContainer>
     </MainContainer>
   );
+};
+
+IntroductionBanner.propTypes = {
+  visible: PropTypes.bool.isRequired,
 };
 
 export default IntroductionBanner;

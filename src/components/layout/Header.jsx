@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { useHistory } from "react-router-dom";
@@ -82,6 +83,10 @@ const Header = ({ colour }) => {
       </HeaderContent>
     </HeaderBar>
   );
+};
+
+Header.propTypes = {
+  colour: PropTypes.string.isRequired,
 };
 
 export default Header;

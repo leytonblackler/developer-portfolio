@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import SplitContent from "../../layout/SplitContent";
 import SlidingArea from "../../layout/SlidingArea";
@@ -41,5 +42,19 @@ const About = ({ section, subSectionIndex }) => (
     />
   </MainContainer>
 );
+
+About.propTypes = {
+  section: PropTypes.shape({
+    title: PropTypes.string,
+    path: PropTypes.string,
+    content: PropTypes.elementType,
+    colours: PropTypes.shape({
+      text: PropTypes.string,
+      background: PropTypes.string,
+    }),
+    indexRange: PropTypes.arrayOf(PropTypes.number),
+  }).isRequired,
+  subSectionIndex: PropTypes.number.isRequired,
+};
 
 export default About;

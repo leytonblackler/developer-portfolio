@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import { general, breakpoints } from "../../config/constants.json";
+import { breakpoints } from "../../config/constants.json";
 import SlidingArea from "./SlidingArea";
 import FadingContainer from "./FadingContainer";
 

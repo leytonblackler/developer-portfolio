@@ -3,10 +3,8 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useMediaQuery } from "react-responsive";
 import { motion } from "framer-motion";
-import { useWindowWidth } from "@react-hook/window-size";
 import Header from "./Header";
 import LeftBar from "./LeftBar";
-import FadingContainer from "./FadingContainer";
 import IntroductionBanner from "../sections/introduction/IntroductionBanner";
 import SectionsContainer from "./SectionsContainer";
 import Cursor from "./Cursor";
@@ -68,33 +66,37 @@ const Layout = ({ sections, scrollIndex }) => {
   const loaded = true; // TODO
 
   return (
-    <LayoutContainer
-      transition={{
-        type: "tween",
-        ease: "easeOut",
-        duration: general.sectionTransitionDuration * 0.7,
-      }}
-      initial={{ backgroundColor: sections[0].colours.background }}
-      animate={{ backgroundColor: sections[sectionIndex].colours.background }}
-    >
-      {/* <FadingContainer visible={loaded}> */}
-      <Header colour={sections[sectionIndex].colours.text} />
-      <Body>
-        {wideView && (
-          <LeftBar sections={sections} sectionIndex={sectionIndex} />
-        )}
-        <SectionsContainer
-          sections={sections}
-          sectionIndex={sectionIndex}
-          scrollIndex={scrollIndex}
-        />
-        {/* {showIntroductionBanner && (
-          <IntroductionBanner visible={sectionIndex === 0} />
-        )} */}
-      </Body>
-      {/* </FadingContainer> */}
-      <Cursor sectionIndex={sectionIndex} />
-    </LayoutContainer>
+    <>
+      {loaded && (
+        <LayoutContainer
+          transition={{
+            type: "tween",
+            ease: "easeOut",
+            duration: general.sectionTransitionDuration * 0.7,
+          }}
+          initial={{ backgroundColor: sections[0].colours.background }}
+          animate={{
+            backgroundColor: sections[sectionIndex].colours.background,
+          }}
+        >
+          <Header colour={sections[sectionIndex].colours.text} />
+          <Body>
+            {wideView && (
+              <LeftBar sections={sections} sectionIndex={sectionIndex} />
+            )}
+            <SectionsContainer
+              sections={sections}
+              sectionIndex={sectionIndex}
+              scrollIndex={scrollIndex}
+            />
+            {showIntroductionBanner && (
+              <IntroductionBanner visible={sectionIndex === 0} />
+            )}
+          </Body>
+          <Cursor sectionIndex={sectionIndex} />
+        </LayoutContainer>
+      )}
+    </>
   );
 };
 

@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import { general, breakpoints } from "../../config/constants.json";
+import { general } from "../../config/constants.json";
 
 const MainContainer = styled(motion.div)`
   width: 100%;

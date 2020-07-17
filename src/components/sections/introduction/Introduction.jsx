@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import Typed from "react-typed";
@@ -10,6 +11,9 @@ import {
   mobile,
   desktop,
 } from "../../../config/constants.json";
+
+const SUBTEXT =
+  "I build useful and high quality software solutions to real-world problems through modern human-centric design.";
 
 const MainContainer = styled(({ textColour, ...rest }) => <div {...rest} />)`
   width: 100%;
@@ -65,15 +69,6 @@ const Subtext = styled.div`
   }
 `;
 
-// const BannerContainer = styled(motion.div)`
-//   height: 100%;
-//   position: relative;
-//   clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 0% 100%);
-//   position: fixed;
-//   top: 0;
-//   margin-left: ${desktop.minimumLayoutPadding * 2}px;
-// `;
-
 const Banner = styled(motion.div)`
   height: 100%;
   clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 0% 100%);
@@ -91,15 +86,12 @@ const Introduction = ({ section, sectionActive }) => {
 
   useEffect(() => {
     if (bannerRef.current) {
-      console.log("left", bannerRef.current.getBoundingClientRect().left);
       setBannerWidth(
         windowWidth - bannerRef.current.getBoundingClientRect().left
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bannerRef, windowWidth]);
-
-  useEffect(() => console.log("bannerRef", bannerRef.current), []);
 
   return (
     <>
@@ -114,11 +106,7 @@ const Introduction = ({ section, sectionActive }) => {
               typeSpeed={40}
               backDelay={1500}
             />
-            <Subtext>
-              {
-                "I build useful and high quality software solutions to real-world problems through modern human-centric design."
-              }
-            </Subtext>
+            <Subtext>{SUBTEXT}</Subtext>
           </MainContainer>
         }
         rightContent={<div id="banner" />}
@@ -152,6 +140,20 @@ const Introduction = ({ section, sectionActive }) => {
       />
     </>
   );
+};
+
+Introduction.propTypes = {
+  section: PropTypes.shape({
+    title: PropTypes.string,
+    path: PropTypes.string,
+    content: PropTypes.elementType,
+    colours: PropTypes.shape({
+      text: PropTypes.string,
+      background: PropTypes.string,
+    }),
+    indexRange: PropTypes.arrayOf(PropTypes.number),
+  }).isRequired,
+  sectionActive: PropTypes.bool.isRequired,
 };
 
 export default Introduction;
