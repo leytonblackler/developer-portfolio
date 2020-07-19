@@ -4,6 +4,7 @@ import styled from "styled-components";
 import SplitContent from "../../layout/SplitContent";
 import SlidingArea from "../../layout/SlidingArea";
 import FadingContainer from "../../layout/FadingContainer";
+import Portrait from "./Portrait";
 
 const MainContainer = styled(({ textColour, ...rest }) => <div {...rest} />)`
   width: 100%;
@@ -32,7 +33,9 @@ const About = ({ section, subSectionIndex }) => (
       rightContent={
         <SlidingArea index={subSectionIndex}>
           <FadingContainer visible={subSectionIndex === 0}>
-            <PlaceholderContainer>About Right 0</PlaceholderContainer>
+            <PlaceholderContainer>
+              <Portrait />
+            </PlaceholderContainer>
           </FadingContainer>
           <FadingContainer visible={subSectionIndex === 1}>
             <PlaceholderContainer>About Right 1</PlaceholderContainer>

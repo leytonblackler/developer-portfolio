@@ -5,7 +5,6 @@ import { useMediaQuery } from "react-responsive";
 import { motion } from "framer-motion";
 import Header from "./Header";
 import LeftBar from "./LeftBar";
-import IntroductionBanner from "../sections/introduction/IntroductionBanner";
 import SectionsContainer from "./SectionsContainer";
 import Cursor from "./Cursor";
 import {
@@ -47,10 +46,6 @@ const Layout = ({ sections, scrollIndex }) => {
     query: `(min-width: ${breakpoints.columnView}px)`,
   });
 
-  const showIntroductionBanner = useMediaQuery({
-    query: `(min-width: ${breakpoints.introductionBanner}px)`,
-  });
-
   // Evaluate the section index based on the current scroll index and the index ranges of the sections.
   const [sectionIndex, setSectionIndex] = useState(0);
   useEffect(() => {
@@ -89,9 +84,6 @@ const Layout = ({ sections, scrollIndex }) => {
               sectionIndex={sectionIndex}
               scrollIndex={scrollIndex}
             />
-            {showIntroductionBanner && (
-              <IntroductionBanner visible={sectionIndex === 0} />
-            )}
           </Body>
           <Cursor sectionIndex={sectionIndex} />
         </LayoutContainer>
