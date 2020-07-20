@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { motion } from "framer-motion";
@@ -72,4 +72,4 @@ SectionsContainer.propTypes = {
   scrollIndex: PropTypes.number.isRequired,
 };
 
-export default SectionsContainer;
+export default memo(SectionsContainer);

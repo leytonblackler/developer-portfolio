@@ -13,13 +13,10 @@ const MainContainer = styled(motion.div)`
 const SlidingArea = ({ children, index }) => {
   return (
     <MainContainer
-      transition={{
-        type: "tween",
-        ease: "easeOut",
-        duration: general.sectionTransitionDuration,
+      style={{
+        transform: `translateY(${index * -100}vh)`,
+        transition: `transform ${general.sectionTransitionDuration}ms ease 0s`,
       }}
-      initial={{ top: 0 }}
-      animate={{ transform: `translateY(${index * -100}vh)` }}
     >
       {children}
     </MainContainer>

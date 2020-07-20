@@ -34,25 +34,23 @@ const ContentContainer = styled(motion.div)`
 const LeftBar = ({ sections, sectionIndex }) => {
   return (
     <ScrollArea
-      transition={{
-        type: "tween",
-        ease: "easeOut",
-        duration: general.sectionTransitionDuration * 0.9,
+      style={{
+        transform: `translateY(${sectionIndex * -100}vh)`,
+        transition: `transform ${
+          general.sectionTransitionDuration * 0.9
+        }ms ease 0s`,
       }}
-      initial={{ top: 0 }}
-      animate={{ transform: `translateY(${sectionIndex * -100}vh)` }}
     >
       {sections.map((section, index) => (
         <ContentContainer
           key={section.title}
           colour={section.colours.text}
-          transition={{
-            type: "tween",
-            ease: "easeOut",
-            duration: general.sectionTransitionDuration * 0.3,
+          style={{
+            opacity: sectionIndex === index ? 1 : 0,
+            transition: `opacity ${
+              general.sectionTransitionDuration * 0.3
+            }ms ease 0s`,
           }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: sectionIndex === index ? 1 : 0 }}
         >
           {/* Render the title if it exists for the given section, otherwise render social icon buttons. */}
           {section.title ? (

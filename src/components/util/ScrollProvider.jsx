@@ -25,7 +25,7 @@ let transitionActive = false;
 const indexWithinRange = (index, range) =>
   index >= range[0] && index <= range[1];
 
-const ScrollProvider = ({ children, sections }) => {
+const ScrollProvider = ({ provideTo, sections }) => {
   // Find the max index based on sections on mount, and set it in the ScrollProvider.
   const maxScrollIndex = sections[sections.length - 1].indexRange[1];
 
@@ -81,13 +81,16 @@ const ScrollProvider = ({ children, sections }) => {
           transitionActive = true;
           setTimeout(() => {
             transitionActive = false;
-          }, general.sectionTransitionDuration * 1000);
+          }, general.sectionTransitionDuration);
         }
 
         return nextScrollIndex;
       });
     }
   };
+
+  const onSwipedUp = () => handleScroll({ deltaY: 1 });
+  const onSwipedDown = () => handleScroll({ deltaY: -1 });
 
   useEffect(() => {
     const scrollListener = window.addEventListener("wheel", handleScroll, {
@@ -100,22 +103,17 @@ const ScrollProvider = ({ children, sections }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const Child = provideTo;
+
   return (
-    <Swipeable
-      onSwipedUp={() => handleScroll({ deltaY: 1 })}
-      onSwipedDown={() => handleScroll({ deltaY: -1 })}
-    >
-      {React.cloneElement(children, { scrollIndex })}
+    <Swipeable onSwipedUp={onSwipedUp} onSwipedDown={onSwipedDown}>
+      <Child scrollIndex={scrollIndex} sections={sections} />
     </Swipeable>
   );
 };
 
-ScrollProvider.defaultProps = {
-  children: null,
-};
-
 ScrollProvider.propTypes = {
-  children: PropTypes.node,
+  provideTo: PropTypes.elementType.isRequired,
   sections: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string,

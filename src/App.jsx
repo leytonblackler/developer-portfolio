@@ -56,9 +56,7 @@ export default () => (
   <React.StrictMode>
     <Router>
       <ThemeProvider theme={theme}>
-        <ScrollProvider sections={SECTIONS}>
-          <Layout sections={SECTIONS} />
-        </ScrollProvider>
+        <ScrollProvider sections={SECTIONS} provideTo={Layout} />
       </ThemeProvider>
     </Router>
   </React.StrictMode>

@@ -64,14 +64,11 @@ const Layout = ({ sections, scrollIndex }) => {
     <>
       {loaded && (
         <LayoutContainer
-          transition={{
-            type: "tween",
-            ease: "easeOut",
-            duration: general.sectionTransitionDuration * 0.7,
-          }}
-          initial={{ backgroundColor: sections[0].colours.background }}
-          animate={{
+          style={{
             backgroundColor: sections[sectionIndex].colours.background,
+            transition: `background-color ${
+              general.sectionTransitionDuration * 0.7
+            }ms ease 0s`,
           }}
         >
           <Header colour={sections[sectionIndex].colours.text} />

@@ -9,6 +9,7 @@
     "@react-hook/window-size": "^3.0.6",
     "@styled-icons/boxicons-logos": "^10.0.0",
     "@styled-icons/boxicons-regular": "^10.0.0",
+    "@welldone-software/why-did-you-render": "^4.2.6",
     "cross-env": "^7.0.2",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-config-prettier": "^6.11.0",

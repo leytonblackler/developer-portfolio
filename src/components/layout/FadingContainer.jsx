@@ -13,13 +13,12 @@ const MainContainer = styled(motion.div)`
 const FadingContainer = ({ children, visible }) => {
   return (
     <MainContainer
-      transition={{
-        type: "tween",
-        ease: "easeOut",
-        duration: general.sectionTransitionDuration * 0.3,
+      style={{
+        opacity: visible ? 1 : 0,
+        transition: `opacity ${
+          general.sectionTransitionDuration * 0.3
+        }ms ease 0s`,
       }}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: visible ? 1 : 0 }}
     >
       {children}
     </MainContainer>
