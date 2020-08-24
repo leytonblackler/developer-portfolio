@@ -16,7 +16,7 @@ const evaluateNextScrollIndex = (deltaY, currentIndex, maxIndex) => {
 };
 
 // Represents whether a scroll change is causing the path to update.
-let updatingPath = false;
+const updatingPath = false;
 
 // Represents whether pages are currently being transitioned between.
 let transitionActive = false;
@@ -35,35 +35,35 @@ const ScrollProvider = ({ provideTo, sections }) => {
   const history = useHistory();
 
   // When the path changes, update the scroll index if needed (first load or manually navigated).
-  useEffect(() => {
-    const sectionToRouteTo = sections.find(
-      (section) =>
-        section.path === location.pathname &&
-        !indexWithinRange(scrollIndex, section.indexRange) &&
-        !updatingPath
-    );
+  // useEffect(() => {
+  //   const sectionToRouteTo = sections.find(
+  //     (section) =>
+  //       section.path === location.pathname &&
+  //       !indexWithinRange(scrollIndex, section.indexRange) &&
+  //       !updatingPath
+  //   );
 
-    if (sectionToRouteTo) {
-      setScrollIndex(sectionToRouteTo.indexRange[0]);
-    }
+  //   if (sectionToRouteTo) {
+  //     setScrollIndex(sectionToRouteTo.indexRange[0]);
+  //   }
 
-    if (updatingPath) {
-      updatingPath = false;
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname]);
+  //   if (updatingPath) {
+  //     updatingPath = false;
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [location.pathname]);
 
-  useEffect(() => {
-    // Set the new path if the section has changed.
-    const newPath = sections.find((section) =>
-      indexWithinRange(scrollIndex, section.indexRange)
-    ).path;
-    if (location.pathname !== newPath) {
-      updatingPath = true;
-      history.replace(newPath);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [scrollIndex]);
+  // useEffect(() => {
+  //   // Set the new path if the section has changed.
+  //   const newPath = sections.find((section) =>
+  //     indexWithinRange(scrollIndex, section.indexRange)
+  //   ).path;
+  //   if (location.pathname !== newPath) {
+  //     updatingPath = true;
+  //     history.replace(newPath);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [scrollIndex]);
 
   const handleScroll = ({ deltaY, shiftKey }) => {
     // Only trigger a scroll if:

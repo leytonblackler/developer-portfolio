@@ -1,6 +1,6 @@
 {
   "general": {
-    "sectionTransitionDuration": 1000
+    "sectionTransitionDuration": 800
   },
   "breakpoints": {
     "wideView": 1300,

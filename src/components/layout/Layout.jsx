@@ -42,6 +42,10 @@ const Body = styled.div`
 `;
 
 const Layout = ({ sections, scrollIndex }) => {
+  // useEffect(() => {
+  //   console.log("pageLoad", pageLoad);
+  // }, []);
+
   const wideView = useMediaQuery({
     query: `(min-width: ${breakpoints.columnView}px)`,
   });
