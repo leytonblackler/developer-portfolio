@@ -3,14 +3,14 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { useWindowWidth } from "@react-hook/window-size";
-import { general, desktop } from "../../../config/constants.json";
+import constants from "../../../config/constants.json";
 
 const MainContainer = styled(motion.div)`
   height: 100%;
   position: fixed;
   top: 0;
   right: 0;
-  margin-left: ${desktop.minimumLayoutPadding * 2}px;
+  margin-left: ${constants.desktop.minimumLayoutPadding * 2}px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -20,7 +20,7 @@ const Banner = styled.div`
   width: 100%;
   height: 100%;
   background-color: #014ccc;
-  margin-left: ${desktop.minimumLayoutPadding}px;
+  margin-left: ${constants.desktop.minimumLayoutPadding}px;
   clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 0% 100%);
 `;
 
@@ -49,7 +49,7 @@ const IntroductionBanner = ({ visible }) => {
       setBannerWidth(
         windowWidth -
           bannerArea.getBoundingClientRect().left -
-          desktop.minimumLayoutPadding * 2
+          constants.desktop.minimumLayoutPadding * 2
       );
     }
   }, [windowWidth]);
@@ -61,12 +61,12 @@ const IntroductionBanner = ({ visible }) => {
         x: {
           type: "tween",
           ease: "easeOut",
-          duration: general.sectionTransitionDuration * 1,
+          duration: constants.general.sectionTransitionDuration * 1,
         },
         opacity: {
           type: "tween",
           ease: "easeOut",
-          duration: general.sectionTransitionDuration * 0.2,
+          duration: constants.general.sectionTransitionDuration * 0.2,
         },
       }}
       initial={{ x: 0, opacity: 1 }}

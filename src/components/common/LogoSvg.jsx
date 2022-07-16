@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import stylePropType from "react-style-proptype";
 import { motion } from "framer-motion";
-import { general } from "../../config/constants.json";
+import constants from "../../config/constants.json";
 
 const LogoSvg = ({
   style = {},
@@ -25,7 +25,7 @@ const LogoSvg = ({
         style={{
           fill,
           transition: `fill ${
-            general.sectionTransitionDuration * 0.5
+            constants.general.sectionTransitionDuration * 0.5
           }ms ease 0s`,
         }}
       />
@@ -35,7 +35,7 @@ const LogoSvg = ({
         style={{
           fill,
           transition: `fill ${
-            general.sectionTransitionDuration * 0.5
+            constants.general.sectionTransitionDuration * 0.5
           }ms ease 0s`,
         }}
       />

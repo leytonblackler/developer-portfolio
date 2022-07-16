@@ -2,9 +2,10 @@ import React, { memo } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import { breakpoints } from "../../config/constants.json";
+import constants from "../../config/constants.json";
 import SlidingArea from "./SlidingArea";
 import FadingContainer from "./FadingContainer";
+import ScrollDownIndicator from "./ScrollDownIndicator";
 
 const MainContainer = styled(motion.div)`
   width: 100%;
@@ -12,7 +13,7 @@ const MainContainer = styled(motion.div)`
   position: relative;
   margin-left: 0;
   padding-right: 0;
-  @media (min-width: ${breakpoints.columnView}px) {
+  @media (min-width: ${constants.breakpoints.columnView}px) {
     margin-left: 7%;
   }
 `;
@@ -30,30 +31,30 @@ const calculateSubSectionIndex = (scrollIndex, sectionIndexRange) => {
   return scrollIndex - sectionIndexRange[0];
 };
 
-const SectionsContainer = ({ sections, sectionIndex, scrollIndex }) => {
-  return (
-    <MainContainer>
-      <SlidingArea index={sectionIndex}>
-        {sections.map((section, index) => {
-          const Content = section.content;
-          const sectionActive = sectionIndex === index;
-          return (
-            <FadingContainer key={section.title} visible={sectionActive}>
-              <Content
-                section={section}
-                sectionActive={sectionActive}
-                subSectionIndex={calculateSubSectionIndex(
-                  scrollIndex,
-                  section.indexRange
-                )}
-              />
-            </FadingContainer>
-          );
-        })}
-      </SlidingArea>
-    </MainContainer>
-  );
-};
+// let scrollIndicatorTimeout;
+
+const SectionsContainer = ({ sections, sectionIndex, scrollIndex }) => (
+  <MainContainer>
+    <SlidingArea index={sectionIndex}>
+      {sections.map((section, index) => {
+        const Content = section.content;
+        const sectionActive = sectionIndex === index;
+        return (
+          <FadingContainer key={section.title} visible={sectionActive}>
+            <Content
+              section={section}
+              sectionActive={sectionActive}
+              subSectionIndex={calculateSubSectionIndex(
+                scrollIndex,
+                section.indexRange
+              )}
+            />
+          </FadingContainer>
+        );
+      })}
+    </SlidingArea>
+  </MainContainer>
+);
 
 SectionsContainer.propTypes = {
   sections: PropTypes.arrayOf(
@@ -61,7 +62,7 @@ SectionsContainer.propTypes = {
       title: PropTypes.string,
       path: PropTypes.string,
       content: PropTypes.elementType,
-      colours: PropTypes.shape({
+      colors: PropTypes.shape({
         text: PropTypes.string,
         background: PropTypes.string,
       }),

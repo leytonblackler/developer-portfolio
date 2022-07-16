@@ -7,12 +7,7 @@ import Header from "./Header";
 import LeftBar from "./LeftBar";
 import SectionsContainer from "./SectionsContainer";
 import Cursor from "./Cursor";
-import {
-  general,
-  breakpoints,
-  mobile,
-  desktop,
-} from "../../config/constants.json";
+import constants from "../../config/constants.json";
 
 const LayoutContainer = styled(motion.div)`
   width: 100vw;
@@ -23,11 +18,11 @@ const LayoutContainer = styled(motion.div)`
   box-sizing: border-box;
   position: relative;
 
-  padding-left: ${mobile.minimumLayoutPadding}px;
-  padding-right: ${mobile.minimumLayoutPadding}px;
-  @media (min-width: ${breakpoints.columnView}px) {
-    padding-left: ${desktop.minimumLayoutPadding}px;
-    padding-right: ${desktop.minimumLayoutPadding}px;
+  padding-left: ${constants.mobile.minimumLayoutPadding}px;
+  padding-right: ${constants.mobile.minimumLayoutPadding}px;
+  @media (min-width: ${constants.breakpoints.columnView}px) {
+    padding-left: ${constants.desktop.minimumLayoutPadding}px;
+    padding-right: ${constants.desktop.minimumLayoutPadding}px;
   }
 `;
 
@@ -38,7 +33,7 @@ const Body = styled.div`
   justify-content: center;
   box-sizing: border-box;
   position: relative;
-  max-width: ${desktop.maximumContentWidth}px;
+  max-width: ${constants.desktop.maximumContentWidth}px;
 `;
 
 const Layout = ({ sections, scrollIndex }) => {
@@ -47,7 +42,7 @@ const Layout = ({ sections, scrollIndex }) => {
   // }, []);
 
   const wideView = useMediaQuery({
-    query: `(min-width: ${breakpoints.columnView}px)`,
+    query: `(min-width: ${constants.breakpoints.columnView}px)`,
   });
 
   // Evaluate the section index based on the current scroll index and the index ranges of the sections.
@@ -64,33 +59,29 @@ const Layout = ({ sections, scrollIndex }) => {
 
   const loaded = true; // TODO
 
-  return (
-    <>
-      {loaded && (
-        <LayoutContainer
-          style={{
-            backgroundColor: sections[sectionIndex].colours.background,
-            transition: `background-color ${
-              general.sectionTransitionDuration * 0.7
-            }ms ease 0s`,
-          }}
-        >
-          <Header colour={sections[sectionIndex].colours.text} />
-          <Body>
-            {wideView && (
-              <LeftBar sections={sections} sectionIndex={sectionIndex} />
-            )}
-            <SectionsContainer
-              sections={sections}
-              sectionIndex={sectionIndex}
-              scrollIndex={scrollIndex}
-            />
-          </Body>
-          <Cursor sectionIndex={sectionIndex} />
-        </LayoutContainer>
-      )}
-    </>
-  );
+  return !loaded ? null : (
+    <LayoutContainer
+      style={{
+        backgroundColor: sections[sectionIndex].colors.background,
+        transition: `background-color ${
+          constants.general.sectionTransitionDuration * 0.7
+        }ms ease 0s`,
+      }}
+    >
+      <Header color={sections[sectionIndex].colors.text} />
+      <Body>
+        {wideView && (
+          <LeftBar sections={sections} sectionIndex={sectionIndex} />
+        )}
+        <SectionsContainer
+          sections={sections}
+          sectionIndex={sectionIndex}
+          scrollIndex={scrollIndex}
+        />
+      </Body>
+      <Cursor sectionIndex={sectionIndex} />
+    </LayoutContainer>
+  )
 };
 
 Layout.defaultProps = {
@@ -104,7 +95,7 @@ Layout.propTypes = {
       title: PropTypes.string,
       path: PropTypes.string,
       content: PropTypes.elementType,
-      colours: PropTypes.shape({
+      colors: PropTypes.shape({
         text: PropTypes.string,
         background: PropTypes.string,
       }),

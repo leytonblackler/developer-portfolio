@@ -11,9 +11,9 @@ const SectionTitleContainer = styled.div`
   user-select: none;
 `;
 
-const SectionTitle = ({ children }) => {
-  return <SectionTitleContainer>{children}</SectionTitleContainer>;
-};
+const SectionTitle = ({ children }) => (
+  <SectionTitleContainer>{children}</SectionTitleContainer>
+);
 
 SectionTitle.propTypes = {
   children: PropTypes.string.isRequired,

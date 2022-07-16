@@ -1,9 +1,9 @@
 {
-  "colour": {
-    "primary4": "#ff6f61",
-    "primary": "#00ffd1",
+  "color": {
+    "primary": "#ffffff",
     "primary2": "#00ffa2",
     "primary3": "#00ffd1",
+    "primary4": "#ff6f61",
     "secondary1": "#193c4d",
     "secondary2": "#004466",
     "secondary": "#01205B",

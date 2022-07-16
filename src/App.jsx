@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
-import theme, { colour } from "./config/theme.json";
+import theme from "./config/theme.json";
 import ScrollProvider from "./components/util/ScrollProvider";
 import Layout from "./components/layout/Layout";
 import Introduction from "./components/sections/introduction/Introduction";
@@ -14,9 +14,9 @@ const SECTIONS = [
     title: null,
     path: "/",
     content: Introduction,
-    colours: {
-      text: "#01205B",
-      background: colour.primary,
+    colors: {
+      text: theme.color.secondary,
+      background: theme.color.primary,
     },
     indexRange: [0, 0],
   },
@@ -24,8 +24,8 @@ const SECTIONS = [
     title: "ABOUT",
     path: "/about",
     content: About,
-    colours: {
-      text: colour.secondary,
+    colors: {
+      text: theme.color.secondary,
       background: "#FFFFFF",
     },
     indexRange: [1, 2],
@@ -34,8 +34,8 @@ const SECTIONS = [
     title: "PROJECTS",
     path: "/projects",
     content: Projects,
-    colours: {
-      text: colour.secondary,
+    colors: {
+      text: theme.color.secondary,
       background: "#FFFFFF",
     },
     indexRange: [3, 4],
@@ -44,15 +44,15 @@ const SECTIONS = [
     title: "CONTACT",
     path: "/contact",
     content: Contact,
-    colours: {
-      text: colour.secondary,
+    colors: {
+      text: theme.color.secondary,
       background: "#FFFFFF",
     },
     indexRange: [5, 5],
   },
 ];
 
-export default () => (
+const App = () => (
   <React.StrictMode>
     <Router>
       <ThemeProvider theme={theme}>
@@ -61,3 +61,5 @@ export default () => (
     </Router>
   </React.StrictMode>
 );
+
+export default App;

@@ -2,27 +2,15 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import { breakpoints, mobile, desktop } from "../../config/constants.json";
+import constants from "../../config/constants.json";
 
 const Button = styled(motion.a)`
   cursor: pointer;
   user-select: none;
-  /* color: #FFFFFF; */
-  /* width: ${mobile.logoSize / 2}px;
-  height: ${mobile.logoSize / 2}px;
-  margin-top: ${mobile.logoSize / 2}px;
-  margin-bottom: ${mobile.logoSize / 2}px;
-  @media (min-width: ${breakpoints.wideView}px) {
-    width: ${desktop.logoSize / 2}px;
-    height: ${desktop.logoSize / 2}px;
-    margin-top: ${desktop.logoSize / 2}px;
-    margin-bottom: ${desktop.logoSize / 2}px;
-  } */
-
-  width: ${desktop.logoSize / 2}px;
-  height: ${desktop.logoSize / 2}px;
-  margin-top: ${desktop.logoSize / 2}px;
-  margin-bottom: ${desktop.logoSize / 2}px;
+  width: ${constants.desktop.logoSize / 2}px;
+  height: ${constants.desktop.logoSize / 2}px;
+  margin-top: ${constants.desktop.logoSize / 2}px;
+  margin-bottom: ${constants.desktop.logoSize / 2}px;
 `;
 
 const variants = {

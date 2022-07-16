@@ -1,27 +1,23 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import Typed from "react-typed";
 import { useWindowWidth } from "@react-hook/window-size";
 import SplitContent from "../../layout/SplitContent";
-import {
-  general,
-  breakpoints,
-  mobile,
-  desktop,
-} from "../../../config/constants.json";
+import constants from "../../../config/constants.json";
+import ScrollDownIndicator from "../../layout/ScrollDownIndicator";
 
 const SUBTEXT =
-  "I build useful and high quality software solutions to real-world problems through modern human-centric design.";
+  "I strive to build high-quality solutions to real-world problems through modern human-centric design.";
 
-const MainContainer = styled(({ textColour, ...rest }) => <div {...rest} />)`
+const MainContainer = styled(({ textcolor, ...rest }) => <div {...rest} />)`
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  color: ${({ textColour }) => textColour};
+  color: ${({ textcolor }) => textcolor};
 `;
 
 const TypedText = styled(Typed)`
@@ -37,7 +33,7 @@ const TypedText = styled(Typed)`
     max-width: none;
   }
   /* Text spans 3 lines in desktop */
-  @media (min-width: ${breakpoints.columnView}px) {
+  @media (min-width: ${constants.breakpoints.columnView}px) {
     min-height: 186px;
     max-width: 390px;
   }
@@ -49,21 +45,21 @@ const TypedText = styled(Typed)`
 
   font-size: 32px;
   line-height: 42px;
-  margin-bottom: ${mobile.minimumLayoutPadding / 2}px;
-  @media (min-width: ${breakpoints.columnView}px) {
+  margin-bottom: ${constants.mobile.minimumLayoutPadding / 2}px;
+  @media (min-width: ${constants.breakpoints.columnView}px) {
     font-size: 52px;
     line-height: 62px;
-    margin-bottom: ${desktop.minimumLayoutPadding / 2}px;
+    margin-bottom: ${constants.desktop.minimumLayoutPadding / 2}px;
   }
 `;
 
 const Subtext = styled.div`
   font-weight: 600;
-  opacity: 0.8;
+  opacity: 0.75;
 
   font-size: 16px;
   line-height: 24px;
-  @media (min-width: ${breakpoints.columnView}px) {
+  @media (min-width: ${constants.breakpoints.columnView}px) {
     font-size: 20px;
     line-height: 28px;
   }
@@ -75,7 +71,7 @@ const Banner = styled(motion.div)`
   position: fixed;
   top: 0;
   left: 0;
-  margin-left: ${desktop.minimumLayoutPadding * 2}px;
+  margin-left: ${constants.desktop.minimumLayoutPadding * 2}px;
   background-color: rgba(0, 0, 0, 0.2);
 `;
 
@@ -83,6 +79,7 @@ const Introduction = ({ section, sectionActive }) => {
   const bannerRef = useRef();
   const windowWidth = useWindowWidth();
   const [bannerWidth, setBannerWidth] = useState(0);
+  const [typingComplete, setTypingComplete] = useState(false);
 
   useEffect(() => {
     if (bannerRef.current) {
@@ -93,18 +90,34 @@ const Introduction = ({ section, sectionActive }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bannerRef, windowWidth]);
 
+  const [scrollIndicatorVisible, setScrollIndicatorVisible] = useState(false);
+  useEffect(() => {
+    if (sectionActive) {
+      if (typingComplete) {
+        setScrollIndicatorVisible(true);
+      }
+    } else {
+      setScrollIndicatorVisible(false);
+    }
+  }, [sectionActive, typingComplete]);
+
+  const onTypingComplete = useCallback(() => {
+    setTypingComplete(true);
+  }, [setTypingComplete]);
+
   return (
     <>
       <SplitContent
         leftContent={
-          <MainContainer textColour={section.colours.text}>
+          <MainContainer textcolor={section.colors.text}>
             <TypedText
               // stopped={pageLoaded}
               strings={[
-                "Hi, I'm Leyton.<br>I'm a <span style=\"color: #01205B\">Software Developer</span>.",
+                '<span style="opacity: 0.75">Hi, I\'m Leyton.<br>I\'m a </span>Software Developer<span style="opacity: 0.75">.</span></span>',
               ]}
               typeSpeed={40}
               backDelay={1500}
+              onComplete={onTypingComplete}
             />
             <Subtext>{SUBTEXT}</Subtext>
           </MainContainer>
@@ -118,7 +131,7 @@ const Introduction = ({ section, sectionActive }) => {
         transition={{
           type: "tween",
           ease: "easeOut",
-          duration: general.sectionTransitionDuration * 1,
+          duration: constants.general.sectionTransitionDuration * 1,
         }}
         initial={{
           x: 0,
@@ -133,11 +146,12 @@ const Introduction = ({ section, sectionActive }) => {
                 opacity: 1,
               }
             : {
-                x: bannerWidth + 2 * desktop.minimumLayoutPadding,
+                x: bannerWidth + 2 * constants.desktop.minimumLayoutPadding,
                 opacity: 0,
               }
         }
       />
+      <ScrollDownIndicator show={scrollIndicatorVisible} />
     </>
   );
 };
@@ -147,7 +161,7 @@ Introduction.propTypes = {
     title: PropTypes.string,
     path: PropTypes.string,
     content: PropTypes.elementType,
-    colours: PropTypes.shape({
+    colors: PropTypes.shape({
       text: PropTypes.string,
       background: PropTypes.string,
     }),

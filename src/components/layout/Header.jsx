@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import { useHistory } from "react-router-dom";
-import { breakpoints, mobile, desktop } from "../../config/constants.json";
+import { useNavigate } from "react-router-dom";
+import constants from "../../config/constants.json";
 import Menu from "../common/Menu";
 
 import LogoSvg from "../common/LogoSvg";
@@ -17,11 +17,11 @@ const HeaderBar = styled(motion.div)`
   box-sizing: border-box;
   z-index: 100;
 
-  padding-left: ${mobile.minimumLayoutPadding}px;
-  padding-right: ${mobile.minimumLayoutPadding}px;
-  @media (min-width: ${breakpoints.columnView}px) {
-    padding-left: ${desktop.minimumLayoutPadding}px;
-    padding-right: ${desktop.minimumLayoutPadding}px;
+  padding-left: ${constants.mobile.minimumLayoutPadding}px;
+  padding-right: ${constants.mobile.minimumLayoutPadding}px;
+  @media (min-width: ${constants.breakpoints.columnView}px) {
+    padding-left: ${constants.desktop.minimumLayoutPadding}px;
+    padding-right: ${constants.desktop.minimumLayoutPadding}px;
   }
 `;
 
@@ -33,22 +33,22 @@ const HeaderContent = styled.div`
   align-items: center;
 
   max-width: none;
-  height: ${mobile.logoSize}px;
-  margin-top: ${mobile.logoSize}px;
-  @media (min-width: ${breakpoints.columnView}px) {
-    max-width: ${desktop.maximumContentWidth}px;
-    height: ${desktop.logoSize}px;
-    margin-top: ${desktop.logoSize}px;
+  height: ${constants.mobile.logoSize}px;
+  margin-top: ${constants.mobile.logoSize}px;
+  @media (min-width: ${constants.breakpoints.columnView}px) {
+    max-width: ${constants.desktop.maximumContentWidth}px;
+    height: ${constants.desktop.logoSize}px;
+    margin-top: ${constants.desktop.logoSize}px;
   }
 `;
 
 const LogoContainer = styled(motion.div)`
   cursor: pointer;
-  width: ${mobile.logoSize}px;
-  height: ${mobile.logoSize}px;
-  @media (min-width: ${breakpoints.columnView}px) {
-    width: ${desktop.logoSize}px;
-    height: ${desktop.logoSize}px;
+  width: ${constants.mobile.logoSize}px;
+  height: ${constants.mobile.logoSize}px;
+  @media (min-width: ${constants.breakpoints.columnView}px) {
+    width: ${constants.desktop.logoSize}px;
+    height: ${constants.desktop.logoSize}px;
   }
 `;
 
@@ -63,8 +63,8 @@ const variants = {
   },
 };
 
-const Header = ({ colour }) => {
-  const history = useHistory();
+const Header = ({ color }) => {
+  const navigate = useNavigate();
   return (
     <HeaderBar>
       <HeaderContent>
@@ -74,10 +74,10 @@ const Header = ({ colour }) => {
           whileHover={variants.logo.hover}
           whileTap={variants.logo.default}
           onClick={() => {
-            history.replace("/");
+            navigate('/', { replace: true });
           }}
         >
-          <LogoSvg fill={colour} />
+          <LogoSvg fill={color} />
         </LogoContainer>
         <Menu />
       </HeaderContent>
@@ -86,7 +86,7 @@ const Header = ({ colour }) => {
 };
 
 Header.propTypes = {
-  colour: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
 };
 
 export default Header;

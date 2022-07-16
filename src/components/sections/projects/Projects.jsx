@@ -5,10 +5,10 @@ import SplitContent from "../../layout/SplitContent";
 import SlidingArea from "../../layout/SlidingArea";
 import FadingContainer from "../../layout/FadingContainer";
 
-const MainContainer = styled(({ textColour, ...rest }) => <div {...rest} />)`
+const MainContainer = styled(({ textcolor, ...rest }) => <div {...rest} />)`
   width: 100%;
   height: 100%;
-  color: ${({ textColour }) => textColour};
+  color: ${({ textcolor }) => textcolor};
 `;
 
 const PlaceholderContainer = styled.div`
@@ -21,7 +21,7 @@ const PlaceholderContainer = styled.div`
 `;
 
 const Projects = ({ section, subSectionIndex }) => (
-  <MainContainer textColour={section.colours.text}>
+  <MainContainer textcolor={section.colors.text}>
     <SplitContent
       leftContent={<PlaceholderContainer>Projects Left</PlaceholderContainer>}
       rightContent={
@@ -43,7 +43,7 @@ Projects.propTypes = {
     title: PropTypes.string,
     path: PropTypes.string,
     content: PropTypes.elementType,
-    colours: PropTypes.shape({
+    colors: PropTypes.shape({
       text: PropTypes.string,
       background: PropTypes.string,
     }),

@@ -4,11 +4,11 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import SocialIconButtons from "../common/SocialIconButtons";
 import SectionTitle from "./SectionTitle";
-import { general, desktop } from "../../config/constants.json";
+import constants from "../../config/constants.json";
 
 const ScrollArea = styled(motion.div)`
-  width: ${desktop.logoSize}px;
-  min-width: ${desktop.logoSize}px;
+  width: ${constants.desktop.logoSize}px;
+  min-width: ${constants.desktop.logoSize}px;
   box-sizing: border-box;
   position: relative;
   /* background-color: magenta; */
@@ -22,47 +22,45 @@ const ContentContainer = styled(motion.div)`
   justify-content: center;
   align-items: center;
 
-  /* Apply colour to section titles. */
-  color: ${({ colour }) => colour};
+  /* Apply color to section titles. */
+  color: ${({ color }) => color};
 
-  /* Apply colour to icon buttons. */
+  /* Apply color to icon buttons. */
   div > a {
-    color: ${({ colour }) => colour};
+    color: ${({ color }) => color};
   }
 `;
 
-const LeftBar = ({ sections, sectionIndex }) => {
-  return (
-    <ScrollArea
-      style={{
-        transform: `translateY(${sectionIndex * -100}vh)`,
-        transition: `transform ${
-          general.sectionTransitionDuration * 0.9
-        }ms ease 0s`,
-      }}
-    >
-      {sections.map((section, index) => (
-        <ContentContainer
-          key={section.title}
-          colour={section.colours.text}
-          style={{
-            opacity: sectionIndex === index ? 1 : 0,
-            transition: `opacity ${
-              general.sectionTransitionDuration * 0.3
-            }ms ease 0s`,
-          }}
-        >
-          {/* Render the title if it exists for the given section, otherwise render social icon buttons. */}
-          {section.title ? (
-            <SectionTitle>{section.title}</SectionTitle>
-          ) : (
-            <SocialIconButtons />
-          )}
-        </ContentContainer>
-      ))}
-    </ScrollArea>
-  );
-};
+const LeftBar = ({ sections, sectionIndex }) => (
+  <ScrollArea
+    style={{
+      transform: `translateY(${sectionIndex * -100}vh)`,
+      transition: `transform ${
+        constants.general.sectionTransitionDuration * 0.9
+      }ms ease 0s`,
+    }}
+  >
+    {sections.map((section, index) => (
+      <ContentContainer
+        key={section.title}
+        color={section.colors.text}
+        style={{
+          opacity: sectionIndex === index ? 1 : 0,
+          transition: `opacity ${
+            constants.general.sectionTransitionDuration * 0.3
+          }ms ease 0s`,
+        }}
+      >
+        {/* Render the title if it exists for the given section, otherwise render social icon buttons. */}
+        {section.title ? (
+          <SectionTitle>{section.title}</SectionTitle>
+        ) : (
+          <SocialIconButtons />
+        )}
+      </ContentContainer>
+    ))}
+  </ScrollArea>
+);
 
 LeftBar.propTypes = {
   sections: PropTypes.arrayOf(
@@ -70,7 +68,7 @@ LeftBar.propTypes = {
       title: PropTypes.string,
       path: PropTypes.string,
       content: PropTypes.elementType,
-      colours: PropTypes.shape({
+      colors: PropTypes.shape({
         text: PropTypes.string,
         background: PropTypes.string,
       }),

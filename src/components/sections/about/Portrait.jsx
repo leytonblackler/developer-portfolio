@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { desktop, mobile, breakpoints } from "../../../config/constants.json";
+import constants from "../../../config/constants.json";
 
 const ImageContainer = styled.div`
   width: 100%;
@@ -13,12 +13,12 @@ const ImageContainer = styled.div`
 const Image = styled.div`
   flex: 1;
 
-  margin-top: ${mobile.logoSize * 2}px;
-  margin-bottom: ${mobile.logoSize * 1}px;
+  margin-top: ${constants.mobile.logoSize * 2}px;
+  margin-bottom: ${constants.mobile.logoSize * 1}px;
   max-width: none;
-  @media (min-width: ${breakpoints.columnView}px) {
-    margin-top: ${desktop.logoSize * 2}px;
-    margin-bottom: ${desktop.logoSize * 1}px;
+  @media (min-width: ${constants.breakpoints.columnView}px) {
+    margin-top: ${constants.desktop.logoSize * 2}px;
+    margin-bottom: ${constants.desktop.logoSize * 1}px;
     max-width: 500px;
   }
   background-image: url("/images/portrait.jpg");
@@ -27,12 +27,10 @@ const Image = styled.div`
   background-position: 50% 50%;
 `;
 
-const Portrait = () => {
-  return (
+const Portrait = () => (
     <ImageContainer>
       <Image src="/images/portrait.jpg" />
     </ImageContainer>
-  );
-};
+);
 
 export default Portrait;

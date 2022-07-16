@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import SplitContent from "../../layout/SplitContent";
 
-const MainContainer = styled(({ textColour, ...rest }) => <div {...rest} />)`
+const MainContainer = styled(({ textcolor, ...rest }) => <div {...rest} />)`
   width: 100%;
   height: 100%;
-  color: ${({ textColour }) => textColour};
+  color: ${({ textcolor }) => textcolor};
 `;
 
 const PlaceholderContainer = styled.div`
@@ -19,7 +19,7 @@ const PlaceholderContainer = styled.div`
 `;
 
 const Contact = ({ section }) => (
-  <MainContainer textColour={section.colours.text}>
+  <MainContainer textcolor={section.colors.text}>
     <SplitContent
       leftContent={<PlaceholderContainer>Contact Left</PlaceholderContainer>}
       rightContent={<PlaceholderContainer>Contact Right</PlaceholderContainer>}
@@ -32,7 +32,7 @@ Contact.propTypes = {
     title: PropTypes.string,
     path: PropTypes.string,
     content: PropTypes.elementType,
-    colours: PropTypes.shape({
+    colors: PropTypes.shape({
       text: PropTypes.string,
       background: PropTypes.string,
     }),

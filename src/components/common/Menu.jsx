@@ -2,20 +2,20 @@
 
 import React, { useState } from "react";
 import styled from "styled-components";
-import { breakpoints, mobile, desktop } from "../../config/constants.json";
+import constants from "../../config/constants.json";
 
 const ToggleContainer = styled(({ size, ...rest }) => <div {...rest} />)`
   position: relative;
   cursor: pointer;
   background-color: cyan;
   
-  // transform: scale(${mobile.menuToggleSize / 100});
-  width: ${mobile.logoSize}px;
-  height: ${mobile.logoSize}px;
-  @media (min-width: ${breakpoints.columnView}px) {
-    // transform: scale(${desktop.menuToggleSize / 100});
-    width: ${desktop.logoSize}px;
-    height: ${desktop.logoSize}px;
+  // transform: scale(${constants.mobile.menuToggleSize / 100});
+  width: ${constants.mobile.logoSize}px;
+  height: ${constants.mobile.logoSize}px;
+  @media (min-width: ${constants.breakpoints.columnView}px) {
+    // transform: scale(${constants.desktop.menuToggleSize / 100});
+    width: ${constants.desktop.logoSize}px;
+    height: ${constants.desktop.logoSize}px;
   }
 `;
 
@@ -76,17 +76,18 @@ const ToggleContainer = styled(({ size, ...rest }) => <div {...rest} />)`
 
 export default () => {
   const [open, setOpen] = useState(false);
-  return (
-    <ToggleContainer onClick={() => setOpen(!open)}>
-      {/* <Hamburger>
-        <HamburgerLine open={open} />
-        <HamburgerLine open={open} />
-        <HamburgerLine open={open} />
-      </Hamburger>
-      <Cross>
-        <CrossLine open={open} />
-        <CrossLine open={open} />
-      </Cross> */}
-    </ToggleContainer>
-  );
+  return null;
+  // return (
+  //   <ToggleContainer onClick={() => setOpen(!open)}>
+  //     {/* <Hamburger>
+  //       <HamburgerLine open={open} />
+  //       <HamburgerLine open={open} />
+  //       <HamburgerLine open={open} />
+  //     </Hamburger>
+  //     <Cross>
+  //       <CrossLine open={open} />
+  //       <CrossLine open={open} />
+  //     </Cross> */}
+  //   </ToggleContainer>
+  // );
 };

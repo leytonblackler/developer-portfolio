@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import theme from "../../config/theme.json";
 
 const Circle = styled(motion.div)`
   border-radius: 1000px;
@@ -9,11 +10,10 @@ const Circle = styled(motion.div)`
   left: 0;
   position: absolute;
   z-index: 200;
-  border-color: #ffffff;
-  border-style: solid;
   transform: translate(-50%, -50%) translate3d(var(--x), var(--y), 0);
-  mix-blend-mode: difference;
   pointer-events: none;
+  border: none;
+  background-color: ${theme.color.secondary};
 `;
 
 const Cursor = ({ sectionIndex }) => {
@@ -50,32 +50,21 @@ const Cursor = ({ sectionIndex }) => {
   }, []);
 
   const currentStyle = {
-    width: mouseDown ? 400 : 20,
-    height: mouseDown ? 400 : 20,
-    backgroundColor: mouseDown
-      ? "rgba(255, 255, 255, 1)"
-      : "rgba(255, 255, 255, 0)",
-    borderWidth: mouseDown ? 0 : 5,
+    width: 15,
+    height: 15,
+    opacity: 1,
   };
 
-  if (sectionIndex > 0) {
-    currentStyle.borderWidth = 0;
-    currentStyle.width = 15;
-    currentStyle.height = 15;
-    currentStyle.backgroundColor = "rgba(255, 255, 255, 1)";
-  }
-
   if (!mouseInWindow) {
-    currentStyle.borderWidth = 0;
     currentStyle.width = 0;
     currentStyle.height = 0;
+    currentStyle.opacity = 1;
   }
 
   if (mouseOverClickable) {
-    currentStyle.borderWidth = 0;
-    currentStyle.width = 15;
-    currentStyle.height = 15;
-    currentStyle.backgroundColor = "rgba(255, 255, 255, 1)";
+    currentStyle.width = 20;
+    currentStyle.height = 20;
+    currentStyle.opacity = 1;
   }
 
   let sizeDuration = 0.5;
@@ -104,8 +93,7 @@ const Cursor = ({ sectionIndex }) => {
       initial={{
         width: 0,
         height: 0,
-        backgroundColor: "rgba(255, 255, 255, 0)",
-        borderWidth: 0,
+        opacity: 0,
       }}
       animate={currentStyle}
     />

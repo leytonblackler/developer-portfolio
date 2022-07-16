@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useMediaQuery } from "react-responsive";
-import { breakpoints, desktop } from "../../config/constants.json";
+import constants from "../../config/constants.json";
 
 const ContentContainer = styled.div`
   width: 100%;
@@ -19,11 +19,11 @@ const LeftContent = styled.div`
 
   width: 100%;
   max-width: 100%;
-  @media (min-width: ${breakpoints.columnView}px) {
-    max-width: ${desktop.leftContentWidth}px;
+  @media (min-width: ${constants.breakpoints.columnView}px) {
+    max-width: ${constants.desktop.leftContentWidth}px;
   }
-  @media (min-width: ${breakpoints.wideView}px) {
-    max-width: ${desktop.leftContentWidth}px;
+  @media (min-width: ${constants.breakpoints.wideView}px) {
+    max-width: ${constants.desktop.leftContentWidth}px;
   }
 `;
 
@@ -43,7 +43,7 @@ const RightContent = styled.div`
 
 const SplitContent = ({ leftContent, rightContent }) => {
   const wideView = useMediaQuery({
-    query: `(min-width: ${breakpoints.wideView}px)`,
+    query: `(min-width: ${constants.breakpoints.wideView}px)`,
   });
   return (
     <ContentContainer>

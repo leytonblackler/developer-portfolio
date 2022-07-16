@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Swipeable } from "react-swipeable";
-import { useLocation, useHistory } from "react-router-dom";
-import { general } from "../../config/constants.json";
+import { Swipeable, useSwipeable } from "react-swipeable";
+import { useLocation, useNavigate } from "react-router-dom";
+import constants from "../../config/constants.json";
 
 const evaluateNextScrollIndex = (deltaY, currentIndex, maxIndex) => {
   if (deltaY < 0) {
@@ -32,7 +32,7 @@ const ScrollProvider = ({ provideTo, sections }) => {
   const [scrollIndex, setScrollIndex] = useState(0);
 
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   // When the path changes, update the scroll index if needed (first load or manually navigated).
   // useEffect(() => {
@@ -60,7 +60,7 @@ const ScrollProvider = ({ provideTo, sections }) => {
   //   ).path;
   //   if (location.pathname !== newPath) {
   //     updatingPath = true;
-  //     history.replace(newPath);
+  //     navigate(newPath, { replace: true });
   //   }
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [scrollIndex]);
@@ -81,7 +81,7 @@ const ScrollProvider = ({ provideTo, sections }) => {
           transitionActive = true;
           setTimeout(() => {
             transitionActive = false;
-          }, general.sectionTransitionDuration);
+          }, constants.general.sectionTransitionDuration);
         }
 
         return nextScrollIndex;
@@ -91,6 +91,11 @@ const ScrollProvider = ({ provideTo, sections }) => {
 
   const onSwipedUp = () => handleScroll({ deltaY: 1 });
   const onSwipedDown = () => handleScroll({ deltaY: -1 });
+
+  const swipeHandlers = useSwipeable({
+    onSwipedUp,
+    onSwipedDown
+  });
 
   useEffect(() => {
     const scrollListener = window.addEventListener("wheel", handleScroll, {
@@ -106,9 +111,9 @@ const ScrollProvider = ({ provideTo, sections }) => {
   const Child = provideTo;
 
   return (
-    <Swipeable onSwipedUp={onSwipedUp} onSwipedDown={onSwipedDown}>
+    <div {...swipeHandlers}>
       <Child scrollIndex={scrollIndex} sections={sections} />
-    </Swipeable>
+    </div>
   );
 };
 
@@ -119,7 +124,7 @@ ScrollProvider.propTypes = {
       title: PropTypes.string,
       path: PropTypes.string,
       content: PropTypes.elementType,
-      colours: PropTypes.shape({
+      colors: PropTypes.shape({
         text: PropTypes.string,
         background: PropTypes.string,
       }),
