@@ -94,7 +94,7 @@ const ScrollProvider = ({ provideTo, sections }) => {
 
   const swipeHandlers = useSwipeable({
     onSwipedUp,
-    onSwipedDown
+    onSwipedDown,
   });
 
   useEffect(() => {

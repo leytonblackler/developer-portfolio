@@ -21,16 +21,17 @@ const Image = styled.div`
     margin-bottom: ${constants.desktop.logoSize * 1}px;
     max-width: 500px;
   }
-  background-image: url("/images/portrait.jpg");
+  background-image: url("/images/profile.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 50% 50%;
+  border-radius: 8px;
 `;
 
 const Portrait = () => (
-    <ImageContainer>
-      <Image src="/images/portrait.jpg" />
-    </ImageContainer>
+  <ImageContainer>
+    <Image />
+  </ImageContainer>
 );
 
 export default Portrait;

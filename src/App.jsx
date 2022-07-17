@@ -8,6 +8,7 @@ import Introduction from "./components/sections/introduction/Introduction";
 import About from "./components/sections/about/About";
 import Projects from "./components/sections/projects/Projects";
 import Contact from "./components/sections/contact/Contact";
+import FloatingScrollDown from "./components/context/FloatingScrollDown";
 
 const SECTIONS = [
   {
@@ -56,7 +57,9 @@ const App = () => (
   <React.StrictMode>
     <Router>
       <ThemeProvider theme={theme}>
-        <ScrollProvider sections={SECTIONS} provideTo={Layout} />
+        <FloatingScrollDown.Provider>
+          <ScrollProvider sections={SECTIONS} provideTo={Layout} />
+        </FloatingScrollDown.Provider>
       </ThemeProvider>
     </Router>
   </React.StrictMode>

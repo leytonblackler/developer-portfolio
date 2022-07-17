@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useMediaQuery } from "react-responsive";
@@ -8,6 +8,7 @@ import LeftBar from "./LeftBar";
 import SectionsContainer from "./SectionsContainer";
 import Cursor from "./Cursor";
 import constants from "../../config/constants.json";
+import FloatingScrollDown from "../context/FloatingScrollDown";
 
 const LayoutContainer = styled(motion.div)`
   width: 100vw;
@@ -45,6 +46,8 @@ const Layout = ({ sections, scrollIndex }) => {
     query: `(min-width: ${constants.breakpoints.columnView}px)`,
   });
 
+  const floatingScrollDown = useContext(FloatingScrollDown.Context);
+
   // Evaluate the section index based on the current scroll index and the index ranges of the sections.
   const [sectionIndex, setSectionIndex] = useState(0);
   useEffect(() => {
@@ -78,10 +81,11 @@ const Layout = ({ sections, scrollIndex }) => {
           sectionIndex={sectionIndex}
           scrollIndex={scrollIndex}
         />
+        {floatingScrollDown.element}
       </Body>
       <Cursor sectionIndex={sectionIndex} />
     </LayoutContainer>
-  )
+  );
 };
 
 Layout.defaultProps = {

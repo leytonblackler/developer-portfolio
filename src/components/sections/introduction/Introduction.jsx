@@ -1,4 +1,10 @@
-import React, { useRef, useEffect, useState, useCallback } from "react";
+import React, {
+  useRef,
+  useEffect,
+  useState,
+  useCallback,
+  useContext,
+} from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { motion } from "framer-motion";
@@ -6,7 +12,7 @@ import Typed from "react-typed";
 import { useWindowWidth } from "@react-hook/window-size";
 import SplitContent from "../../layout/SplitContent";
 import constants from "../../../config/constants.json";
-import ScrollDownIndicator from "../../layout/ScrollDownIndicator";
+import FloatingScrollDown from "../../context/FloatingScrollDown";
 
 const SUBTEXT =
   "I strive to build high-quality solutions to real-world problems through modern human-centric design.";
@@ -65,94 +71,38 @@ const Subtext = styled.div`
   }
 `;
 
-const Banner = styled(motion.div)`
-  height: 100%;
-  clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 0% 100%);
-  position: fixed;
-  top: 0;
-  left: 0;
-  margin-left: ${constants.desktop.minimumLayoutPadding * 2}px;
-  background-color: rgba(0, 0, 0, 0.2);
-`;
-
 const Introduction = ({ section, sectionActive }) => {
-  const bannerRef = useRef();
-  const windowWidth = useWindowWidth();
-  const [bannerWidth, setBannerWidth] = useState(0);
   const [typingComplete, setTypingComplete] = useState(false);
 
-  useEffect(() => {
-    if (bannerRef.current) {
-      setBannerWidth(
-        windowWidth - bannerRef.current.getBoundingClientRect().left
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bannerRef, windowWidth]);
+  const floatingScrollDown = useContext(FloatingScrollDown.Context);
 
-  const [scrollIndicatorVisible, setScrollIndicatorVisible] = useState(false);
   useEffect(() => {
     if (sectionActive) {
       if (typingComplete) {
-        setScrollIndicatorVisible(true);
+        floatingScrollDown.setVisible(true);
       }
     } else {
-      setScrollIndicatorVisible(false);
+      floatingScrollDown.setVisible(false);
     }
-  }, [sectionActive, typingComplete]);
+  }, [floatingScrollDown, sectionActive, typingComplete]);
 
   const onTypingComplete = useCallback(() => {
     setTypingComplete(true);
   }, [setTypingComplete]);
 
   return (
-    <>
-      <SplitContent
-        leftContent={
-          <MainContainer textcolor={section.colors.text}>
-            <TypedText
-              // stopped={pageLoaded}
-              strings={[
-                '<span style="opacity: 0.75">Hi, I\'m Leyton.<br>I\'m a </span>Software Developer<span style="opacity: 0.75">.</span></span>',
-              ]}
-              typeSpeed={40}
-              backDelay={1500}
-              onComplete={onTypingComplete}
-            />
-            <Subtext>{SUBTEXT}</Subtext>
-          </MainContainer>
-        }
-        rightContent={<div id="banner" />}
+    <MainContainer textcolor={section.colors.text}>
+      <TypedText
+        // stopped={pageLoaded}
+        strings={[
+          '<span style="opacity: 0.75">Hi, I\'m Leyton.<br>I\'m a </span>Software Developer<span style="opacity: 0.75">.</span></span>',
+        ]}
+        typeSpeed={40}
+        backDelay={1500}
+        onComplete={onTypingComplete}
       />
-      <Banner
-        style={{
-          width: bannerWidth,
-        }}
-        transition={{
-          type: "tween",
-          ease: "easeOut",
-          duration: constants.general.sectionTransitionDuration * 1,
-        }}
-        initial={{
-          x: 0,
-          opacity: 1,
-        }}
-        animate={
-          sectionActive
-            ? {
-                x: bannerRef.current
-                  ? bannerRef.current.getBoundingClientRect().left
-                  : 0,
-                opacity: 1,
-              }
-            : {
-                x: bannerWidth + 2 * constants.desktop.minimumLayoutPadding,
-                opacity: 0,
-              }
-        }
-      />
-      <ScrollDownIndicator show={scrollIndicatorVisible} />
-    </>
+      <Subtext>{SUBTEXT}</Subtext>
+    </MainContainer>
   );
 };
 

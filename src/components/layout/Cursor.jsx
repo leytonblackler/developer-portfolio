@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import Confetti from "react-confetti";
+import { useWindowSize } from "@react-hook/window-size";
 import theme from "../../config/theme.json";
+import useMousePosition from "../../utils/use-mouse-position";
 
 const Circle = styled(motion.div)`
   border-radius: 1000px;
@@ -20,6 +23,8 @@ const Cursor = ({ sectionIndex }) => {
   const [mouseDown, setMouseDown] = useState(false);
   const [mouseInWindow, setMouseInWindow] = useState(false);
   const [mouseOverClickable, setMouseOverClickable] = useState(false);
+  const [windowWidth, windowHeight] = useWindowSize();
+  const mousePosition = useMousePosition();
 
   useEffect(() => {
     // Add mouse down and mouse up listeners to set whether the cursor is being pressed.
@@ -75,28 +80,55 @@ const Cursor = ({ sectionIndex }) => {
   }
 
   return (
-    <Circle
-      transition={{
-        backgroundColor: {
-          type: "tween",
-          duration: 0.15,
-        },
-        width: {
-          type: "tween",
-          duration: sizeDuration,
-        },
-        height: {
-          type: "tween",
-          duration: sizeDuration,
-        },
-      }}
-      initial={{
-        width: 0,
-        height: 0,
-        opacity: 0,
-      }}
-      animate={currentStyle}
-    />
+    <>
+      <Circle
+        transition={{
+          backgroundColor: {
+            type: "tween",
+            duration: 0.15,
+          },
+          width: {
+            type: "tween",
+            duration: sizeDuration,
+          },
+          height: {
+            type: "tween",
+            duration: sizeDuration,
+          },
+        }}
+        initial={{
+          width: 0,
+          height: 0,
+          opacity: 0,
+        }}
+        animate={currentStyle}
+      />
+      {/* <Confetti
+        // Disable when not in window
+        width={windowWidth}
+        height={windowHeight}
+        confettiSource={{
+          x: mousePosition.x,
+          y: mousePosition.y,
+        }}
+        initialVelocityX={0}
+        initialVelocityY={0}
+        colors={[theme.color.secondary]}
+        drawShape={(ctx) => {
+          ctx.beginPath();
+          ctx.font = "30px Metropolis";
+          ctx.fillText("</>", 1, 1);
+          // for (let i = 0; i < 22; i += 1) {
+          //   const angle = 0.35 * i;
+          //   const x = (0.2 + 1.5 * angle) * Math.cos(angle);
+          //   const y = (0.2 + 1.5 * angle) * Math.sin(angle);
+          //   ctx.lineTo(x, y);
+          // }
+          // ctx.stroke();
+          ctx.closePath();
+        }}
+      /> */}
+    </>
   );
 };
 

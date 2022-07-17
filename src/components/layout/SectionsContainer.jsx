@@ -1,11 +1,10 @@
-import React, { memo } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import constants from "../../config/constants.json";
 import SlidingArea from "./SlidingArea";
 import FadingContainer from "./FadingContainer";
-import ScrollDownIndicator from "./ScrollDownIndicator";
 
 const MainContainer = styled(motion.div)`
   width: 100%;
@@ -30,8 +29,6 @@ const calculateSubSectionIndex = (scrollIndex, sectionIndexRange) => {
   // Otherwise, if within the section index range, calculate the subsection based on the scroll index.
   return scrollIndex - sectionIndexRange[0];
 };
-
-// let scrollIndicatorTimeout;
 
 const SectionsContainer = ({ sections, sectionIndex, scrollIndex }) => (
   <MainContainer>
@@ -73,4 +70,4 @@ SectionsContainer.propTypes = {
   scrollIndex: PropTypes.number.isRequired,
 };
 
-export default memo(SectionsContainer);
+export default SectionsContainer;
