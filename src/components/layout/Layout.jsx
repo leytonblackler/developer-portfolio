@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useMediaQuery } from "react-responsive";
 import { motion } from "framer-motion";
+import { useLocation, useNavigate } from "react-router-dom";
 import Header from "./Header";
 import LeftBar from "./LeftBar";
 import SectionsContainer from "./SectionsContainer";
@@ -37,10 +38,28 @@ const Body = styled.div`
   max-width: ${constants.desktop.maximumContentWidth}px;
 `;
 
+// Determines whether an index is within a given range
+const indexWithinRange = (index, range) =>
+  index >= range[0] && index <= range[1];
+
 const Layout = ({ sections, scrollIndex }) => {
   // useEffect(() => {
   //   console.log("pageLoad", pageLoad);
   // }, []);
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Set the new path if the section has changed
+    const newPath = sections.find((section) =>
+      indexWithinRange(scrollIndex, section.indexRange)
+    ).path;
+    if (location.pathname !== newPath) {
+      navigate(newPath, { replace: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scrollIndex]);
 
   const wideView = useMediaQuery({
     query: `(min-width: ${constants.breakpoints.columnView}px)`,

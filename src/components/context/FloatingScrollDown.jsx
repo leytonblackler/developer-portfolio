@@ -46,10 +46,10 @@ const FloatingScrollDown = ({ visible }) => {
             y: 0,
           }}
           animate={{
-            opacity: 1,
+            opacity: 0.75,
             y: 0,
             transition: {
-              duration: 2,
+              duration: 1,
               delay: 0.5,
             },
           }}

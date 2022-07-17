@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import theme from "./config/theme.json";
-import ScrollProvider from "./components/util/ScrollProvider";
+import ScrollHandler from "./components/util/ScrollHandler";
 import Layout from "./components/layout/Layout";
 import Introduction from "./components/sections/introduction/Introduction";
 import About from "./components/sections/about/About";
@@ -14,7 +14,7 @@ const SECTIONS = [
   {
     title: null,
     path: "/",
-    content: Introduction,
+    component: Introduction,
     colors: {
       text: theme.color.secondary,
       background: theme.color.primary,
@@ -24,7 +24,7 @@ const SECTIONS = [
   {
     title: "ABOUT",
     path: "/about",
-    content: About,
+    component: About,
     colors: {
       text: theme.color.secondary,
       background: "#FFFFFF",
@@ -34,7 +34,7 @@ const SECTIONS = [
   {
     title: "PROJECTS",
     path: "/projects",
-    content: Projects,
+    component: Projects,
     colors: {
       text: theme.color.secondary,
       background: "#FFFFFF",
@@ -44,7 +44,7 @@ const SECTIONS = [
   {
     title: "CONTACT",
     path: "/contact",
-    content: Contact,
+    component: Contact,
     colors: {
       text: theme.color.secondary,
       background: "#FFFFFF",
@@ -53,12 +53,25 @@ const SECTIONS = [
   },
 ];
 
+const maxIndex = SECTIONS[SECTIONS.length - 1].indexRange[1];
+
+const initialPath = window.location.pathname;
+
+const initialSection =
+  SECTIONS.find(({ path }) => path === initialPath) ?? SECTIONS[0];
+
+const initialIndex = initialSection.indexRange[0];
+
 const App = () => (
   <React.StrictMode>
     <Router>
       <ThemeProvider theme={theme}>
         <FloatingScrollDown.Provider>
-          <ScrollProvider sections={SECTIONS} provideTo={Layout} />
+          <ScrollHandler initialIndex={initialIndex} maxIndex={maxIndex}>
+            {(scrollIndex) => (
+              <Layout sections={SECTIONS} scrollIndex={scrollIndex} />
+            )}
+          </ScrollHandler>
         </FloatingScrollDown.Provider>
       </ThemeProvider>
     </Router>
