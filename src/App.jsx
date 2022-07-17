@@ -39,7 +39,7 @@ const SECTIONS = [
       text: theme.color.secondary,
       background: "#FFFFFF",
     },
-    indexRange: [3, 4],
+    indexRange: [3, 7],
   },
   {
     title: "CONTACT",
@@ -49,7 +49,7 @@ const SECTIONS = [
       text: theme.color.secondary,
       background: "#FFFFFF",
     },
-    indexRange: [5, 5],
+    indexRange: [8, 8],
   },
 ];
 

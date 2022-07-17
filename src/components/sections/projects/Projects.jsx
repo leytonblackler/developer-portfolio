@@ -5,6 +5,8 @@ import SplitContent from "../../layout/SplitContent";
 import SlidingArea from "../../layout/SlidingArea";
 import FadingContainer from "../../layout/FadingContainer";
 
+import projects from "./data.json";
+
 const MainContainer = styled(({ textcolor, ...rest }) => <div {...rest} />)`
   width: 100%;
   height: 100%;
@@ -17,7 +19,6 @@ const PlaceholderContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background-color: mediumspringgreen; */
 `;
 
 const Projects = ({ section, subSectionIndex }) => (
@@ -26,12 +27,11 @@ const Projects = ({ section, subSectionIndex }) => (
       leftContent={<PlaceholderContainer>Projects Left</PlaceholderContainer>}
       rightContent={
         <SlidingArea index={subSectionIndex}>
-          <FadingContainer visible={subSectionIndex === 0}>
-            <PlaceholderContainer>Projects Right 0</PlaceholderContainer>
-          </FadingContainer>
-          <FadingContainer visible={subSectionIndex === 1}>
-            <PlaceholderContainer>Projects Right 1</PlaceholderContainer>
-          </FadingContainer>
+          {projects.map(({ title }, index) => (
+            <FadingContainer visible={subSectionIndex === index}>
+              <PlaceholderContainer>{title}</PlaceholderContainer>
+            </FadingContainer>
+          ))}
         </SlidingArea>
       }
     />
