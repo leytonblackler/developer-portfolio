@@ -1,7 +1,7 @@
 import { FunctionComponent, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import clsx from "clsx";
-import { PageNavLinkConfig } from "@/constants/pages";
+import { PageNavLinkConfig } from "@/config/pages";
 
 interface LinkItemProps extends PageNavLinkConfig {
   active: boolean;
@@ -26,17 +26,21 @@ const LinkItem: FunctionComponent<LinkItemProps> = ({
       href={href}
       className={clsx(
         "group",
-        "block text-sky-100",
+        "block",
+        "flex flex-row",
+        "items-center justify-center",
         "py-4 sm:py-5",
         "px-6 sm:px-8",
-        "flex flex-row",
-        "items-center justify-center"
+        "transition-all duration-200",
+        active
+          ? "text-gray-500 dark:text-gray-950"
+          : "text-gray-500 dark:text-gray-50"
       )}
     >
       <Icon
         className={clsx(
-          "w-4 sm:w-5",
-          "h-4 sm:h-5",
+          "w-5",
+          "h-5",
           "transition-opacity",
           "duration-300",
           active ? "opacity-100" : "opacity-70 group-hover:opacity-100"
@@ -44,6 +48,7 @@ const LinkItem: FunctionComponent<LinkItemProps> = ({
       />
       <span
         className={clsx(
+          "font-medium",
           "overflow-hidden",
           "transition-all",
           "duration-500",
@@ -56,8 +61,8 @@ const LinkItem: FunctionComponent<LinkItemProps> = ({
           className={clsx(
             "whitespace-nowrap",
             "leading-none",
-            "pl-2 sm:pl-4",
-            "text-xs sm:text-base"
+            "pl-1 sm:pl-3",
+            "text-sm"
           )}
         >
           {label}

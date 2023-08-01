@@ -13,7 +13,7 @@ import { usePathname } from "next/navigation";
 import { isEqual } from "lodash";
 
 import { AnimatePresence, motion } from "framer-motion";
-import pagesConfig from "@/constants/pages";
+import pagesConfig from "@/config/pages";
 import LinkItem from "./LinkItem";
 
 const NavigationBar = () => {
@@ -70,17 +70,20 @@ const NavigationBar = () => {
     <div
       className={clsx(
         "fixed",
-        "top-6 left-0 right-0",
-        "flex",
-        "justify-center items-center"
+        "top-4 sm:top-6 left-0 right-0",
+        "flex flex-row",
+        "justify-center items-center",
+        "px-4 md:px-6",
+        "transition-opacity duration-300",
+        selectorInitialised ? "opacity-100" : "opacity-0"
       )}
     >
       <nav
         className={clsx(
-          "bg-sky-200/10 backdrop-blur-sm",
+          "bg-gray-400/10 dark:bg-gray-200/10",
+          "backdrop-blur-sm",
           "rounded-full",
           "relative",
-          "mx-6 box-border",
           "w-full sm:w-auto"
         )}
       >
@@ -88,7 +91,12 @@ const NavigationBar = () => {
         <AnimatePresence>
           {selectorInitialised && (
             <motion.div
-              className={clsx("pointer-events-none", "absolute", "h-full")}
+              className={clsx(
+                "pointer-events-none",
+                "absolute -z-10",
+                "h-full",
+                "p-2 box-border"
+              )}
               transition={{
                 ease: "easeOut",
                 width: {
@@ -105,7 +113,7 @@ const NavigationBar = () => {
               }}
             >
               <motion.div
-                className="bg-sky-200/10 rounded-full h-full w-full"
+                className="rounded-full h-full w-full bg-gray-800 dark:bg-gray-200"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
               />

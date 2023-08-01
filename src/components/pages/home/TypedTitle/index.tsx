@@ -1,26 +1,30 @@
 "use client";
 
-import { FunctionComponent } from "react";
+import clsx from "clsx";
+import { FunctionComponent, useEffect, useState } from "react";
 import { TypeAnimation } from "react-type-animation";
 
-const TypedTitle: FunctionComponent = () => (
-  <TypeAnimation
-    sequence={[
-      // Same substring at the start will only be typed out once, initially
-      "We produce food for Mice",
-      1000, // wait 1s before replacing "Mice" with "Hamsters"
-      "We produce food for Hamsters",
-      1000,
-      "We produce food for Guinea Pigs",
-      1000,
-      "We produce food for Chinchillas",
-      1000,
-    ]}
-    wrapper="span"
-    speed={50}
-    className="text-6xl text-bold text-sky-300"
-    repeat={Infinity}
-  />
-);
+const TypedTitle: FunctionComponent = () => {
+  const [showText, setShowText] = useState<boolean>(false);
+
+  useEffect(() => {
+    setTimeout(() => setShowText(true), 1000);
+  }, []);
+
+  return !showText ? null : (
+    <TypeAnimation
+      cursor={false}
+      sequence={!showText ? [] : ["Hi, I'm Leyton.\nI build things."]}
+      wrapper="span"
+      speed={40}
+      className={clsx(
+        "text-gray-700 dark:text-gray-50",
+        "whitespace-pre-line",
+        "text-5xl sm:text-6xl md:text-8xl font-bold",
+        "!leading-tight"
+      )}
+    />
+  );
+};
 
 export default TypedTitle;
