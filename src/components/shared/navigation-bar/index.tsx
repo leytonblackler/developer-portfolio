@@ -28,7 +28,7 @@ export const NavigationBar: FunctionComponent = () => {
 
   const pathname = usePathname();
 
-  const { pageConfig, pageIndex } = useMemo<
+  const { pageIndex } = useMemo<
     | {
         pageId: PageId;
         pageConfig: PageConfig;
@@ -181,17 +181,10 @@ export const NavigationBar: FunctionComponent = () => {
                   className={cn(
                     "h-full w-full rounded-full",
                     "transition-colors duration-300",
-                    !pageConfig?.colors && "bg-gray-900 dark:bg-gray-300"
+                    "bg-gray-900 dark:bg-gray-100"
                   )}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  style={
-                    pageConfig?.colors
-                      ? {
-                          backgroundColor: pageConfig.colors.background,
-                        }
-                      : undefined
-                  }
                 />
               </motion.div>
             ) : null}
@@ -203,11 +196,7 @@ export const NavigationBar: FunctionComponent = () => {
           >
             {Object.values(pagesConfig).map(({ navLink }, index) => (
               <li key={navLink.href} ref={linkItemRefs[index]}>
-                <LinkItem
-                  {...navLink}
-                  active={pageIndex === index}
-                  pageConfig={pageConfig}
-                />
+                <LinkItem {...navLink} active={pageIndex === index} />
               </li>
             ))}
           </ul>

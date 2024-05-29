@@ -1,11 +1,10 @@
 import { type FunctionComponent, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { type PageConfig, type PageConfigNavLink } from "@/config/pages";
+import { type PageConfigNavLink } from "@/config/pages";
 import { cn } from "@/utils/styling/cn";
 
 interface LinkItemProps extends PageConfigNavLink {
   active: boolean;
-  pageConfig: PageConfig | null;
 }
 
 export const LinkItem: FunctionComponent<LinkItemProps> = ({
@@ -13,7 +12,6 @@ export const LinkItem: FunctionComponent<LinkItemProps> = ({
   icon: Icon,
   href,
   active,
-  pageConfig,
 }) => {
   const labelRef = useRef<HTMLSpanElement>(null);
 
@@ -33,16 +31,9 @@ export const LinkItem: FunctionComponent<LinkItemProps> = ({
         "py-4 sm:py-5",
         "px-6 sm:px-8",
         active
-          ? cn(!pageConfig?.colors && "text-gray-200 dark:text-gray-900")
+          ? cn("text-gray-200 dark:text-gray-900")
           : cn("text-gray-900 dark:text-gray-300")
       )}
-      style={
-        active && pageConfig?.colors
-          ? {
-              color: pageConfig.colors.text,
-            }
-          : undefined
-      }
     >
       <Icon className={cn("w-5", "h-5", "transition-colors duration-300")} />
       <span
