@@ -7,12 +7,39 @@
   "editor.defaultFormatter": "dbaeumer.vscode-eslint",
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "explicit"
   },
   "javascript.format.insertSpaceAfterOpeningAndBeforeClosingEmptyBraces": false,
   "typescript.format.insertSpaceAfterOpeningAndBeforeClosingEmptyBraces": false,
   "[typescript]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint",
-    "editor.formatOnSave": true,
+    "editor.formatOnSave": true
   },
+  "eslint.experimental.useFlatConfig": false,
+  "cSpell.words": [
+    "akismet",
+    "argb",
+    "callees",
+    "classname",
+    "codegen",
+    "dataname",
+    "drei",
+    "emojify",
+    "GLTF",
+    "graphassets",
+    "inlinesvg",
+    "inmemory",
+    "ipify",
+    "leytonblackler",
+    "mapbox",
+    "mzstatic",
+    "onedoc",
+    "recaptcha",
+    "recenttracks",
+    "remoteip",
+    "scdn",
+    "Scroller",
+    "spotifycdn",
+    "statsfm"
+  ],
 }

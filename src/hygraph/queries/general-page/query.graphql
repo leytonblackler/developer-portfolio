@@ -1,0 +1,195 @@
+
+fragment BeliefData on Belief {
+  id
+  title
+  description
+}
+
+fragment BeliefsSectionData on BeliefsSection {
+  id
+  beliefs {
+    ...BeliefData
+  }
+}
+
+fragment LocationData on LocationItem {
+  id
+  city
+  country
+  coordinates {
+    latitude
+    longitude
+  }
+}
+
+fragment PersonalOverviewSectionData on PersonalOverviewSection {
+  id
+  profilePhoto { 
+    id
+    url(transformation: {
+      image: {
+        resize: {
+          width: 512,
+          height: 512,
+        }
+      }
+    })
+  }
+  name
+  pronouns
+  description {
+    markdown
+  }
+  location {
+    ...LocationData
+  }
+}
+
+fragment CardListSectionCompanyItemData on Company {
+  id
+  slug
+  name
+  logo {
+    primary {
+      id
+      url(transformation: {
+        image: {
+          resize: {
+            width: 512,
+            height: 512,
+            fit: max
+          }
+        }
+      })
+    }
+  }
+  colors {
+    primary {
+      hex
+    }
+    text {
+      hex
+    }
+    background {
+      hex
+    }
+  }
+  timeFrame {
+    startDate
+    endDate
+  }
+}
+
+fragment CardListSectionEducationalInstitutionItemData on EducationalInstitution {
+  id
+  slug
+  name
+  logo {
+    primary {
+      id
+      url(transformation: {
+        image: {
+          resize: {
+            width: 512,
+            height: 512,
+            fit: max
+          }
+        }
+      })
+    }
+  }
+  colors {
+    primary {
+      hex
+    }
+    text {
+      hex
+    }
+    background {
+      hex
+    }
+  }
+  timeFrame {
+    startDate
+    endDate
+  }
+}
+
+fragment CardListSectionProjectItemData on Project {
+  id
+  slug
+  name
+  logo {
+    primary {
+      id
+      url(transformation: {
+        image: {
+          resize: {
+            width: 512,
+            height: 512,
+            fit: max
+          }
+        }
+      })
+    }
+  }
+  colors {
+    primary {
+      hex
+    }
+    text {
+      hex
+    }
+    background {
+      hex
+    }
+  }
+  timeFrame {
+    startDate
+    endDate
+  }
+  # ---
+  personalProject
+  company {
+    id
+  }
+  courses {
+    id
+  }
+}
+
+fragment CardListSectionData on CardListSection {
+  id
+  items {
+    ... on Company {
+      ...CardListSectionCompanyItemData
+    }
+    ... on EducationalInstitution {
+      ...CardListSectionEducationalInstitutionItemData
+    }
+    ... on Project {
+      ...CardListSectionProjectItemData
+    }
+  }
+}
+
+fragment ContactFormSectionData on ContactFormSection {
+  id
+}
+
+fragment GeneralPageData on GeneralPage {
+  heading
+  subHeading
+  sections {
+    ...BeliefsSectionData
+    ...PersonalOverviewSectionData
+    ...CardListSectionData
+    ...ContactFormSectionData
+  }
+}
+
+query GeneralPage($id: ID!) {
+  generalPage(where: {id: $id}) {
+    ...GeneralPageData
+  }
+}

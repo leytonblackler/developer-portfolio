@@ -1,3 +1,84 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .scrollbar-hide {
+    /* IE and Edge */
+    -ms-overflow-style: none;
+
+    /* Firefox */
+    scrollbar-width: none;
+
+    /* Safari and Chrome */
+    &::-webkit-scrollbar {
+      display: none
+    }
+  }
+  
+  .scrollbar-default {
+    /* IE and Edge */
+    -ms-overflow-style: auto;
+
+    /* Firefox */
+    scrollbar-width: auto;
+
+    /* Safari and Chrome */
+    &::-webkit-scrollbar {
+      display: 'block';
+    }
+  }
+}
+
+* {
+  @apply
+    scrollbar-hide;
+}
+
+html {
+  /* Disable highlighting of elements on tap */
+  -webkit-tap-highlight-color: transparent;
+
+  @apply
+    max-h-[100dvh]
+    w-[100dvw]
+    max-w-[100dvw]
+    h-[100dvh]
+    relative;
+}
+
+body, main {
+  @apply
+    w-full
+    h-full
+    relative;
+}
+
+/**
+* Hide default Google reCAPTCHA badge.
+* This is permitted according to Google's FAQ:
+* https://developers.google.com/recaptcha/docs/faq#id-like-to-hide-the-recaptcha-badge.-what-is-allowed
+*/
+.grecaptcha-badge {
+  visibility: hidden;
+}
+
+.bounded-page-content-x {
+  @apply w-full max-w-7xl mx-auto px-2;
+}
+
+.bounded-card-content-x {
+  @apply px-10;
+}
+
+.card-text-primary {
+  @apply text-gray-700 dark:text-gray-200;
+}
+
+.card-text-secondary {
+  @apply text-gray-600 dark:text-gray-400;
+}
+
+.card-text-secondary-hover {
+  @apply text-gray-600 dark:text-gray-400;
+}

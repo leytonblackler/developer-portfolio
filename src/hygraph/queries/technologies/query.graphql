@@ -1,0 +1,29 @@
+query TechnologiesQuery {
+  technologies(first: 100) {
+    ...AllTechnologyFields
+  }
+}
+
+fragment AllTechnologyFields on Technology {
+  id
+  name
+  url
+  logo {
+    id
+  }
+  colors {
+    primary {
+      hex
+    }
+    text {
+      hex
+    }
+    background {
+      hex
+    }
+  }
+  categories
+  projects {
+    id
+  }
+}

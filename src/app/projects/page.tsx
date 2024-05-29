@@ -1,30 +1,43 @@
-import hygraph from "@/hygraph";
-import { gql } from "@apollo/client";
-import { GetStaticProps } from "next";
+import { type FunctionComponent } from "react";
+import { getSSRApolloClient } from "@/hygraph/client/ssr";
+import { getGeneralPage } from "@/hygraph/queries/general-page";
+import { SectionsRenderer } from "@/components/shared/sections-renderer";
+import { GeneralPageDataFragmentDoc } from "@/hygraph/generated/graphql";
+import { getFragmentData } from "@/hygraph/generated";
+import { Hero } from "@/components/shared/hero";
 
-const ProjectsPage = () => <div>projects</div>;
-export default ProjectsPage;
+const PAGE_ID = "cljdo5imm5tfl0b2w62oy93cf";
 
-export const getStaticProps: GetStaticProps = async () => {
-  try {
-    const result = await hygraph.query({
-      query: gql`
-        query Projects {
-          projects {
-            id
-            slug
-            title
-          }
-        }
-      `,
-    });
-    console.log("result", result);
-  } catch (error) {
-    console.error("Error fetching data from Hygraph", error);
-  }
-  return {
-    props: {
-      revalidate: 60 * 60, // Cache response for 1 hour (60 seconds * 60 minutes)
+const ProjectsPage: FunctionComponent = async () => {
+  /**
+   * Fetch the "projects" general page entry from Hygraph.
+   */
+  const projectsPage = await getGeneralPage({
+    client: getSSRApolloClient(),
+    variables: {
+      id: PAGE_ID,
     },
-  };
+  });
+
+  /**
+   * Get the fragment data for the projects page.
+   */
+  const projectsPageData = getFragmentData(
+    GeneralPageDataFragmentDoc,
+    projectsPage
+  );
+
+  /**
+   * Deconstruct the contact page data.
+   */
+  const { heading, subHeading, sections } = projectsPageData;
+
+  return (
+    <div className="bounded-page-content-x">
+      <Hero heading={heading} subHeading={subHeading} />
+      <SectionsRenderer sections={sections} />
+    </div>
+  );
 };
+
+export default ProjectsPage;

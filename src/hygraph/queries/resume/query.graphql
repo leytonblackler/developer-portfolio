@@ -1,0 +1,43 @@
+fragment ResumeTechnologyData on Technology {
+  id
+  name
+  url
+}
+
+fragment ResumeCompanyData on Company {
+  id
+  slug
+  name
+  timeFrame {
+    startDate
+    endDate
+  }
+}
+
+fragment ResumeProjectData on Project {
+  id
+  slug
+  name
+  timeFrame {
+    startDate
+    endDate
+  }
+}
+
+fragment ResumeData on Resume {
+  technologies(first: 100) {
+    ...ResumeTechnologyData
+  }
+  companies(first: 100) {
+    ...ResumeCompanyData
+  }
+  projects(first: 100) {
+    ...ResumeProjectData
+  }
+}
+
+query Resume($id: ID!) {
+  resume(where: {id: $id}) {
+    ...ResumeData
+  }
+}

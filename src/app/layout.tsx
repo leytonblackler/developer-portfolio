@@ -1,11 +1,10 @@
 import { Figtree } from "next/font/google";
-import { FunctionComponent, ReactNode } from "react";
-import clsx from "clsx";
-import NavigationBar from "@/components/shared/NavigationBar";
-import SmoothScrollHandler from "@/components/shared/SmoothScrollHandler";
-import SafeArea from "@/components/shared/SafeArea";
+import { type FunctionComponent, type ReactNode } from "react";
+import { NavigationBar } from "@/components/shared/navigation-bar";
+import { SafeArea } from "@/components/shared/safe-area";
 import "./global.css";
-import Providers from "@/components/shared/Providers";
+import { Providers } from "@/components/shared/providers";
+import { SmoothScroller } from "@/components/shared/smooth-scroller";
 
 const figtreeFont = Figtree({ subsets: ["latin"] });
 
@@ -19,21 +18,19 @@ interface RootLayoutProps {
 }
 
 const RootLayout: FunctionComponent<RootLayoutProps> = ({ children }) => (
-  <html lang="en" className="h-full">
-    <body className={clsx("h-full", figtreeFont.className)}>
+  /**
+   * TODO: Change HTML element background color to match light/dark theme to
+   * prevent showing white when scrolling past top and bottoms
+   */
+  <html lang="en" className="bg-gray-50 dark:bg-gray-950">
+    <body className={figtreeFont.className}>
       <Providers>
-        <NavigationBar />
-        <SmoothScrollHandler />
-        <main
-          className={clsx(
-            "bg-gray-50 dark:bg-gray-950",
-            "text-gray-950 dark:text-gray-50",
-            "flex flex-col",
-            "min-h-full"
-          )}
-        >
-          <SafeArea>{children}</SafeArea>
+        <main>
+          <SmoothScroller id="main-scroll-container">
+            <SafeArea>{children}</SafeArea>
+          </SmoothScroller>
         </main>
+        <NavigationBar />
       </Providers>
     </body>
   </html>

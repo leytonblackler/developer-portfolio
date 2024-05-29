@@ -1,0 +1,5 @@
+mutation UpdateTechnologyMutation($id: ID!, $data: TechnologyUpdateInput!) {
+  updateTechnology(where: { id: $id }, data: $data) {
+    id
+  }
+}

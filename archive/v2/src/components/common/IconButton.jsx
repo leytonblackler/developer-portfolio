@@ -24,7 +24,7 @@ const variants = {
   },
 };
 
-const IconButton = ({ Icon, href, onClick }) => (
+const IconButton = ({ Icon, href = null, onClick = null }) => (
   <Button
     className="clickable"
     initial={variants.button.default}
@@ -37,11 +37,6 @@ const IconButton = ({ Icon, href, onClick }) => (
     <Icon />
   </Button>
 );
-
-IconButton.defaultProps = {
-  href: null,
-  onClick: null,
-};
 
 IconButton.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types

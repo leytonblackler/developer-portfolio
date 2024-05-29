@@ -1,0 +1,17 @@
+query AllProjectSummariesQuery {
+  projects(first: 100) {
+    ...ProjectSummaryFields
+  }
+}
+
+fragment ProjectSummaryFields on Project {
+  id
+  slug
+  name
+  logo {
+    primary {
+      url
+    }
+  }
+}
+

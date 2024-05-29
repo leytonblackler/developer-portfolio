@@ -1,0 +1,10 @@
+query ProjectQuery($slug: String) {
+  project(where: {slug: $slug}) {
+    ...AllProjectFields
+  }
+}
+
+fragment AllProjectFields on Project {
+  id
+  name
+}

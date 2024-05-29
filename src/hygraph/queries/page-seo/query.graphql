@@ -1,0 +1,21 @@
+# query PageContentQuery($slug: String) {
+#   primaryPage(where: {id: "clkui88ov1ks90b2muws8z6d4"}) {
+#     ...PageContentField
+#   }
+# }
+
+# fragment PageSEO on PrimaryPage {
+#   pageContent {
+#     ... on BeliefsSection {
+#       beliefs {
+#         ...BeliefFields
+#       }
+#     }
+#   }
+# }
+
+# fragment BeliefFields on Belief {
+#   id
+#   title
+#   description
+# }

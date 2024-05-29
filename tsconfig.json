@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "module": "esnext",
+    "target": "esnext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -8,7 +9,6 @@
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -23,6 +23,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "**/*.cjs", ".next/types/**/*.ts", "next.config.mts", "postcss.config.cjs", "src/hooks/color-scheme", "src/utils/colors/material-design-3-tailwind-color-generator", ".eslintrc.cjs", "src/components/shared/device-cards/index.phone.tsx.bkp"],
+  "exclude": ["node_modules", "src/hygraph/generated/**/*"]
 }

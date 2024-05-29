@@ -1,4 +1,38 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {}
+/* eslint-disable import/no-default-export -- Next.js config must be the default export */
+const nextConfig = {
+  transpilePackages: ["three"],
+  images: {
+    remotePatterns: [
+      /**
+       * Hygraph CDN
+       */
+      {
+        protocol: "https",
+        hostname: "media.graphassets.com",
+      },
+      /**
+       * Spotify CDN
+       */
+      {
+        protocol: "https",
+        hostname: "**.scdn.co",
+      },
+      /**
+       * Spotify CDN
+       */
+      {
+        protocol: "https",
+        hostname: "**.spotifycdn.com",
+      },
+      /**
+       * Apple Music CDN (album artwork)
+       */
+      {
+        protocol: "https",
+        hostname: "**.mzstatic.com",
+      },
+    ],
+  },
+};
 
-module.exports = nextConfig
+export default nextConfig;
