@@ -1,6 +1,9 @@
+"use client";
+
 import { type FunctionComponent } from "react";
 import Image from "next/image";
 import { pick } from "lodash";
+import { motion } from "framer-motion";
 import { MotionLink } from "../motion-link";
 import { type CardListItemDataFragment } from "./types";
 import { ProjectType } from "./project-type";
@@ -49,24 +52,64 @@ export const CardListItem: FunctionComponent<CardListItemDataFragment> = (
       style={{
         backgroundColor: colors?.background ?? undefined,
       }}
+      initial="idle"
+      whileHover="hover"
+      transition={{
+        type: "tween",
+        ease: "easeOut",
+      }}
+      variants={{
+        idle: {
+          scale: 1,
+        },
+        hover: {
+          scale: 0.98,
+        },
+      }}
     >
       {logo?.primary ? (
-        <div className="relative box-border h-full max-h-[90px] w-full max-w-[160px]">
+        <motion.div
+          className="relative box-border h-full max-h-[90px] w-full max-w-[160px]"
+          transition={{
+            type: "tween",
+            ease: "easeOut",
+          }}
+          variants={{
+            idle: {
+              scale: 1,
+            },
+            hover: {
+              scale: 1.1,
+            },
+          }}
+        >
           <Image
             fill
             src={logo.primary.url}
             alt={`${name} Logo`}
             className="object-contain"
           />
-        </div>
+        </motion.div>
       ) : null}
 
-      <div
+      <motion.div
         className={cn(
           "pointer-events-none",
           "absolute inset-0 px-10 py-8",
           "flex flex-col justify-between"
         )}
+        transition={{
+          type: "tween",
+          ease: "easeOut",
+        }}
+        variants={{
+          idle: {
+            scale: 1,
+          },
+          hover: {
+            scale: 0.98,
+          },
+        }}
       >
         <div className="flex flex-row justify-between">
           <CardListItemTag type="primary" colors={colors}>
@@ -88,7 +131,7 @@ export const CardListItem: FunctionComponent<CardListItemDataFragment> = (
             })}
           </CardListItemTag>
         </div>
-      </div>
+      </motion.div>
     </MotionLink>
   );
 };

@@ -1,9 +1,9 @@
 /* eslint-disable react/no-unknown-property -- Required to all three.js props */
 "use client";
 
-/*
-Adapted from generation by: https://github.com/pmndrs/gltfjsx
-*/
+/**
+ * Adapted from generation by: https://github.com/pmndrs/gltfjsx
+ */
 
 import React, { useEffect } from "react";
 import { useGLTF } from "@react-three/drei";
