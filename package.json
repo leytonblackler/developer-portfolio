@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "concurrently 'next dev' 'yarn watch:hygraph-types'",
+    "dev": "concurrently 'next dev' 'yarn dev:generate:hygraph-types'",
     "dev:sync-env": "vercel env pull",
     "build": "yarn generate:hygraph-types && yarn generate:resume && next build",
     "dev:build": "env-cmd -f .env.local yarn build",
