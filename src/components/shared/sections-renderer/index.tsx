@@ -2,17 +2,13 @@ import { type FunctionComponent } from "react";
 import { PersonalOverviewSection } from "@/components/pages/about/personal-overview";
 import { ContactFormSection } from "@/components/pages/contact/contact-form";
 import {
-  ProjectsListSectionDataFragmentDoc,
   type GeneralPageDataFragment,
   PersonalOverviewSectionDataFragmentDoc,
   ContactFormSectionDataFragmentDoc,
   BeliefsSectionDataFragmentDoc,
   CardListSectionDataFragmentDoc,
 } from "@/hygraph/generated/graphql";
-import {
-  CardListSection,
-  ProjectsListSection,
-} from "@/components/shared/card-list";
+import { CardListSection } from "@/components/shared/card-list";
 import { getFragmentData } from "@/hygraph/generated";
 import { BeliefsSection } from "@/components/pages/home/beliefs-section";
 

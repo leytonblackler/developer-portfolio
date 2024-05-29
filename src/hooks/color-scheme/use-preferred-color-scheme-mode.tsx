@@ -43,7 +43,9 @@ export const usePreferredColorSchemeMode: UsePreferredColorSchemeModeHook =
       /**
        * Handle changes to the prefers-color-scheme value.
        */
-      const onColorSchemePreferenceChange = (event: MediaQueryListEvent) => {
+      const onColorSchemePreferenceChange = (
+        event: MediaQueryListEvent
+      ): void => {
         const colorScheme = event.matches ? "dark" : "light";
         setPreferredColorSchemeMode(colorScheme);
       };
@@ -70,11 +72,11 @@ export const usePreferredColorSchemeMode: UsePreferredColorSchemeModeHook =
 /**
  * Convenience hook for determining if the preferred color scheme mode is dark.
  */
-export const usePrefersDarkMode = () =>
+export const usePrefersDarkMode = (): boolean =>
   usePreferredColorSchemeMode() === "dark";
 
 /**
  * Convenience hook for determining if the preferred color scheme mode is light.
  */
-export const usePrefersLightMode = () =>
+export const usePrefersLightMode = (): boolean =>
   usePreferredColorSchemeMode() === "light";

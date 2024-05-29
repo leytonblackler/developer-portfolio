@@ -28,7 +28,7 @@ export const NavigationBar: FunctionComponent = () => {
 
   const pathname = usePathname();
 
-  const { pageId, pageConfig, pageIndex } = useMemo<
+  const { pageConfig, pageIndex } = useMemo<
     | {
         pageId: PageId;
         pageConfig: PageConfig;

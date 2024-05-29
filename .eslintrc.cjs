@@ -17,7 +17,12 @@ module.exports = {
     tsconfigRootDir: "./",
   },
   ignorePatterns: tsConfig?.exclude ?? undefined,
-  plugins: ["prettier", "eslint-plugin-comment-length", "react-refresh"],
+  plugins: [
+    "prettier",
+    "eslint-plugin-comment-length",
+    "react-refresh",
+    "@react-three",
+  ],
   extends: [
     require.resolve("@vercel/style-guide/eslint/node"),
     require.resolve("@vercel/style-guide/eslint/typescript"),
@@ -25,6 +30,7 @@ module.exports = {
     "plugin:@tanstack/eslint-plugin-query/recommended",
     "plugin:comment-length/recommended",
     "plugin:tailwindcss/recommended",
+    "plugin:@react-three/recommended",
   ],
   settings: {
     tailwindcss: {

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "concurrently 'next dev' 'yarn watch:hygraph-types'",
     "dev:sync-env": "vercel env pull",
-    "build": "yarn generate:hygraph-types && next build",
+    "build": "yarn generate:hygraph-types && yarn generate:resume && next build",
     "dev:build": "env-cmd -f .env.local yarn build",
     "start": "next start",
     "lint": "next lint",
@@ -81,6 +81,7 @@
     "@graphql-codegen/introspection": "4.0.0",
     "@onedoc/client": "^0.1.32",
     "@parcel/watcher": "^2.2.0",
+    "@react-three/eslint-plugin": "^0.1.1",
     "@tanstack/eslint-plugin-query": "^5.28.11",
     "@types/lodash": "^4.14.195",
     "@types/mapbox-gl": "^2.7.13",
