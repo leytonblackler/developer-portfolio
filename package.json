@@ -97,6 +97,7 @@
     "@vercel/style-guide": "^6.0.0",
     "concurrently": "^8.2.0",
     "cross-fetch": "^4.0.0",
+    "encoding": "^0.1.13",
     "env-cmd": "^10.1.0",
     "eslint": "^8.57.0",
     "eslint-config-next": "^14.2.3",
