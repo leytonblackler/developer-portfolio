@@ -9,10 +9,10 @@
     "build": "yarn generate:hygraph-types && next build",
     "start": "next start",
     "lint": "next lint",
-    "generate:resume": "env-cmd -f .env.local npx tsx src/resume/generate.ts",
+    "generate:resume": "npx tsx src/resume/generate.ts",
     "dev:generate:resume": "env-cmd -f .env.local yarn generate:resume",
-    "generate:hygraph-types": "env-cmd -f .env.local graphql-codegen --config src/hygraph/codegen.ts",
-    "watch:hygraph-types": "yarn generate:hygraph-types --watch",
+    "generate:hygraph-types": "graphql-codegen --config src/hygraph/codegen.ts",
+    "dev:generate:hygraph-types": "env-cmd -f .env.local yarn generate:hygraph-types --watch",
     "deploy:staging": "git push origin main:staging --force && git push origin main:staging-preview --force",
     "deploy:production": "git push origin main:production --force && git push origin main:production-preview --force",
     "script:migrate-color-sets": "env-cmd -f .env.local npx tsx scripts/migrate-color-sets.ts"
