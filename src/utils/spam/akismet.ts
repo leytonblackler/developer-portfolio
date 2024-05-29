@@ -1,23 +1,15 @@
 import { AkismetClient } from "akismet-api";
+import { cleanEnv, str } from "envalid";
 
 /**
- * Deconstruct required environment variables for Akismet API configuration.
+ * Parse the environment variables for Akismet API configuration.
  */
-const { AKISMET_API_KEY, SITE_URL } = process.env;
+const { AKISMET_API_KEY, SITE_URL } = cleanEnv(process.env, {
+  AKISMET_API_KEY: str(),
+  SITE_URL: str(),
+});
 
-/**
- * Verify that the Akismet API key has been set as an environment variable.
- */
-if (!AKISMET_API_KEY) {
-  throw new Error("AKISMET_API_KEY environment variable has not been set");
-}
-
-/**
- * Verify that the site URL has been set as an environment variable.
- */
-if (!SITE_URL) {
-  throw new Error("SITE_URL environment variable has not been set");
-}
+console.log("SITE_URL", SITE_URL);
 
 /**
  * Initialise the Akismet API client.
