@@ -15,6 +15,7 @@ import {
   type ScrollbarOptions,
 } from "smooth-scrollbar/interfaces";
 import OverscrollPlugin from "smooth-scrollbar/plugins/overscroll";
+import { isMobile } from "react-device-detect";
 import { ScrollContext } from "./provider";
 import { cn } from "@/utils/styling/cn";
 
@@ -83,7 +84,7 @@ const SCROLLBAR_OPTIONS: Partial<ScrollbarOptions> = {
 };
 
 /**
- * A container enabling smooth scrolling of the content.
+ * A container enabling smooth scrolling of the content on non-mobile devices.
  */
 export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
   id,
@@ -125,35 +126,38 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
   );
 
   /**
-   * Initialise the smooth scrollbar when the element has been added to the DOM.
+   * Initialise the smooth scrollbar when the element has been added to the DOM
+   * and the device is not mobile.
    */
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const element = document.getElementById(id);
-      if (element) {
-        /**
-         * Initialise the smooth scrollbar.
-         */
-        const scrollbar = Scrollbar.init(element, SCROLLBAR_OPTIONS);
+    if (!isMobile) {
+      if (typeof window !== "undefined") {
+        const element = document.getElementById(id);
+        if (element) {
+          /**
+           * Initialise the smooth scrollbar.
+           */
+          const scrollbar = Scrollbar.init(element, SCROLLBAR_OPTIONS);
 
-        /**
-         * Remove the tracks from the DOM.
-         */
-        scrollbar.track.xAxis.element.remove();
-        scrollbar.track.yAxis.element.remove();
+          /**
+           * Remove the tracks from the DOM.
+           */
+          scrollbar.track.xAxis.element.remove();
+          scrollbar.track.yAxis.element.remove();
 
-        /**
-         * Add a listener for the scroll position.
-         */
-        scrollbar.addListener(onScroll);
+          /**
+           * Add a listener for the scroll position.
+           */
+          scrollbar.addListener(onScroll);
 
-        /**
-         * Remove the listener for the scroll position when the component is
-         * unmounted.
-         */
-        return () => {
-          scrollbar.removeListener(onScroll);
-        };
+          /**
+           * Remove the listener for the scroll position when the component is
+           * unmounted.
+           */
+          return () => {
+            scrollbar.removeListener(onScroll);
+          };
+        }
       }
     }
   }, [id, onScroll]);
