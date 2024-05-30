@@ -113,6 +113,11 @@ fragment CardListSectionEducationalInstitutionItemData on EducationalInstitution
     startDate
     endDate
   }
+  # ---
+  category,
+  qualifications {
+    id
+  }
 }
 
 fragment CardListSectionProjectItemData on Project {

@@ -5,7 +5,7 @@ import { type CardListSectionProjectItemDataFragment } from "@/hygraph/generated
  * An overlay description for a project card list item indicating whether the
  * project is a personal, professional, or course project.
  */
-export const ProjectType: FunctionComponent<
+export const ProjectCategory: FunctionComponent<
   Pick<
     CardListSectionProjectItemDataFragment,
     "personalProject" | "company" | "courses"

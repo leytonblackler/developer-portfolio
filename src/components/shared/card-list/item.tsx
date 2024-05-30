@@ -6,8 +6,10 @@ import { pick } from "lodash";
 import { motion } from "framer-motion";
 import { MotionLink } from "../motion-link";
 import { type CardListItemDataFragment } from "./types";
-import { ProjectType } from "./project-type";
+import { ProjectCategory, ProjectType } from "./project-category";
 import { CardListItemTag } from "./tag";
+import { Qualifications } from "./qualifications";
+import { EducationalInstitutionCategory } from "./educational-intistution-category";
 import { parseColorSet } from "@/hygraph/utils/parse-color-set";
 import { cn } from "@/utils/styling/cn";
 import { ENTITY_BASE_PATHS } from "@/constants/paths";
@@ -112,24 +114,41 @@ export const CardListItem: FunctionComponent<CardListItemDataFragment> = (
         }}
       >
         <div className="flex flex-row justify-between">
+          {/* Main card title */}
           <CardListItemTag type="primary" colors={colors}>
             {name}
           </CardListItemTag>
 
+          {/* Project category */}
           {item.__typename === "Project" ? (
             <CardListItemTag type="secondary" colors={colors}>
-              <ProjectType
+              <ProjectCategory
                 {...pick(item, ["personalProject", "company", "courses"])}
               />
             </CardListItemTag>
           ) : null}
+
+          {/* Educational institution type */}
+          {item.__typename === "EducationalInstitution" ? (
+            <CardListItemTag type="secondary" colors={colors}>
+              <EducationalInstitutionCategory {...pick(item, ["category"])} />
+            </CardListItemTag>
+          ) : null}
         </div>
         <div className="flex flex-row justify-between">
+          {/* Time frame */}
           <CardListItemTag type="secondary" colors={colors}>
             {formatDateRange(timeFrame, {
               fullMonth: false,
             })}
           </CardListItemTag>
+
+          {/* Qualifications */}
+          {item.__typename === "EducationalInstitution" ? (
+            <CardListItemTag type="secondary" colors={colors}>
+              <Qualifications {...pick(item, ["qualifications"])} />
+            </CardListItemTag>
+          ) : null}
         </div>
       </motion.div>
     </MotionLink>
