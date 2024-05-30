@@ -34,7 +34,9 @@ export const CardListItemTag: FunctionComponent<CardListItemTagProps> = ({
     <div
       className={cn(
         "text-xs font-semibold leading-none",
-        type === "primary" && "rounded-full px-3 py-2"
+        "text-gray-700 dark:text-gray-400",
+        type === "primary" &&
+          cn("rounded-full px-3 py-2", "bg-gray-200/50 dark:bg-gray-800/50")
       )}
       style={containerStyle}
     >
