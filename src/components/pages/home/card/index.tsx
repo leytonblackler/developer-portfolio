@@ -22,19 +22,19 @@ export const Card: FunctionComponent<CardProps> = ({ pageId, className }) => {
       className={cn(
         "h-full",
         "min-h-[200px] lg:min-h-[250px]",
-        "rounded-6xl",
+        "rounded-7xl",
         "flex flex-col",
         "items-center justify-center",
         "px-10 py-8",
         "transition-all duration-500",
         "bg-gray-100 dark:bg-gray-900",
-        "text-gray-700 dark:text-gray-400",
+        // "text-gray-700 dark:text-gray-400",
         className
       )}
     >
-      <div className="flex flex-row items-center justify-center gap-x-2">
-        <Icon className="h-6 w-6 shrink-0" />
-        <h2 className="text-xl font-semibold leading-none">{label}</h2>
+      <div className="flex flex-row items-center justify-center gap-x-4">
+        <Icon className="h-8 w-8 shrink-0" />
+        <h2 className="text-2xl font-medium leading-none">{label}</h2>
       </div>
     </Link>
   );

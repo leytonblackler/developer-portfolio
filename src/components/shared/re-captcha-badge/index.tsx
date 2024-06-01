@@ -37,7 +37,7 @@ export const ReCaptchaBadge: FunctionComponent<ReCaptchaBadgeProps> = ({
       href="https://www.google.com/recaptcha/about/"
       className={cn(
         "bg-gray-100/50 dark:bg-gray-900/60",
-        "rounded-6xl",
+        "rounded-7xl",
         "flex flex-col",
         "justify-center",
         "px-10 py-6"

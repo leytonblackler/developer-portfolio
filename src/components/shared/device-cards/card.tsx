@@ -239,7 +239,7 @@ export const DeviceCard: FunctionComponent<DeviceCardProps> = ({
         ref={containerRef}
         className={cn(
           "h-full w-full",
-          "rounded-6xl",
+          "rounded-7xl",
           "bg-gray-100 dark:bg-gray-900"
         )}
         onPointerMove={onPointerMove}

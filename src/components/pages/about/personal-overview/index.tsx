@@ -36,7 +36,7 @@ export const PersonalOverviewSection: FunctionComponent<
                     <ImageWithFallback
                       fallbackIcon={HiUser}
                       containerClassName={cn(
-                        "rounded-6xl",
+                        "rounded-7xl",
                         "sm:max-w-auto w-full max-w-[250px] sm:w-48",
                         "h-56 sm:h-full",
                         "mx-auto"

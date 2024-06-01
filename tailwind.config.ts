@@ -22,8 +22,7 @@ export default {
               return [
                 pageId,
                 {
-                  bg: colors.background,
-                  text: colors.text,
+                  ...colors,
                 },
               ];
             })

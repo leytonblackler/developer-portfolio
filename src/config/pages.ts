@@ -25,8 +25,8 @@ export enum PageId {
 }
 
 export interface PageConfigColors {
-  background: string;
-  text: string;
+  primary: string;
+  secondary: string;
 }
 
 export interface PageConfig {
@@ -48,8 +48,8 @@ export const pagesConfig: Record<PageId, PageConfig> = {
   [PageId.About]: {
     hygraphPageId: "clkui88ov1ks90b2muws8z6d4",
     colors: {
-      background: colors.sky[400],
-      text: colors.sky[950],
+      primary: colors.sky[300],
+      secondary: colors.sky[900],
     },
     navLink: {
       label: "About",
@@ -60,8 +60,8 @@ export const pagesConfig: Record<PageId, PageConfig> = {
   [PageId.Education]: {
     hygraphPageId: "cljdo403r5v250b2u7e3ddfdo",
     colors: {
-      background: colors.yellow[300],
-      text: colors.yellow[900],
+      primary: colors.yellow[300],
+      secondary: colors.yellow[900],
     },
     navLink: {
       label: "Education",
@@ -72,8 +72,8 @@ export const pagesConfig: Record<PageId, PageConfig> = {
   [PageId.Experience]: {
     hygraphPageId: "cljdo1jix5t9x0b2wemymmqhb",
     colors: {
-      background: colors.lime[400],
-      text: colors.lime[900],
+      primary: colors.lime[300],
+      secondary: colors.lime[900],
     },
     navLink: {
       label: "Experience",
@@ -84,8 +84,8 @@ export const pagesConfig: Record<PageId, PageConfig> = {
   [PageId.Projects]: {
     hygraphPageId: "cljdo5imm5tfl0b2w62oy93cf",
     colors: {
-      background: colors.violet[500],
-      text: colors.violet[950],
+      primary: colors.violet[300],
+      secondary: colors.violet[900],
     },
     navLink: {
       label: "Projects",

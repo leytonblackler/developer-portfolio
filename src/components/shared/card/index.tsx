@@ -24,7 +24,7 @@ export const Card: FunctionComponent<CardProps> = ({
     className={cn(
       "flex-1",
       "flex flex-col gap-y-6",
-      "overflow-hidden rounded-6xl",
+      "overflow-hidden rounded-7xl",
       "bg-gray-100 dark:bg-gray-900",
       "card-text-primary",
       "relative"
@@ -33,7 +33,7 @@ export const Card: FunctionComponent<CardProps> = ({
       gridRow: `span ${rowSpan} / span ${rowSpan}`,
     }}
   >
-    <div className={cn("px-10 pt-8", "bg-gray-100 dark:bg-gray-900")}>
+    <div className={cn("px-10 pt-8")}>
       <h2
         className={cn(
           "text-gray-600 dark:text-gray-500",

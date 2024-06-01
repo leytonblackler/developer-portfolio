@@ -34,7 +34,8 @@ const HomePage: FunctionComponent = () => (
           "col-span-1 row-span-1",
           "xs:col-span-2 xs:row-span-4",
           "lg:col-span-2 lg:row-span-2",
-          "hover:bg-pages-about-bg hover:text-pages-about-text"
+          "text-pages-about-primary hover:text-pages-about-secondary",
+          "hover:bg-pages-about-primary"
         )}
       />
       <Card
@@ -43,7 +44,8 @@ const HomePage: FunctionComponent = () => (
           "col-span-1 row-span-1",
           "xs:col-span-2 xs:row-span-2",
           "lg:col-span-2 lg:row-span-1",
-          "hover:bg-pages-education-bg hover:text-pages-education-text"
+          "text-pages-education-primary hover:text-pages-education-secondary",
+          "hover:bg-pages-education-primary"
         )}
       />
       <Card
@@ -52,7 +54,8 @@ const HomePage: FunctionComponent = () => (
           "col-span-1 row-span-1",
           "xs:col-span-2 xs:row-span-4",
           "lg:col-span-3 lg:row-span-1",
-          "hover:bg-pages-experience-bg hover:text-pages-experience-text"
+          "text-pages-experience-primary hover:text-pages-experience-secondary",
+          "hover:bg-pages-experience-primary"
         )}
       />
       <Card
@@ -61,7 +64,9 @@ const HomePage: FunctionComponent = () => (
           "col-span-1 row-span-1",
           "xs:col-span-2 xs:row-span-2",
           "lg:col-span-3 lg:row-span-1",
-          "hover:bg-pages-projects-bg hover:text-pages-projects-text"
+          "text-pages-projects-text",
+          "text-pages-projects-primary hover:text-pages-projects-secondary",
+          "hover:bg-pages-projects-primary"
         )}
       />
       <Card
@@ -70,8 +75,10 @@ const HomePage: FunctionComponent = () => (
           "col-span-1 row-span-1",
           "xs:col-span-4 xs:row-span-1",
           "lg:col-span-2 lg:row-span-1",
-          "hover:bg-gray-900 dark:hover:bg-gray-100",
-          "hover:text-gray-500 dark:hover:text-gray-700"
+          "bg-gray-100 hover:bg-gray-900",
+          "dark:bg-gray-900 dark:hover:bg-gray-100",
+          "dark:text-gray-500 dark:hover:text-gray-900",
+          "text-gray-600 hover:text-gray-50"
         )}
       />
     </div>
