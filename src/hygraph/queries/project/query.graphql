@@ -1,5 +1,5 @@
 query ProjectQuery($slug: String) {
-  project(where: {slug: $slug}) {
+  project(stage: PUBLISHED, where: {slug: $slug}) {
     ...AllProjectFields
   }
 }
