@@ -23,7 +23,7 @@ const CLASS_NAME = cn(
   "bg-gray-100 hover:bg-gray-200 active:bg-gray-100",
   "dark:bg-gray-900 dark:hover:bg-gray-800 dark:active:bg-gray-900",
   "text-gray-600 dark:text-gray-500",
-  "whitespace-nowrap text-xl",
+  "whitespace-nowrap text-lg",
   "flex flex-row",
   "items-center justify-center gap-x-4"
 );
@@ -38,7 +38,7 @@ export const ErrorPageButton: FunctionComponent<ErrorPageButtonProps> = ({
    */
   const content = (
     <>
-      <Icon className="h-6 w-6 shrink-0" />
+      <Icon className="h-5 w-5 shrink-0" />
       {label}
     </>
   );
