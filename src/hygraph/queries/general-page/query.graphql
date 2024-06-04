@@ -24,8 +24,7 @@ fragment LocationData on LocationItem {
 
 fragment PersonalOverviewSectionData on PersonalOverviewSection {
   id
-  profilePhoto { 
-    id
+  profilePhoto {
     url(transformation: {
       image: {
         resize: {

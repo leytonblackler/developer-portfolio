@@ -41,6 +41,8 @@
     "Scroller",
     "spotifycdn",
     "statsfm",
-    "uidotdev"
+    "uidotdev",
+    "visualisation",
+    "visx"
   ],
 }

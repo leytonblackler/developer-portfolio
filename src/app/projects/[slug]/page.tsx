@@ -4,6 +4,10 @@ import { getProject } from "@/hygraph/queries/project";
 import { getSSRApolloClient } from "@/hygraph/client/ssr";
 import { LaptopCard } from "@/components/shared/device-cards/laptop";
 import { PhoneCard } from "@/components/shared/device-cards/phone";
+import { cn } from "@/utils/styling/cn";
+import { TechnologiesCard } from "@/components/pages/project/technologies";
+import { getFragmentData } from "@/hygraph/generated";
+import { ProjectPageTechnologyDataFragmentDoc } from "@/hygraph/generated/graphql";
 
 interface ProjectPageParams {
   slug: string;
@@ -26,8 +30,6 @@ const ProjectPage: FunctionComponent<ProjectPageProps> = async ({
     },
   });
 
-  console.log("project", project);
-
   /**
    * If the project is not found (either no project matches the given slug, or
    * the project is not published in Hygraph), return a 404.
@@ -36,8 +38,15 @@ const ProjectPage: FunctionComponent<ProjectPageProps> = async ({
     notFound();
   }
 
+  /**
+   * Deconstruct the project page data.
+   */
+  const { name, technologies } = project;
+  console.log("technologies", technologies);
+
   return (
-    <div className="bounded-page-content-x">
+    <div className={cn("bounded-page-content-x", "flex flex-col gap-y-2")}>
+      <TechnologiesCard technologies={technologies} />
       <LaptopCard />
       <PhoneCard />
     </div>
@@ -45,3 +54,8 @@ const ProjectPage: FunctionComponent<ProjectPageProps> = async ({
 };
 
 export default ProjectPage;
+
+// getFragmentData(
+//   ProjectPageTechnologyDataFragmentDoc,
+//   technologies
+// )

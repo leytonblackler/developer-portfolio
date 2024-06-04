@@ -23,7 +23,4 @@ fragment AllTechnologyFields on Technology {
     }
   }
   categories
-  projects {
-    id
-  }
 }

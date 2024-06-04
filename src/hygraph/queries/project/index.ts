@@ -1,26 +1,26 @@
+import {
+  ProjectPageDataFragmentDoc,
+  ProjectPageDocument,
+} from "../../generated/graphql";
 import { catchErrors } from "@/hygraph/errors";
 import { getFragmentData } from "@/hygraph/generated";
-import {
-  type AllProjectFieldsFragment,
-  AllProjectFieldsFragmentDoc,
-  ProjectQueryDocument,
-} from "@/hygraph/generated/graphql";
+import { type ProjectPageDataFragment } from "@/hygraph/generated/graphql";
 import { type QueryFunction } from "@/hygraph/types";
 
 export const getProject: QueryFunction<
-  AllProjectFieldsFragment | null,
+  ProjectPageDataFragment | null,
   { slug: string }
 > = ({ client, variables: { slug } }) =>
-  catchErrors<AllProjectFieldsFragment | null>(async () => {
+  catchErrors<ProjectPageDataFragment | null>(async () => {
     const {
       data: { project },
     } = await client.query({
-      query: ProjectQueryDocument,
+      query: ProjectPageDocument,
       variables: {
         slug,
       },
     });
     return project
-      ? getFragmentData(AllProjectFieldsFragmentDoc, project)
+      ? getFragmentData(ProjectPageDataFragmentDoc, project)
       : null;
   });

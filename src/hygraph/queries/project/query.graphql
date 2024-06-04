@@ -1,10 +1,47 @@
-query ProjectQuery($slug: String) {
-  project(stage: PUBLISHED, where: {slug: $slug}) {
-    ...AllProjectFields
+fragment ProjectPageTechnologyData on Technology {
+  id
+  name
+  logo {
+    icon {
+      url(transformation: {
+        image: {
+          resize: {
+            width: 128,
+            height: 128,
+          }
+        }
+      })
+    }
+    iconIsCircle
+  }
+  colors {
+    primary {
+      hex
+    }
+    text {
+      hex
+    }
+    background {
+      hex
+    }
   }
 }
 
-fragment AllProjectFields on Project {
+fragment ProjectPageData on Project {
   id
   name
+  technologies(first: 300) {
+    id
+    importance
+    technology {
+      ...ProjectPageTechnologyData
+    }
+  }
 }
+
+query ProjectPage($slug: String) {
+  project(stage: PUBLISHED, where: {slug: $slug}) {
+    ...ProjectPageData
+  }
+}
+
