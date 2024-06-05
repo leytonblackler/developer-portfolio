@@ -1,6 +1,7 @@
 fragment ProjectPageTechnologyData on Technology {
   id
   name
+  url
   logo {
     icon {
       url(transformation: {

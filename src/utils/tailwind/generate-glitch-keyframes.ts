@@ -7,8 +7,8 @@ interface GlitchKeyframesOptions {
 
 export const generateGlitchKeyframes = ({
   steps,
-}: GlitchKeyframesOptions): KeyValuePair<string, KeyValuePair> => {
-  const result = Object.fromEntries(
+}: GlitchKeyframesOptions): KeyValuePair<string, KeyValuePair> =>
+  Object.fromEntries(
     [...Array(steps).keys()].map((step) => [
       `${round(step * (1 / steps) * 100)}%`,
       {
@@ -20,8 +20,3 @@ export const generateGlitchKeyframes = ({
       },
     ])
   );
-
-  console.log("frames", result);
-
-  return result;
-};

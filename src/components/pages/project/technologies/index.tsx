@@ -39,7 +39,7 @@ export const TechnologiesCard: FunctionComponent<TechnologiesCardProps> = ({
     /**
      * Deconstruct the required properties from the technology fragment data.
      */
-    const { id, name, logo, colors: unparsedColors } = technologyData;
+    const { id, name, url, logo, colors: unparsedColors } = technologyData;
 
     /**
      * Parse the HEX color values from the color set.
@@ -57,6 +57,7 @@ export const TechnologiesCard: FunctionComponent<TechnologiesCardProps> = ({
     return {
       id,
       label: name,
+      href: url,
       iconUrl: logo.icon.url,
       iconIsCircle: logo.iconIsCircle,
       importance,
