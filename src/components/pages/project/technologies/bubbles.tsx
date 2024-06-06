@@ -6,16 +6,30 @@ import React, {
   useState,
   useCallback,
   useMemo,
+  type MouseEventHandler,
 } from "react";
 import { type SimulationNodeDatum } from "d3-force";
 import { useResizeDetector } from "react-resize-detector";
 import { MotionValue, useAnimate } from "framer-motion";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { clamp } from "lodash";
 import { d3 } from "@/utils/d3";
 import { forceBounds } from "@/utils/d3/force-bounds";
+import { cn } from "@/utils/styling/cn";
 
+/**
+ * The spacing between each bubble.
+ */
 const SPACING = 5;
+
+/**
+ * The padding between bubbles and the edge of the container.
+ */
+const PADDING = SPACING * 2;
+
+/**
+ * The multiplier to scale bubbles by when hovered on.
+ */
 const HOVER_SCALE = 1.3;
 
 export interface BubbleData {
@@ -30,6 +44,8 @@ export interface BubbleData {
 
 interface BubbleNode extends SimulationNodeDatum, BubbleData {
   radius: MotionValue<number>;
+  isPressed: boolean;
+  isDragging: boolean;
 }
 
 const createNodes = ({
@@ -43,13 +59,18 @@ const createNodes = ({
 }): BubbleNode[] => {
   const minY = containerHeight * 0.25;
   const maxY = containerHeight * 0.75;
+
+  const createMotionValue = (value: number): MotionValue<number> => {
+    const motionValue = new MotionValue<number>();
+    motionValue.set(value);
+    return motionValue;
+  };
+
   return data.map((nodeData) => ({
     ...nodeData,
-    radius: (() => {
-      const radius = new MotionValue();
-      radius.set(0);
-      return radius;
-    })(),
+    radius: createMotionValue(0),
+    isPressed: false,
+    isDragging: false,
     x: Math.random() * containerWidth,
     y: Math.random() * (maxY - minY) + minY,
   }));
@@ -236,7 +257,7 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({ data }) => {
       .maxX(containerWidth - maxBubbleRadius)
       .minY(maxBubbleRadius)
       .maxY(containerHeight - maxBubbleRadius)
-      .padding(SPACING * 2)
+      .padding(PADDING)
       .strength(1);
 
     const simulation = d3
@@ -322,7 +343,6 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({ data }) => {
     d3.select(containerRef.current)
       .selectAll("circle")
       .data(nodes)
-      .append("circle")
       .each((node) => {
         if (!node.radius.isAnimating()) {
           node.radius.set(
@@ -355,12 +375,59 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({ data }) => {
     window.open(node.href, "_blank")?.focus();
   }, []);
 
+  const [draggingNode, setDraggingNode] = useState<BubbleNode | null>(null);
+
+  const resetDraggingNode = useCallback(() => {
+    if (draggingNode) {
+      draggingNode.isPressed = false;
+      draggingNode.isDragging = false;
+      draggingNode.fx = null;
+      draggingNode.fy = null;
+      setDraggingNode(null);
+    }
+  }, [draggingNode]);
+
+  /**
+   * Handle the cursor moving anywhere within the SVG element.
+   */
+  const onMouseMoveSvg = useCallback<MouseEventHandler<SVGSVGElement>>(
+    ({ movementX, movementY }) => {
+      /**
+       * Ignore if there is not currently a node being dragged, or the
+       * container dimensions have not yet been calculated.
+       */
+      if (!draggingNode || !containerWidth || !containerHeight) {
+        return;
+      }
+
+      /**
+       * Ensure that the node is not dragged outside the bounds of the
+       * container.
+       */
+      const minX = PADDING + draggingNode.radius.get();
+      const maxX = containerWidth - PADDING - draggingNode.radius.get();
+      const minY = PADDING + draggingNode.radius.get();
+      const maxY = containerHeight - PADDING - draggingNode.radius.get();
+
+      /**
+       * Update the fixed node position to the position of the cursor within
+       * the bounds, otherwise at the edge of the bounds closest to the cursor.
+       */
+      draggingNode.fx = clamp((draggingNode.x ?? 0) + movementX, minX, maxX);
+      draggingNode.fy = clamp((draggingNode.y ?? 0) + movementY, minY, maxY);
+    },
+    [draggingNode, containerWidth, containerHeight]
+  );
+
   return (
     <div className="relative h-full w-full" ref={containerRef}>
       {renderedNodes.length ? (
         <svg
           className="h-full w-full"
           style={{ width: "100%", height: "100%" }}
+          onMouseMove={onMouseMoveSvg}
+          onMouseLeave={resetDraggingNode}
+          onClick={resetDraggingNode}
         >
           {renderedNodes.map((node) => {
             const {
@@ -378,6 +445,9 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({ data }) => {
               <Link
                 key={id}
                 href={href}
+                className={cn(
+                  node.isDragging ? "cursor-grabbing" : "cursor-pointer"
+                )}
                 onClick={(event) => {
                   /**
                    * The default link behaviour must be prevent, since the high
@@ -385,22 +455,28 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({ data }) => {
                    * times, causing multiple tabs to open.
                    */
                   event.preventDefault();
-                  onClickNode(node);
+
+                  if (!node.isDragging) {
+                    onClickNode(node);
+                  }
+                }}
+                onMouseEnter={() => {
+                  onMouseEnterNode(node);
+                }}
+                onMouseLeave={() => {
+                  onMouseLeaveNode(node);
+                }}
+                onMouseDown={() => {
+                  node.isPressed = true;
+                }}
+                onMouseMove={() => {
+                  if (node.isPressed && !draggingNode) {
+                    node.isDragging = true;
+                    setDraggingNode(node);
+                  }
                 }}
               >
-                <circle
-                  cx={x}
-                  cy={y}
-                  r={radius.get()}
-                  fill={backgroundColor}
-                  className="cursor-pointer"
-                  onMouseEnter={() => {
-                    onMouseEnterNode(node);
-                  }}
-                  onMouseLeave={() => {
-                    onMouseLeaveNode(node);
-                  }}
-                />
+                <circle cx={x} cy={y} r={radius.get()} fill={backgroundColor} />
                 <image
                   x={(x ?? 0) - iconSize / 2}
                   y={(y ?? 0) - iconSize / 2}
@@ -417,7 +493,7 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({ data }) => {
       <button
         type="button"
         onClick={startSimulation}
-        className="absolute left-0 top-0 z-50 bg-violet-500 p-4 text-white"
+        className="absolute left-2 top-2 z-50 rounded-lg bg-violet-500 p-4 text-white"
       >
         Start
       </button>

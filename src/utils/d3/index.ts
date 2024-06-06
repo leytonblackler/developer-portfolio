@@ -6,6 +6,7 @@ import {
   forceX,
   forceY,
 } from "d3-force";
+import { drag } from "d3-drag";
 
 export const d3 = {
   select,
@@ -16,4 +17,5 @@ export const d3 = {
   forceManyBody,
   forceX,
   forceY,
+  drag,
 };
