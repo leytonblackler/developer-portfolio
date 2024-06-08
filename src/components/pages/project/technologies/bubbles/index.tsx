@@ -10,111 +10,38 @@ import React, {
   Fragment,
   type MouseEvent as ReactMouseEvent,
 } from "react";
-import { type SimulationNodeDatum } from "d3-force";
 import { useResizeDetector } from "react-resize-detector";
-import { MotionValue, useAnimate } from "framer-motion";
+import { useAnimate } from "framer-motion";
 import { clamp } from "lodash";
 import { useEventListener } from "usehooks-ts";
+import {
+  IDLE_SPACING,
+  ACTIVE_SPACING,
+  BOUNDS_PADDING,
+  HOVER_SCALE,
+} from "./constants";
+import { type BubbleNode, type BubbleData } from "./types";
+import { createNodes } from "./utils/create-nodes";
+import { evaluateRadius } from "./utils/evaluate-radius";
 import { d3 } from "@/utils/d3";
 import { forceBounds } from "@/utils/d3/force-bounds";
 import { cn } from "@/utils/styling/cn";
 
-/**
- * The collision spacing from a bubble when it is in its idle state.
- */
-const IDLE_SPACING = 5;
-
-/**
- * The collision spacing from a bubble when it is being pressed or dragged.
- */
-const ACTIVE_SPACING = IDLE_SPACING * 3;
-
-/**
- * The padding between bubbles and the edge of the container.
- */
-const BOUNDS_PADDING = IDLE_SPACING * 2;
-
-/**
- * The multiplier to scale bubbles by when hovered on.
- */
-const HOVER_SCALE = 1.3;
-
-export interface BubbleData {
-  id: string;
-  label: string;
-  href: string;
-  iconUrl: string;
-  iconIsCircle: boolean;
-  importance: number;
-  backgroundColor: string;
-}
-
-interface BubbleNode extends SimulationNodeDatum, BubbleData {
-  radius: MotionValue<number>;
-  collisionSpacing: MotionValue<number>;
-  isHovering: boolean;
-  isPressed: boolean;
-  isDragging: boolean;
-  dragOrigin: {
-    x: number;
-    y: number;
-  } | null;
-}
-
-const createNodes = ({
-  data,
-  containerWidth,
-  containerHeight,
-}: {
-  data: BubbleData[];
-  containerWidth: number;
-  containerHeight: number;
-}): BubbleNode[] => {
-  const minY = containerHeight * 0.25;
-  const maxY = containerHeight * 0.75;
-
-  const createMotionValue = (value: number): MotionValue<number> => {
-    const motionValue = new MotionValue<number>();
-    motionValue.set(value);
-    return motionValue;
-  };
-
-  return data.map((nodeData) => ({
-    ...nodeData,
-    radius: createMotionValue(0),
-    collisionSpacing: createMotionValue(IDLE_SPACING),
-    isHovering: false,
-    isPressed: false,
-    isDragging: false,
-    dragOrigin: null,
-    x: Math.random() * containerWidth,
-    y: Math.random() * (maxY - minY) + minY,
-  }));
-};
-
 interface BubblesProps {
+  activate: boolean;
   data: BubbleData[];
 }
 
-const evaluateRadius = ({
-  importance,
-  minImportance,
-  maxImportance,
-  maxIdleBubbleRadius,
-}: {
-  importance: number;
-  minImportance: number;
-  maxImportance: number;
-  maxIdleBubbleRadius: number;
-}): number => {
-  // TODO: Normalize importance value
-  return Math.min(
-    maxIdleBubbleRadius,
-    maxIdleBubbleRadius * (1 / importance) * 1.5
-  );
-};
-
-export const Bubbles: FunctionComponent<BubblesProps> = ({ data }) => {
+/**
+ * Displays the provided data set as interactive bubbles.
+ */
+export const Bubbles: FunctionComponent<BubblesProps> = ({
+  activate,
+  data,
+}) => {
+  /**
+   * Detect changes to the width and height of the container element.
+   */
   const {
     ref: containerRef,
     width: containerWidth,
@@ -215,6 +142,16 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({ data }) => {
   }, []);
 
   /**
+   * Start the simulation when the activation prop becomes true, and the
+   * simulation is not already active.
+   */
+  useEffect(() => {
+    if (activate && !simulationActive) {
+      startSimulation();
+    }
+  }, [activate, simulationActive, startSimulation]);
+
+  /**
    * Create the nodes from the data once the container has been initialised.
    */
   useEffect(() => {
@@ -233,6 +170,9 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({ data }) => {
     }
   }, [containerWidth, containerHeight, nodes, data]);
 
+  /**
+   * Start and update the simulation as required.
+   */
   useEffect(() => {
     if (
       !simulationActive ||
@@ -392,6 +332,9 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({ data }) => {
         }
       });
 
+    /**
+     * Stop the simulation when the component is unmounted.
+     */
     return () => {
       simulation.stop();
     };
@@ -923,13 +866,6 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({ data }) => {
           })}
         </svg>
       ) : null}
-      <button
-        type="button"
-        onClick={startSimulation}
-        className="absolute left-2 top-2 z-50 rounded-lg bg-violet-500 p-4 text-white"
-      >
-        Start
-      </button>
     </div>
   );
 };

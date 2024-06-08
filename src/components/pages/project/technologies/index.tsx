@@ -75,7 +75,7 @@ export const TechnologiesCard: FunctionComponent<TechnologiesCardProps> = ({
       }}
     >
       <div className="relative h-96 w-full">
-        <Bubbles data={bubblesData} />
+        <Bubbles activate data={bubblesData} />
       </div>
     </Card>
   );
