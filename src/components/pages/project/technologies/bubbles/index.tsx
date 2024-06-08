@@ -239,7 +239,7 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({
     const simulation = d3
       .forceSimulation<BubbleNode>(nodes)
       .alphaTarget(0.3)
-      .velocityDecay(0.1)
+      .velocityDecay(0.3)
 
       /**
        * Apply the horizontal force to the simulation.
