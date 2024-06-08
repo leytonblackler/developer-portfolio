@@ -19,7 +19,7 @@ fragment ProjectPageTechnologyData on Technology {
     primary {
       hex
     }
-    text {
+    foreground {
       hex
     }
     background {

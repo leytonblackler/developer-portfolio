@@ -23,14 +23,19 @@ import {
 import { type BubbleNode, type BubbleData } from "./types";
 import { createNodes } from "./utils/create-nodes";
 import { evaluateRadius } from "./utils/evaluate-radius";
+import { BubbleTooltip } from "./components/tooltip";
 import { d3 } from "@/utils/d3";
 import { forceBounds } from "@/utils/d3/force-bounds";
 import { cn } from "@/utils/styling/cn";
+import { useScrollInstance } from "@/components/shared/smooth-scroller/use-scroll-instance";
 
 interface BubblesProps {
   activate: boolean;
   data: BubbleData[];
 }
+
+// TODO: Fade other bubbles on hover, but not when dragging
+// TODO: Hide tooltip when dragging
 
 /**
  * Displays the provided data set as interactive bubbles.
@@ -355,6 +360,14 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({
    * A reference to a node that is being dragged.
    */
   const [draggingNode, setDraggingNode] = useState<BubbleNode | null>(null);
+
+  /**
+   * The node currently being hovered on, if there is one.
+   */
+  const hoveringNode = useMemo<BubbleNode | null>(
+    () => renderedNodes.find(({ isHovering }) => isHovering) ?? null,
+    [renderedNodes]
+  );
 
   /**
    * Animates a node to its hovering radius.
@@ -821,6 +834,41 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({
   useEventListener("mouseleave", resetDraggingNode, documentElementRef);
   useEventListener("click", onClickDocument, documentElementRef);
 
+  /**
+   * The position of the container element relative to the page.
+   */
+  const [containerPosition, setContainerPosition] = useState<{
+    x: number;
+    y: number;
+  }>({ x: 0, y: 0 });
+
+  /**
+   * Calculates and sets the container position within the page.
+   */
+  const calculateContainerPosition = useCallback(() => {
+    setContainerPosition(
+      containerRef.current
+        ? (() => {
+            const containerRect = containerRef.current.getBoundingClientRect();
+            return {
+              x: containerRect.x,
+              y: containerRect.y,
+            };
+          })()
+        : { x: 0, y: 0 }
+    );
+  }, [containerRef]);
+
+  /**
+   * Re-calculate the container position when the page is scrolled.
+   */
+  useScrollInstance("main-scroll-container", calculateContainerPosition);
+
+  /**
+   * Re-calculate the container position when the window is resized.
+   */
+  useEventListener("resize", calculateContainerPosition);
+
   return (
     <div className="relative h-full w-full" ref={containerRef}>
       {renderedNodes.length ? (
@@ -829,17 +877,39 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({
           style={{ width: "100%", height: "100%" }}
         >
           {renderedNodes.map((node) => {
-            const { id, x, y, radius, iconUrl, iconIsCircle, backgroundColor } =
-              node;
+            const {
+              id,
+              x,
+              y,
+              label,
+              radius,
+              iconUrl,
+              iconIsCircle,
+              backgroundColor,
+            } = node;
             const iconSize = (iconIsCircle ? 2 : 1.1) * radius.get();
             return (
               <Fragment key={id}>
+                <BubbleTooltip
+                  node={node}
+                  containerPosition={containerPosition}
+                >
+                  {label}
+                </BubbleTooltip>
                 <circle
                   cx={x}
                   cy={y}
                   r={radius.get()}
                   fill={backgroundColor}
-                  className={cn(!draggingNode && "cursor-pointer")}
+                  className={cn(
+                    !draggingNode && "cursor-pointer",
+                    "transition-[opacity,filter] duration-500",
+                    hoveringNode !== null &&
+                      draggingNode === null &&
+                      !node.isHovering
+                      ? "opacity-30 saturate-0"
+                      : "opacity-100 saturate-100"
+                  )}
                   onClick={() => {
                     onClickNode(node);
                   }}
@@ -865,7 +935,15 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({
                   width={iconSize}
                   height={iconSize}
                   xlinkHref={iconUrl}
-                  className="pointer-events-none"
+                  className={cn(
+                    "pointer-events-none",
+                    "transition-[opacity,filter] duration-500",
+                    hoveringNode !== null &&
+                      draggingNode === null &&
+                      !node.isHovering
+                      ? "opacity-30 saturate-0"
+                      : "opacity-100 saturate-100"
+                  )}
                 />
               </Fragment>
             );

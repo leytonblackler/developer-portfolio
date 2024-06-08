@@ -13,8 +13,8 @@ export const parseColorSet = (
   colorSet:
     | {
         primary: HygraphHexColorValue;
+        foreground: HygraphHexColorValue;
         background: HygraphHexColorValue;
-        text: HygraphHexColorValue;
       }
     | null
     | undefined
@@ -32,12 +32,12 @@ export const parseColorSet = (
    */
   const {
     primary: { hex: primaryHexColorValue },
+    foreground: { hex: foregroundHexColorValue },
     background: { hex: backgroundHexColorValue },
-    text: { hex: textHexColorValue },
   } = colorSet as {
     primary: { hex: unknown };
+    foreground: { hex: unknown };
     background: { hex: unknown };
-    text: { hex: unknown };
   };
 
   /**
@@ -45,8 +45,8 @@ export const parseColorSet = (
    */
   if (
     !isHexColorValue(primaryHexColorValue) ||
-    !isHexColorValue(backgroundHexColorValue) ||
-    !isHexColorValue(textHexColorValue)
+    !isHexColorValue(foregroundHexColorValue) ||
+    !isHexColorValue(backgroundHexColorValue)
   ) {
     return null;
   }
@@ -56,7 +56,7 @@ export const parseColorSet = (
    */
   return {
     primary: primaryHexColorValue,
+    foreground: foregroundHexColorValue,
     background: backgroundHexColorValue,
-    text: textHexColorValue,
   };
 };

@@ -44,6 +44,6 @@ export const isHexColorValue = (
  */
 export interface ParsedColorSet {
   primary: HexColorValue;
+  foreground: HexColorValue;
   background: HexColorValue;
-  text: HexColorValue;
 }

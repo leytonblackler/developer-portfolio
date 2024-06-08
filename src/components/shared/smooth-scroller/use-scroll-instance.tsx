@@ -1,4 +1,4 @@
-import { useContext, useMemo } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import { type Data2d } from "smooth-scrollbar/interfaces";
 import { ScrollContext } from "./provider";
 import { type ScrollInstance } from "./types";
@@ -7,7 +7,12 @@ interface UseScrollInstanceReturn {
   position: Data2d;
 }
 
-export const useScrollInstance = (id: string): UseScrollInstanceReturn => {
+export type ScrollInstanceScrollListener = (position: Data2d) => void;
+
+export const useScrollInstance = (
+  id: string,
+  onScroll?: ScrollInstanceScrollListener
+): UseScrollInstanceReturn => {
   /**
    * Access all scroll instances from the scroll context.
    */
@@ -32,6 +37,15 @@ export const useScrollInstance = (id: string): UseScrollInstanceReturn => {
       },
     [instance]
   );
+
+  /**
+   * Invoke the scroll listener when the scroll position changes.
+   */
+  useEffect(() => {
+    if (onScroll) {
+      onScroll(position);
+    }
+  }, [position, onScroll]);
 
   return { position };
 };

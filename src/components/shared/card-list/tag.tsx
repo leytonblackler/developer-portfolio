@@ -24,10 +24,10 @@ export const CardListItemTag: FunctionComponent<CardListItemTagProps> = ({
     type === "primary"
       ? {
           color: colors?.background ?? undefined,
-          backgroundColor: colors?.text ?? undefined,
+          backgroundColor: colors?.foreground ?? undefined,
         }
       : {
-          color: colors?.text ?? undefined,
+          color: colors?.foreground ?? undefined,
         };
 
   return (

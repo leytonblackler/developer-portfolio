@@ -15,8 +15,6 @@ interface TechnologiesCardProps {
 export const TechnologiesCard: FunctionComponent<TechnologiesCardProps> = ({
   technologies,
 }) => {
-  console.log("technologies", technologies);
-
   /**
    * Construct the data for the bubble visualisation.
    */
@@ -62,6 +60,7 @@ export const TechnologiesCard: FunctionComponent<TechnologiesCardProps> = ({
       iconIsCircle: logo.iconIsCircle,
       importance,
       backgroundColor: colors.background,
+      textColor: colors.foreground,
     };
   });
 
@@ -76,6 +75,7 @@ export const TechnologiesCard: FunctionComponent<TechnologiesCardProps> = ({
       }}
     >
       <div className="relative h-96 w-full">
+        {/* TODO: Activate only when scrolling into viewport */}
         <Bubbles activate data={bubblesData} />
       </div>
     </Card>

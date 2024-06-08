@@ -1,4 +1,7 @@
+"use client";
+
 import { type FunctionComponent, type ReactNode } from "react";
+import * as RadixTooltip from "@radix-ui/react-tooltip";
 import { ScrollProvider } from "../smooth-scroller/provider";
 import { ReCaptchaProvider } from "./re-captcha-provider";
 
@@ -8,6 +11,8 @@ interface ProvidersProps {
 
 export const Providers: FunctionComponent<ProvidersProps> = ({ children }) => (
   <ScrollProvider>
-    <ReCaptchaProvider>{children}</ReCaptchaProvider>
+    <RadixTooltip.Provider>
+      <ReCaptchaProvider>{children}</ReCaptchaProvider>
+    </RadixTooltip.Provider>
   </ScrollProvider>
 );

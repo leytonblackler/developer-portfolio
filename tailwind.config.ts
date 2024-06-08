@@ -32,6 +32,9 @@ export default {
       screens: {
         xs: "475px",
       },
+      blur: {
+        xs: "2px",
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
