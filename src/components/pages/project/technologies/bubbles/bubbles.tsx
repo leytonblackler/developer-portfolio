@@ -13,21 +13,26 @@ import React, {
 import { type SimulationNodeDatum } from "d3-force";
 import { useResizeDetector } from "react-resize-detector";
 import { MotionValue, useAnimate } from "framer-motion";
-import { clamp, pick } from "lodash";
+import { clamp } from "lodash";
 import { useEventListener } from "usehooks-ts";
 import { d3 } from "@/utils/d3";
 import { forceBounds } from "@/utils/d3/force-bounds";
 import { cn } from "@/utils/styling/cn";
 
 /**
- * The spacing between each bubble.
+ * The collision spacing from a bubble when it is in its idle state.
  */
-const SPACING = 5;
+const IDLE_SPACING = 5;
+
+/**
+ * The collision spacing from a bubble when it is being pressed or dragged.
+ */
+const ACTIVE_SPACING = IDLE_SPACING * 3;
 
 /**
  * The padding between bubbles and the edge of the container.
  */
-const PADDING = SPACING * 2;
+const BOUNDS_PADDING = IDLE_SPACING * 2;
 
 /**
  * The multiplier to scale bubbles by when hovered on.
@@ -46,6 +51,7 @@ export interface BubbleData {
 
 interface BubbleNode extends SimulationNodeDatum, BubbleData {
   radius: MotionValue<number>;
+  collisionSpacing: MotionValue<number>;
   isHovering: boolean;
   isPressed: boolean;
   isDragging: boolean;
@@ -76,6 +82,7 @@ const createNodes = ({
   return data.map((nodeData) => ({
     ...nodeData,
     radius: createMotionValue(0),
+    collisionSpacing: createMotionValue(IDLE_SPACING),
     isHovering: false,
     isPressed: false,
     isDragging: false,
@@ -161,7 +168,7 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({ data }) => {
     const max = (Math.min(containerWidth, containerHeight) * 0.25) / 2;
     const surfaceArea = containerWidth * containerHeight;
     const maxArea = surfaceArea / totalBubbles;
-    const maxRadius = (Math.sqrt(maxArea) / 2 - SPACING * 2) * 0.75;
+    const maxRadius = (Math.sqrt(maxArea) / 2 - IDLE_SPACING * 2) * 0.75;
     return Math.min(max, maxRadius);
   }, [containerWidth, containerHeight, totalBubbles]);
 
@@ -270,12 +277,7 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({ data }) => {
       .forceCollide<BubbleNode>()
       .strength(0.5)
       .radius(
-        /**
-         * Increase the spacing of the nodes when they are being pressed or
-         * dragged.
-         */
-        ({ radius, isPressed, isDragging }) =>
-          radius.get() + SPACING * (isPressed || isDragging ? 3 : 1)
+        ({ radius, collisionSpacing }) => radius.get() + collisionSpacing.get()
       )
       .iterations(5);
 
@@ -288,7 +290,7 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({ data }) => {
       .maxX(containerWidth - maxBubbleRadius)
       .minY(maxBubbleRadius)
       .maxY(containerHeight - maxBubbleRadius)
-      .padding(PADDING)
+      .padding(BOUNDS_PADDING)
       .strength(1);
 
     /**
@@ -480,6 +482,35 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({ data }) => {
   );
 
   /**
+   * Animates a node to its active collision spacing (when being pressed or
+   * dragged).
+   */
+  const animateToActiveSpacing = useCallback(
+    (node: BubbleNode) => {
+      void animate(node.collisionSpacing, ACTIVE_SPACING, {
+        type: "spring",
+        bounce: 0,
+        duration: 1.2,
+      });
+    },
+    [animate]
+  );
+
+  /**
+   * Animates a node to its idle collision spacing.
+   */
+  const animateToIdleSpacing = useCallback(
+    (node: BubbleNode) => {
+      void animate(node.collisionSpacing, IDLE_SPACING, {
+        type: "spring",
+        bounce: 0,
+        duration: 1.2,
+      });
+    },
+    [animate]
+  );
+
+  /**
    * Resets the state of the node that is currently being dragged.
    */
   const resetDraggingNode = useCallback(() => {
@@ -507,7 +538,7 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({ data }) => {
       draggingNode.dragOrigin = null;
 
       /**
-       * Animate the node's radius back to its idle size unless the cursor is
+       * Animate the node's radius back to its idle size, unless the cursor is
        * still on the node after dragging.
        */
       if (!draggingNode.isHovering) {
@@ -515,11 +546,16 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({ data }) => {
       }
 
       /**
+       * Animate the node's collision spacing to its idle size.
+       */
+      animateToIdleSpacing(draggingNode);
+
+      /**
        * Clear the reference to the node being dragged from state.
        */
       setDraggingNode(null);
     }
-  }, [draggingNode, animateToIdleRadius]);
+  }, [draggingNode, animateToIdleRadius, animateToIdleSpacing]);
 
   /**
    * Handle clicking on a node.
@@ -604,8 +640,13 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({ data }) => {
        * Animate the radius of the node back to its idle size.
        */
       animateToIdleRadius(node);
+
+      /**
+       * Animate the node's collision spacing to its idle size.
+       */
+      animateToIdleSpacing(node);
     },
-    [animateToIdleRadius]
+    [animateToIdleRadius, animateToIdleSpacing]
   );
 
   /**
@@ -628,11 +669,14 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({ data }) => {
       /**
        * Animate the node radius to its idle size.
        */
-      // TODO: Handle clicking on edge of bubbles, where cursor no longer
-      // hovering before drag
       animateToIdleRadius(node);
+
+      /**
+       * Animate the node's collision spacing to its active size.
+       */
+      animateToActiveSpacing(node);
     },
-    [animateToIdleRadius]
+    [animateToIdleRadius, animateToActiveSpacing]
   );
 
   /**
@@ -657,8 +701,13 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({ data }) => {
          */
         animateToIdleRadius(node);
       }
+
+      /**
+       * Animate the node's collision spacing to its idle size.
+       */
+      animateToIdleSpacing(node);
     },
-    [animateToHoverRadius, animateToIdleRadius]
+    [animateToIdleSpacing, animateToHoverRadius, animateToIdleRadius]
   );
 
   /**
@@ -745,7 +794,7 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({ data }) => {
        * Calculate the threshold from the edge of the bounding box where the
        * cursor must be to move the node.
        */
-      const threshold = draggingNode.radius.get() + PADDING;
+      const threshold = draggingNode.radius.get() + BOUNDS_PADDING;
 
       /**
        * Define the limits for the x and y coordinates that the node can be
