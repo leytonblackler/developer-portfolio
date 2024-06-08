@@ -199,8 +199,9 @@ export const DeviceCard: FunctionComponent<DeviceCardProps> = ({
     >
       <div
         className={cn(
-          "absolute -inset-12",
-          "box-border px-12",
+          // '-inset-12 px-12',
+          "absolute -inset-y-14 inset-x-0",
+          "box-border px-8",
           "pointer-events-none [&>div]:!pointer-events-none"
         )}
       >
