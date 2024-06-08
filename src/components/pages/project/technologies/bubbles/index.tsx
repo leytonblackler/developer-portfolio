@@ -596,7 +596,13 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({
    * Handle the cursor being pressed on a node.
    */
   const onMouseDownNode = useCallback(
-    (node: BubbleNode) => {
+    (node: BubbleNode, event: ReactMouseEvent<SVGCircleElement>) => {
+      /**
+       * Prevent the default behavior to avoid text selection across the page
+       * while nodes are being dragged.
+       */
+      event.preventDefault();
+
       /**
        * Set that the node is being pressed.
        */
@@ -843,8 +849,8 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({
                   onMouseLeave={() => {
                     onMouseLeaveNode(node);
                   }}
-                  onMouseDown={() => {
-                    onMouseDownNode(node);
+                  onMouseDown={(event) => {
+                    onMouseDownNode(node, event);
                   }}
                   onMouseUp={() => {
                     onMouseUpNode(node);
