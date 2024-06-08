@@ -579,7 +579,7 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({ data }) => {
   const onMouseLeaveNode = useCallback(
     (node: BubbleNode) => {
       /**
-       * Set that the node is no longer being hovered on.
+       * Set that the node is no longer being hovered on or pressed.
        */
       node.isHovering = false;
 
@@ -588,6 +588,16 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({ data }) => {
        */
       if (node.isDragging) {
         return;
+      }
+
+      /**
+       * If the node was pressed, reset the pressed state and any fixed
+       * positioning.
+       */
+      if (node.isPressed) {
+        node.isPressed = false;
+        node.fx = null;
+        node.fy = null;
       }
 
       /**
