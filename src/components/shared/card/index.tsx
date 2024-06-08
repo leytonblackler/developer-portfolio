@@ -5,6 +5,7 @@ interface CardProps {
   children: ReactNode;
   title: string;
   rowSpan?: number;
+  contentGap?: boolean;
   contentPadding?: {
     left: boolean;
     bottom: boolean;
@@ -18,12 +19,14 @@ export const Card: FunctionComponent<CardProps> = ({
   children: content,
   title,
   rowSpan = 1,
+  contentGap = true,
   contentPadding = { left: true, bottom: true, right: true },
 }) => (
   <div
     className={cn(
       "flex-1",
-      "flex flex-col gap-y-6",
+      "flex flex-col",
+      contentGap ? "gap-y-6" : "gap-y-0",
       "overflow-hidden rounded-7xl",
       "bg-gray-100 dark:bg-gray-900",
       "card-text-primary",

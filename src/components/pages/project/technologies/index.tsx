@@ -68,6 +68,7 @@ export const TechnologiesCard: FunctionComponent<TechnologiesCardProps> = ({
   return (
     <Card
       title="Technologies"
+      contentGap={false}
       contentPadding={{
         left: false,
         right: false,
