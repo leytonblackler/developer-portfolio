@@ -16,13 +16,16 @@ fragment ProjectPageTechnologyData on Technology {
     iconIsCircle
   }
   colors {
-    primary {
+    foregroundLight {
       hex
     }
-    foreground {
+    backgroundLight {
       hex
     }
-    background {
+    foregroundDark {
+      hex
+    }
+    backgroundDark {
       hex
     }
   }
@@ -31,6 +34,36 @@ fragment ProjectPageTechnologyData on Technology {
 fragment ProjectPageData on Project {
   id
   name
+  subtitle
+  description
+  logo {
+    primary {
+      id
+      url(transformation: {
+        image: {
+          resize: {
+            width: 512,
+            height: 512,
+            fit: max
+          }
+        }
+      })
+    }
+  }
+  colors {
+    foregroundLight {
+      hex
+    }
+    backgroundLight {
+      hex
+    }
+    foregroundDark {
+      hex
+    }
+    backgroundDark {
+      hex
+    }
+  }
   technologies(first: 300) {
     id
     importance

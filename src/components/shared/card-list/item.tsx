@@ -16,6 +16,7 @@ import { parseColorSet } from "@/hygraph/utils/parse-color-set";
 import { cn } from "@/utils/styling/cn";
 import { ENTITY_BASE_PATHS } from "@/constants/paths";
 import { formatDateRange } from "@/utils/date";
+import { useSchemedColorSet } from "@/hooks/color-scheme/use-schemed-color-set";
 
 /**
  * Parse the environment variable for the Hygraph project entry ID reflecting
@@ -49,14 +50,21 @@ export const CardListItem: FunctionComponent<CardListItemDataFragment> = (
     slug,
     name,
     logo,
-    colors: unparsedColors,
+    colors: unparsedColorSet,
     timeFrame,
   } = item;
 
   /**
    * Parse the HEX color values from the color set.
    */
-  const colors = parseColorSet(unparsedColors);
+  const parsedColorSet = parseColorSet(unparsedColorSet);
+
+  /**
+   * Select the colors to use from this based on the current colour scheme mode.
+   */
+  // const colors = useColorSchemeModeColors(parsedColorSet);
+
+  const schemedColorSet = useSchemedColorSet(parsedColorSet);
 
   const href = `${ENTITY_BASE_PATHS[__typename]}/${slug}`;
 
@@ -72,10 +80,12 @@ export const CardListItem: FunctionComponent<CardListItemDataFragment> = (
         "relative flex-1 px-8 py-6",
         "overflow-hidden rounded-7xl",
         "flex items-center justify-center",
-        "bg-gray-100 dark:bg-gray-900"
+        schemedColorSet
+          ? schemedColorSet.classNames.background
+          : "bg-gray-100 dark:bg-gray-900"
       )}
       style={{
-        backgroundColor: colors?.background ?? undefined,
+        ...(schemedColorSet?.cssVariableDeclarations ?? {}),
       }}
       initial="idle"
       whileHover="hover"

@@ -1,6 +1,7 @@
 // import { getGeneralApolloClient } from "@/hygraph/client/general";
 // import { updateTechnology } from "@/hygraph/mutations/technology";
 // import { getTechnologies } from "@/hygraph/queries/technologies";
+// import { parseColorSet } from "@/hygraph/utils/parse-color-set";
 
 // const client = getGeneralApolloClient();
 
@@ -9,9 +10,13 @@
 // });
 
 // for (const technology of technologies) {
-//   const { id, primaryColor, textColor, backgroundColor } = technology;
+//   const { id, colors: unparsedColors } = technology;
 
-//   console.log(id, primaryColor, textColor, backgroundColor);
+//   const parsedColors = parseColorSet(unparsedColors);
+
+//   if (!parsedColors?.primary) {
+//     continue;
+//   }
 
 //   await updateTechnology({
 //     client,
@@ -19,21 +24,22 @@
 //       id,
 //       data: {
 //         colors: {
-//           create: {
-//             primary: {
-//               hex: primaryColor.hex as string,
+//           update: {
+//             where: {
+//               id: unparsedColors.id,
 //             },
-//             text: {
-//               hex: textColor.hex as string,
-//             },
-//             background: {
-//               hex: backgroundColor.hex as string,
+//             data: {
+//               foreground: {
+//                 hex: parsedColors.primary,
+//               },
 //             },
 //           },
 //         },
 //       },
 //     },
 //   });
+
+//   console.log("updated", id);
 
 //   await new Promise((resolve) => {
 //     setTimeout(resolve, 1000);

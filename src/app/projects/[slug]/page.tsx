@@ -6,8 +6,9 @@ import { LaptopCard } from "@/components/shared/device-cards/laptop";
 import { PhoneCard } from "@/components/shared/device-cards/phone";
 import { cn } from "@/utils/styling/cn";
 import { TechnologiesCard } from "@/components/pages/project/technologies";
-import { getFragmentData } from "@/hygraph/generated";
-import { ProjectPageTechnologyDataFragmentDoc } from "@/hygraph/generated/graphql";
+import { Hero } from "@/components/shared/hero";
+import { parseColorSet } from "@/hygraph/utils/parse-color-set";
+import { Card } from "@/components/shared/card";
 
 interface ProjectPageParams {
   slug: string;
@@ -41,11 +42,43 @@ const ProjectPage: FunctionComponent<ProjectPageProps> = async ({
   /**
    * Deconstruct the project page data.
    */
-  const { name, technologies } = project;
-  console.log("technologies", technologies);
+  const {
+    name,
+    subtitle,
+    description,
+    logo,
+    colors: unparsedColorSet,
+    technologies,
+  } = project;
+
+  /**
+   * Parse the HEX color values from the color set.
+   */
+  const parsedColorSet = parseColorSet(unparsedColorSet);
 
   return (
     <div className={cn("bounded-page-content-x", "flex flex-col gap-y-2")}>
+      <Hero heading={name} subHeading={subtitle} />
+      <Card title="About" parsedColorSet={parsedColorSet}>
+        {/* <div className="flex flex-row gap-x-12"> */}
+        {/* <div
+          className="relative max-w-xs flex-1 rounded-7xl px-8 py-6"
+          style={{
+            background: colors?.background ?? undefined,
+          }}
+        >
+          {logo?.primary ? (
+            <Image
+              fill
+              src={logo.primary.url}
+              alt={`${name} Logo`}
+              className="object-contain"
+            />
+          ) : null}
+        </div> */}
+        <div className="h-96">{description}</div>
+        {/* </div> */}
+      </Card>
       <TechnologiesCard technologies={technologies} />
       <LaptopCard />
       <PhoneCard />

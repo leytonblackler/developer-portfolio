@@ -12,9 +12,10 @@ import {
 export const parseColorSet = (
   colorSet:
     | {
-        primary: HygraphHexColorValue;
-        foreground: HygraphHexColorValue;
-        background: HygraphHexColorValue;
+        backgroundLight: HygraphHexColorValue;
+        foregroundLight: HygraphHexColorValue;
+        backgroundDark: HygraphHexColorValue;
+        foregroundDark: HygraphHexColorValue;
       }
     | null
     | undefined
@@ -27,26 +28,29 @@ export const parseColorSet = (
   }
 
   /**
-   * Deconstruct the HEX codes for the primary, background, and text colors
-   * from the color set as unknown types (rather than any).
+   * Deconstruct the HEX codes of the color set as unknown types (rather than
+   * any).
    */
   const {
-    primary: { hex: primaryHexColorValue },
-    foreground: { hex: foregroundHexColorValue },
-    background: { hex: backgroundHexColorValue },
+    backgroundLight: { hex: backgroundLightHexColorValue },
+    foregroundLight: { hex: foregroundLightHexColorValue },
+    backgroundDark: { hex: backgroundDarkHexColorValue },
+    foregroundDark: { hex: foregroundDarkHexColorValue },
   } = colorSet as {
-    primary: { hex: unknown };
-    foreground: { hex: unknown };
-    background: { hex: unknown };
+    backgroundLight: { hex: unknown };
+    foregroundLight: { hex: unknown };
+    backgroundDark: { hex: unknown };
+    foregroundDark: { hex: unknown };
   };
 
   /**
    * Return null if any of the HEX codes are invalid.
    */
   if (
-    !isHexColorValue(primaryHexColorValue) ||
-    !isHexColorValue(foregroundHexColorValue) ||
-    !isHexColorValue(backgroundHexColorValue)
+    !isHexColorValue(backgroundLightHexColorValue) ||
+    !isHexColorValue(foregroundLightHexColorValue) ||
+    !isHexColorValue(backgroundDarkHexColorValue) ||
+    !isHexColorValue(foregroundDarkHexColorValue)
   ) {
     return null;
   }
@@ -55,8 +59,13 @@ export const parseColorSet = (
    * Return the parsed color set.
    */
   return {
-    primary: primaryHexColorValue,
-    foreground: foregroundHexColorValue,
-    background: backgroundHexColorValue,
+    light: {
+      background: backgroundLightHexColorValue,
+      foreground: foregroundLightHexColorValue,
+    },
+    dark: {
+      background: backgroundDarkHexColorValue,
+      foreground: foregroundDarkHexColorValue,
+    },
   };
 };

@@ -4235,6 +4235,11 @@ crypt@0.0.2:
   resolved "https://registry.yarnpkg.com/crypt/-/crypt-0.0.2.tgz#88d7ff7ec0dfb86f713dc87bbb42d044d3e6c41b"
   integrity sha512-mCxBlsHFYh9C+HVpiEacem8FEBnMXgU9gy4zmNC+SXAZNB/1idgp/aulFJ4FgCi7GPEVbfyng092GqL2k2rmow==
 
+css-vars-hook@^0.7.9:
+  version "0.7.9"
+  resolved "https://registry.yarnpkg.com/css-vars-hook/-/css-vars-hook-0.7.9.tgz#fe0a599322919634aa88effd6a986ed209800875"
+  integrity sha512-tEY8Gb24kDPVD2d81KlEXf1t1vHKc5dCpt/hyX98ZYOPQCfdRrg96Yy5Vvs09y2OGxVhLNLrjPZs5OMpqqRasg==
+
 csscolorparser@~1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/csscolorparser/-/csscolorparser-1.0.3.tgz#b34f391eea4da8f3e98231e2ccd8df9c041f171b"

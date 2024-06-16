@@ -6,11 +6,7 @@ import { generateGlitchKeyframes } from "./src/utils/tailwind/generate-glitch-ke
 
 // eslint-disable-next-line import/no-default-export -- Tailwind config must be the default export.
 export default {
-  content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
+  content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
       colors: {

@@ -39,11 +39,18 @@ export const isHexColorValue = (
   hexColorValue.length >= 2;
 
 /**
+ * Colors from a color set for a particular color scheme mode.
+ */
+export interface ColorSchemeModeColors {
+  foreground: HexColorValue;
+  background: HexColorValue;
+}
+
+/**
  * A color set with the hex values for primary, background, and text parsed as
  * strings.
  */
 export interface ParsedColorSet {
-  primary: HexColorValue;
-  foreground: HexColorValue;
-  background: HexColorValue;
+  light: ColorSchemeModeColors;
+  dark: ColorSchemeModeColors;
 }

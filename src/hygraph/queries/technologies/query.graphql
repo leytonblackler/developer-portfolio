@@ -12,13 +12,17 @@ fragment AllTechnologyFields on Technology {
     id
   }
   colors {
-    primary {
+    id
+    foregroundLight {
       hex
     }
-    foreground {
+    backgroundLight {
       hex
     }
-    background {
+    foregroundDark {
+      hex
+    }
+    backgroundDark {
       hex
     }
   }

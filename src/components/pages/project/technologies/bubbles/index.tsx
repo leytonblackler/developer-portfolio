@@ -861,6 +861,7 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({
 
   /**
    * Re-calculate the container position when the page is scrolled.
+   * TODO: Detect when over scrolling (i.e. when bouncing at top/bottom).
    */
   useScrollInstance("main-scroll-container", calculateContainerPosition);
 

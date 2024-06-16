@@ -63,13 +63,16 @@ fragment CardListSectionCompanyItemData on Company {
     }
   }
   colors {
-    primary {
+    foregroundLight {
       hex
     }
-    foreground {
+    backgroundLight {
       hex
     }
-    background {
+    foregroundDark {
+      hex
+    }
+    backgroundDark {
       hex
     }
   }
@@ -98,13 +101,16 @@ fragment CardListSectionEducationalInstitutionItemData on EducationalInstitution
     }
   }
   colors {
-    primary {
+    foregroundLight {
       hex
     }
-    foreground {
+    backgroundLight {
       hex
     }
-    background {
+    foregroundDark {
+      hex
+    }
+    backgroundDark {
       hex
     }
   }
@@ -137,14 +143,17 @@ fragment CardListSectionProjectItemData on Project {
       })
     }
   }
-  colors {
-    primary {
+ colors {
+    foregroundLight {
       hex
     }
-    foreground {
+    backgroundLight {
       hex
     }
-    background {
+    foregroundDark {
+      hex
+    }
+    backgroundDark {
       hex
     }
   }
