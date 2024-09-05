@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { type FunctionComponent } from "react";
 import { type IconType } from "react-icons";
+import { motion } from "framer-motion";
 import { cn } from "@/utils/styling/cn";
+import { IN_VIEW_MOTION_PROPS } from "@/constants/in-view-motion-props";
 
 export interface SocialLinkProps {
   icon: IconType;
@@ -12,12 +14,15 @@ export interface SocialLinkProps {
   };
 }
 
+const MotionLink = motion(Link);
+
 export const SocialLink: FunctionComponent<SocialLinkProps> = ({
   icon: Icon,
   href,
   color,
 }) => (
-  <Link
+  <MotionLink
+    {...IN_VIEW_MOTION_PROPS}
     href={href}
     className={cn(
       "flex-1",
@@ -28,13 +33,13 @@ export const SocialLink: FunctionComponent<SocialLinkProps> = ({
        * Default color.
        */
       !color &&
-        cn("bg-gray-100 dark:bg-gray-900", "text-gray-700 dark:text-gray-200")
+        cn("bg-gray-100 dark:bg-gray-925", "text-gray-700 dark:text-gray-200")
     )}
     style={{
       background: color?.base,
       color: color?.contrast,
     }}
   >
-    <Icon className="h-6 w-6" />
-  </Link>
+    <Icon className="size-6" />
+  </MotionLink>
 );

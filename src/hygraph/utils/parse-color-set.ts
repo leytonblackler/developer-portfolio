@@ -1,7 +1,8 @@
 import {
-  type HygraphHexColorValue,
   isHexColorValue,
   type ParsedColorSet,
+  type HygraphColorValues,
+  isRGBColorValue,
 } from "../types";
 
 /**
@@ -12,10 +13,10 @@ import {
 export const parseColorSet = (
   colorSet:
     | {
-        backgroundLight: HygraphHexColorValue;
-        foregroundLight: HygraphHexColorValue;
-        backgroundDark: HygraphHexColorValue;
-        foregroundDark: HygraphHexColorValue;
+        backgroundLight: HygraphColorValues;
+        foregroundLight: HygraphColorValues;
+        backgroundDark: HygraphColorValues;
+        foregroundDark: HygraphColorValues;
       }
     | null
     | undefined
@@ -32,15 +33,39 @@ export const parseColorSet = (
    * any).
    */
   const {
-    backgroundLight: { hex: backgroundLightHexColorValue },
-    foregroundLight: { hex: foregroundLightHexColorValue },
-    backgroundDark: { hex: backgroundDarkHexColorValue },
-    foregroundDark: { hex: foregroundDarkHexColorValue },
+    backgroundLight: {
+      hex: backgroundLightHexColorValue,
+      rgba: backgroundLightRGBA,
+    },
+    foregroundLight: {
+      hex: foregroundLightHexColorValue,
+      rgba: foregroundLightRGBA,
+    },
+    backgroundDark: {
+      hex: backgroundDarkHexColorValue,
+      rgba: backgroundDarkRGBA,
+    },
+    foregroundDark: {
+      hex: foregroundDarkHexColorValue,
+      rgba: foregroundDarkRGBA,
+    },
   } = colorSet as {
-    backgroundLight: { hex: unknown };
-    foregroundLight: { hex: unknown };
-    backgroundDark: { hex: unknown };
-    foregroundDark: { hex: unknown };
+    backgroundLight: {
+      hex: unknown;
+      rgba: HygraphColorValues["rgba"];
+    };
+    foregroundLight: {
+      hex: unknown;
+      rgba: HygraphColorValues["rgba"];
+    };
+    backgroundDark: {
+      hex: unknown;
+      rgba: HygraphColorValues["rgba"];
+    };
+    foregroundDark: {
+      hex: unknown;
+      rgba: HygraphColorValues["rgba"];
+    };
   };
 
   /**
@@ -56,16 +81,57 @@ export const parseColorSet = (
   }
 
   /**
+   * Attempts to convert a Hygraph RGBA value to an RGB string.
+   */
+  const constructRGBString = ({
+    r,
+    g,
+    b,
+  }: HygraphColorValues["rgba"]): unknown =>
+    typeof r === "number" && typeof g === "number" && typeof b === "number"
+      ? `${r} ${g} ${b}`
+      : null;
+
+  const backgroundLightRGBColorValue = constructRGBString(backgroundLightRGBA);
+  const foregroundLightRGBColorValue = constructRGBString(foregroundLightRGBA);
+  const backgroundDarkRGBColorValue = constructRGBString(backgroundDarkRGBA);
+  const foregroundDarkRGBColorValue = constructRGBString(foregroundDarkRGBA);
+
+  /**
+   * Return null if any of the constructed RGB values are invalid.
+   */
+  if (
+    !isRGBColorValue(backgroundLightRGBColorValue) ||
+    !isRGBColorValue(foregroundLightRGBColorValue) ||
+    !isRGBColorValue(backgroundDarkRGBColorValue) ||
+    !isRGBColorValue(foregroundDarkRGBColorValue)
+  ) {
+    return null;
+  }
+
+  /**
    * Return the parsed color set.
    */
   return {
     light: {
-      background: backgroundLightHexColorValue,
-      foreground: foregroundLightHexColorValue,
+      background: {
+        hex: backgroundLightHexColorValue,
+        rgb: backgroundLightRGBColorValue,
+      },
+      foreground: {
+        hex: foregroundLightHexColorValue,
+        rgb: foregroundLightRGBColorValue,
+      },
     },
     dark: {
-      background: backgroundDarkHexColorValue,
-      foreground: foregroundDarkHexColorValue,
+      background: {
+        hex: backgroundDarkHexColorValue,
+        rgb: backgroundDarkRGBColorValue,
+      },
+      foreground: {
+        hex: foregroundDarkHexColorValue,
+        rgb: foregroundDarkRGBColorValue,
+      },
     },
   };
 };

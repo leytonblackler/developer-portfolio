@@ -15,15 +15,35 @@ fragment AllTechnologyFields on Technology {
     id
     foregroundLight {
       hex
+      rgba {
+        r
+        g
+        b
+      }
     }
     backgroundLight {
       hex
+      rgba {
+        r
+        g
+        b
+      }
     }
     foregroundDark {
       hex
+      rgba {
+        r
+        g
+        b
+      }
     }
     backgroundDark {
       hex
+      rgba {
+        r
+        g
+        b
+      }
     }
   }
   categories

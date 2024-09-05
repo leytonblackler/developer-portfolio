@@ -1,7 +1,8 @@
 "use client";
 
 import { type FunctionComponent, useEffect } from "react";
-import { HiOutlineRefresh } from "react-icons/hi";
+import { HiOutlineArrowLeft, HiOutlineRefresh } from "react-icons/hi";
+import { PlayMode } from "@aarsteinmedia/dotlottie-player-light";
 import { cn } from "@/utils/styling/cn";
 import { ErrorPageLayout } from "@/components/pages/error/layout";
 
@@ -11,40 +12,42 @@ interface ErrorPageProps {
 }
 
 const ErrorPage: FunctionComponent<ErrorPageProps> = ({ error, reset }) => {
+  // TODO: Log the error to an error reporting service
   useEffect(() => {
-    // TODO: Log the error to an error reporting service
     console.error(error);
   }, [error]);
 
   return (
-    // <div
-    //   className={cn(
-    //     "h-full flex-1",
-    //     "flex flex-col",
-    //     "gap-y-8",
-    //     "items-center justify-center text-center"
-    //   )}
-    // >
-    //   <div
-    //     className={cn(
-    //       "max-w-2xl",
-    //       "flex flex-col",
-    //       "items-center justify-center text-center"
-    //     )}
-    //   >
     <ErrorPageLayout
-      button={{
-        label: "Reload page",
-        icon: HiOutlineRefresh,
-        onClick: reset,
-      }}
+      buttons={[
+        {
+          label: "Go back home",
+          icon: HiOutlineArrowLeft,
+          href: "/",
+        },
+        {
+          label: "Reload page",
+          icon: HiOutlineRefresh,
+          onClick: reset,
+        },
+      ]}
     >
       <div className="flex flex-col items-center gap-y-10">
+        <div className="relative size-20">
+          <dotlottie-player
+            autoplay
+            loop
+            mode={PlayMode.Normal}
+            src="/lottie/fire.lottie"
+            speed={2}
+            style={{ height: "100%", width: "100%" }}
+          />
+        </div>
         <h1
           className={cn(
             "text-3xl font-bold md:text-5xl",
             "text-center",
-            "text-gray-900 dark:text-gray-300"
+            "text-gray-925 dark:text-gray-300"
           )}
         >
           {`If you're seeing this, something went wrong.`}

@@ -1,5 +1,12 @@
-import { type Data2d } from "smooth-scrollbar/interfaces";
+import { type MotionValue } from "framer-motion";
+import { type RefObject } from "react";
+
+export interface ScrollInstanceMotionValues {
+  x: MotionValue<number>;
+  y: MotionValue<number>;
+}
 
 export interface ScrollInstance {
-  position: Data2d;
+  ref: RefObject<HTMLDivElement>;
+  motionValues: ScrollInstanceMotionValues;
 }

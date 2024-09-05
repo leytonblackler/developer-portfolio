@@ -1,5 +1,6 @@
 import { type SimulationNodeDatum } from "d3-force";
 import { type MotionValue } from "framer-motion";
+import { type ParsedColorSet } from "@/hygraph/types";
 
 export interface BubbleData {
   id: string;
@@ -8,8 +9,9 @@ export interface BubbleData {
   iconUrl: string;
   iconIsCircle: boolean;
   importance: number;
-  backgroundColor: string;
-  textColor: string;
+  parsedColorSet: ParsedColorSet;
+  // backgroundColor: string;
+  // textColor: string;
 }
 
 export interface BubbleNode extends SimulationNodeDatum, BubbleData {

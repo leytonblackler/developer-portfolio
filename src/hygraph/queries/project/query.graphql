@@ -3,7 +3,17 @@ fragment ProjectPageTechnologyData on Technology {
   name
   url
   logo {
-    icon {
+    iconLight {
+      url(transformation: {
+        image: {
+          resize: {
+            width: 128,
+            height: 128,
+          }
+        }
+      })
+    }
+    iconDark {
       url(transformation: {
         image: {
           resize: {
@@ -18,15 +28,35 @@ fragment ProjectPageTechnologyData on Technology {
   colors {
     foregroundLight {
       hex
+      rgba {
+        r
+        g
+        b
+      }
     }
     backgroundLight {
       hex
+      rgba {
+        r
+        g
+        b
+      }
     }
     foregroundDark {
       hex
+      rgba {
+        r
+        g
+        b
+      }
     }
     backgroundDark {
       hex
+      rgba {
+        r
+        g
+        b
+      }
     }
   }
 }
@@ -37,7 +67,19 @@ fragment ProjectPageData on Project {
   subtitle
   description
   logo {
-    primary {
+    primaryLight {
+      id
+      url(transformation: {
+        image: {
+          resize: {
+            width: 512,
+            height: 512,
+            fit: max
+          }
+        }
+      })
+    }
+    primaryDark {
       id
       url(transformation: {
         image: {
@@ -53,15 +95,35 @@ fragment ProjectPageData on Project {
   colors {
     foregroundLight {
       hex
+      rgba {
+        r
+        g
+        b
+      }
     }
     backgroundLight {
       hex
+      rgba {
+        r
+        g
+        b
+      }
     }
     foregroundDark {
       hex
+      rgba {
+        r
+        g
+        b
+      }
     }
     backgroundDark {
       hex
+      rgba {
+        r
+        g
+        b
+      }
     }
   }
   technologies(first: 300) {

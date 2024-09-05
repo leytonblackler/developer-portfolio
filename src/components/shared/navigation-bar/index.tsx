@@ -11,13 +11,15 @@ import {
 } from "react";
 import { usePathname } from "next/navigation";
 import { isEqual } from "lodash";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useTransform } from "framer-motion";
 import { type Entries } from "type-fest";
-import { useScrollInstance } from "../smooth-scroller/use-scroll-instance";
+import { useScrollMotionValues } from "../smooth-scroller/use-scroll-motion-values";
 import { LinkItem } from "./link-item";
 import { Logo } from "./logo";
 import { cn } from "@/utils/styling/cn";
-import { type PageConfig, pagesConfig, type PageId } from "@/config/pages";
+import { type PageConfig, pagesConfig } from "@/config/pages";
+import { ScrollInstanceId } from "@/constants/scroll-instance-ids";
+import { type TopLevelPage } from "@/hygraph/generated/graphql";
 
 export const NavigationBar: FunctionComponent = () => {
   const [linkItemRefs] = useState<RefObject<HTMLLIElement>[]>(
@@ -30,7 +32,7 @@ export const NavigationBar: FunctionComponent = () => {
 
   const { pageIndex } = useMemo<
     | {
-        pageId: PageId;
+        pageId: TopLevelPage;
         pageConfig: PageConfig;
         pageIndex: number;
       }
@@ -96,31 +98,22 @@ export const NavigationBar: FunctionComponent = () => {
         resizeObserver.unobserve(activeLinkItemElement);
       };
     }
+    setSelectorInitialised(true);
   }, [activeLinkItemRef, handleSelectorUpdate]);
 
   /**
    * Access the scroll instance for the main scroll container.
    */
-  const scroll = useScrollInstance("main-scroll-container");
+  const { y: scrollY } = useScrollMotionValues(ScrollInstanceId.Main);
 
-  const visibilityDelta = useMemo<number>(
-    () => 1 - Math.min(Math.max(scroll.position.y - 32, 0), 100) / 100,
-    [scroll.position.y]
+  const visibilityDelta = useTransform(
+    () => 1 - Math.min(Math.max(scrollY.get() - 40, 0), 100) / 100
   );
 
-  const scale = useMemo<number>(
-    () => 0.8 + 0.2 * visibilityDelta,
-    [visibilityDelta]
-  );
+  const scale = useTransform(() => 0.9 + 0.1 * visibilityDelta.get());
 
-  const translateY = useMemo<string>(
-    () => `-${(1 - visibilityDelta) * 100}%`,
-    [visibilityDelta]
-  );
-
-  const blur = useMemo<string>(
-    () => `${(1 - visibilityDelta) * 5}px`,
-    [visibilityDelta]
+  const translateY = useTransform(
+    () => `-${(1 - visibilityDelta.get()) * 40}%`
   );
 
   return (
@@ -128,7 +121,7 @@ export const NavigationBar: FunctionComponent = () => {
       style={{
         scale,
         translateY,
-        filter: `blur(${blur})`,
+        // filter: `blur(${blur})`,
         opacity: visibilityDelta,
       }}
       className={cn("fixed", "inset-x-0 top-0", "pt-4 sm:pt-6")}
@@ -148,7 +141,8 @@ export const NavigationBar: FunctionComponent = () => {
         <Logo
           className={cn(
             "shrink-0",
-            "h-10 w-10 text-gray-900 dark:text-gray-100"
+            "size-10",
+            "text-gray-850 dark:text-gray-100"
           )}
         />
         <nav className={cn("relative", "w-full sm:w-auto")}>
@@ -179,9 +173,9 @@ export const NavigationBar: FunctionComponent = () => {
               >
                 <motion.div
                   className={cn(
-                    "h-full w-full rounded-full",
+                    "size-full rounded-full",
                     "transition-colors duration-300",
-                    "bg-gray-900 dark:bg-gray-100"
+                    "bg-gray-100 dark:bg-gray-925"
                   )}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}

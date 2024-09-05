@@ -1,10 +1,10 @@
+"use client";
+
 import { type FunctionComponent, type ReactNode } from "react";
+import { motion } from "framer-motion";
+import { useInView } from "../smooth-scroller/use-in-view";
 import { cn } from "@/utils/styling/cn";
-import { type ParsedColorSet } from "@/hygraph/types";
-import {
-  useColorSetClassNames,
-  useSchemedColorSet,
-} from "@/hooks/color-scheme/use-schemed-color-set";
+import { IN_VIEW_MOTION_PROPS } from "@/constants/in-view-motion-props";
 
 interface CardProps {
   children: ReactNode;
@@ -16,7 +16,7 @@ interface CardProps {
     bottom: boolean;
     right: boolean;
   };
-  parsedColorSet?: ParsedColorSet | null;
+  contentClassName?: string;
 }
 
 // TODO: Scope cards to individual error boundaries
@@ -27,62 +27,40 @@ export const Card: FunctionComponent<CardProps> = ({
   rowSpan = 1,
   contentGap = true,
   contentPadding = { left: true, bottom: true, right: true },
-  parsedColorSet,
+  contentClassName,
 }) => {
-  console.log("parsedColorSet", parsedColorSet);
-
   /**
-   * If a parsed color set was provided, select the colors to use from this
-   * based on the current colour scheme mode.
+   * Observe when the card first enters the viewport.
    */
-  // const colors = useColorSchemeModeColors(parsedColorSet);
-
-  // console.log("colors", colors);
-
-  const schemedColorSet = useSchemedColorSet(parsedColorSet);
-
-  console.log("schemedColorSet", schemedColorSet);
+  const [ref, isInView] = useInView<HTMLDivElement>();
 
   return (
-    <div
+    <motion.div
+      animate={isInView ? "visible" : "hidden"}
+      {...IN_VIEW_MOTION_PROPS}
+      ref={ref}
       className={cn(
         "flex-1",
         "flex flex-col",
+        "origin-center",
         contentGap ? "gap-y-6" : "gap-y-0",
-        "rounded-7xl",
-        // "card-text-primary",
+        "rounded-6xl",
+        "overflow-hidden",
         "relative",
-        schemedColorSet
-          ? cn(
-              schemedColorSet.classNames.background,
-              schemedColorSet.classNames.text
-            )
-          : cn(
-              "bg-gray-100 dark:bg-gray-900",
-              "text-gray-700 dark:text-gray-200"
-            )
+        "card-bg-primary"
       )}
       style={{
         gridRow: `span ${rowSpan} / span ${rowSpan}`,
-        ...(schemedColorSet?.cssVariableDeclarations ?? {}),
       }}
     >
-      <div className="bg-lime-500 text-red-500">
-        {/* {JSON.stringify(variables)} */}
-      </div>
-      <div className={cn("px-10 pt-8")}>
+      <div className={cn("px-6 pt-8 sm:px-10")}>
         <h2
           className={cn(
-            // !colors && "text-gray-600 dark:text-gray-500",
+            "card-text-primary",
             "text-xl",
             "font-medium",
             "whitespace-nowrap"
           )}
-          style={
-            {
-              // color: colors?.foreground ?? undefined,
-            }
-          }
         >
           {title}
         </h2>
@@ -91,13 +69,16 @@ export const Card: FunctionComponent<CardProps> = ({
         className={cn(
           "relative flex-1",
           "flex flex-col",
-          contentPadding.left && "pl-10",
-          contentPadding.bottom && "pb-10",
-          contentPadding.right && "pr-10"
+          "text-gray-700 dark:text-gray-200",
+          "text-opacity-70",
+          contentPadding.left && "pl-6 sm:pl-10",
+          contentPadding.bottom && "pb-6 sm:pb-10",
+          contentPadding.right && "pr-6 sm:pr-10",
+          contentClassName
         )}
       >
         {content}
       </div>
-    </div>
+    </motion.div>
   );
 };

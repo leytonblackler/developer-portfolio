@@ -1,9 +1,12 @@
+"use client";
+
 import { type FunctionComponent } from "react";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 import { HiOutlineMail } from "react-icons/hi";
+import { motion } from "framer-motion";
 import { SocialLink, type SocialLinkProps } from "./social-link";
 import { cn } from "@/utils/styling/cn";
-import { UnicornFactory } from "@/components/shared/Icons";
+import { useInView } from "@/components/shared/smooth-scroller/use-in-view";
 
 export const SOCIAL_LINKS_PROPS: SocialLinkProps[] = [
   /**
@@ -31,14 +34,14 @@ export const SOCIAL_LINKS_PROPS: SocialLinkProps[] = [
   /**
    * Unicorn Factory
    */
-  {
-    icon: UnicornFactory,
-    href: "TODO",
-    color: {
-      base: "#5E6AC6",
-      contrast: "#FFF",
-    },
-  },
+  // {
+  //   icon: UnicornFactory,
+  //   href: "TODO",
+  //   color: {
+  //     base: "#5E6AC6",
+  //     contrast: "#FFF",
+  //   },
+  // },
   /**
    * Email
    */
@@ -51,10 +54,25 @@ export const SOCIAL_LINKS_PROPS: SocialLinkProps[] = [
 /**
  * A grid of buttons linking to social media profiles or contact methods.
  */
-export const SocialLinks: FunctionComponent = () => (
-  <div className="@container">
-    <div className={cn("grid", "grid-cols-2 @xl:grid-cols-4", "gap-2")}>
-      {SOCIAL_LINKS_PROPS.map(SocialLink)}
+export const SocialLinks: FunctionComponent = () => {
+  /**
+   * Observe when the links container first enter the viewport.
+   */
+  const [ref, isInView] = useInView<HTMLDivElement>();
+
+  return (
+    <div ref={ref} className="@container">
+      <motion.ul
+        animate={isInView ? "visible" : "hidden"}
+        transition={{
+          staggerChildren: 0.3,
+        }}
+        className={cn("grid", "grid-cols-3", "gap-2")}
+      >
+        {SOCIAL_LINKS_PROPS.map((linkProps) => (
+          <SocialLink key={linkProps.href} {...linkProps} />
+        ))}
+      </motion.ul>
     </div>
-  </div>
-);
+  );
+};

@@ -1,61 +1,63 @@
 import { type FunctionComponent } from "react";
-import Image from "next/image";
+import { AnimatedText } from "./animated-text";
 import { cn } from "@/utils/styling/cn";
 
 interface HeroProps {
   heading: string;
-  logoUrl?: string | null | undefined;
-  subHeading: string;
+  subHeading: string | string[];
+  large?: true;
 }
 
 export const Hero: FunctionComponent<HeroProps> = ({
   heading,
-  logoUrl,
   subHeading,
+  large = false,
 }) => (
   <div
     className={cn(
       "w-full",
-      "flex flex-col gap-y-4",
+      "flex flex-col",
       "items-center justify-center text-center",
-      "pb-16"
+      "px-4 pb-20",
+      large ? "gap-y-7" : "gap-y-4"
     )}
   >
-    <h1
+    {/* <h1
       className={cn(
-        "text-3xl font-semibold md:text-5xl",
-        "text-gray-900 dark:text-gray-100",
-        "w-full",
-        "relative",
-        logoUrl ? "pb-4" : "pb-0"
+       
       )}
     >
-      <span
-        className={
-          logoUrl ? "select-none opacity-0" : "select-auto opacity-100"
-        }
-      >
-        {heading}
-      </span>
-      {logoUrl ? (
-        <div className="absolute left-0 top-0 h-full w-full">
-          <Image
-            fill
-            src={logoUrl}
-            alt={`${heading} Logo`}
-            className="object-contain"
-          />
-        </div>
-      ) : null}
-    </h1>
+      <span>{heading}</span>
+    </h1> */}
+    <AnimatedText
+      element="h1"
+      className={cn(
+        large
+          ? "text-3xl sm:text-4xl md:text-6xl"
+          : "text-2xl sm:text-3xl md:text-5xl",
+        "font-bold",
+        "text-gray-850 dark:text-gray-100",
+        "w-full",
+        "relative"
+      )}
+    >
+      {heading}
+    </AnimatedText>
     <p
       className={cn(
-        "text-xl font-normal md:text-2xl",
+        large
+          ? "text-lg sm:text-xl md:text-2xl"
+          : "text-base sm:text-lg md:text-xl",
+        "font-light",
         "max-w-2xl",
-        "text-gray-700 dark:text-gray-400"
+        "text-gray-700 dark:text-gray-400",
+        "opacity-70",
+        "flex flex-col gap-y-1"
       )}
     >
-      {subHeading}
+      {Array.isArray(subHeading)
+        ? subHeading.map((line) => <span key={line}>{line}</span>)
+        : subHeading}
     </p>
   </div>
 );

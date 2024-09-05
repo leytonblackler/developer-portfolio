@@ -27,7 +27,6 @@ import { BubbleTooltip } from "./components/tooltip";
 import { d3 } from "@/utils/d3";
 import { forceBounds } from "@/utils/d3/force-bounds";
 import { cn } from "@/utils/styling/cn";
-import { useScrollInstance } from "@/components/shared/smooth-scroller/use-scroll-instance";
 
 interface BubblesProps {
   activate: boolean;
@@ -863,7 +862,7 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({
    * Re-calculate the container position when the page is scrolled.
    * TODO: Detect when over scrolling (i.e. when bouncing at top/bottom).
    */
-  useScrollInstance("main-scroll-container", calculateContainerPosition);
+  // useScrollInstance(ScrollInstance.Main, calculateContainerPosition);
 
   /**
    * Re-calculate the container position when the window is resized.
@@ -871,12 +870,9 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({
   useEventListener("resize", calculateContainerPosition);
 
   return (
-    <div className="relative h-full w-full" ref={containerRef}>
+    <div className="relative size-full" ref={containerRef}>
       {renderedNodes.length ? (
-        <svg
-          className="h-full w-full"
-          style={{ width: "100%", height: "100%" }}
-        >
+        <svg className="size-full" style={{ width: "100%", height: "100%" }}>
           {renderedNodes.map((node) => {
             const {
               id,
@@ -886,7 +882,7 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({
               radius,
               iconUrl,
               iconIsCircle,
-              backgroundColor,
+              parsedColorSet,
             } = node;
             const iconSize = (iconIsCircle ? 2 : 1.1) * radius.get();
             return (
@@ -901,7 +897,7 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({
                   cx={x}
                   cy={y}
                   r={radius.get()}
-                  fill={backgroundColor}
+                  fill={parsedColorSet.dark.background.hex}
                   className={cn(
                     !draggingNode && "cursor-pointer",
                     "transition-[opacity,filter] duration-500",

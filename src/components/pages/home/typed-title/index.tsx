@@ -22,7 +22,7 @@ export const TypedTitle: FunctionComponent = () => {
           wrapper="span"
           speed={40}
           className={cn(
-            "text-gray-900 dark:text-gray-100",
+            "text-gray-850 dark:text-gray-100",
             "whitespace-pre-line",
             "font-bold",
             "text-4xl leading-tight"

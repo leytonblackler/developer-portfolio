@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --tw-bg-opacity: 1;
+    --tw-text-opacity: 1;
+  }
+}
+
+
 @layer utilities {
   .scrollbar-hide {
     /* IE and Edge */
@@ -38,13 +46,6 @@
 html {
   /* Disable highlighting of elements on tap */
   -webkit-tap-highlight-color: transparent;
-
-  @apply
-    max-h-[100dvh]
-    w-[100dvw]
-    max-w-[100dvw]
-    h-[100dvh]
-    relative;
 }
 
 body, main {
@@ -69,6 +70,14 @@ body, main {
 
 .bounded-card-content-x {
   @apply px-10;
+}
+
+.card-bg-primary {
+  @apply bg-gray-100 dark:bg-gray-925;
+}
+
+.card-bg-secondary {
+  @apply bg-gray-200 dark:bg-gray-900;
 }
 
 .card-text-primary {

@@ -6,28 +6,37 @@ import {
   useCallback,
   useState,
   createContext,
+  type RefObject,
 } from "react";
-import { type Data2d } from "smooth-scrollbar/interfaces";
 import { type Entries } from "type-fest";
+import { type Data2d } from "smooth-scrollbar/interfaces";
 import { type ScrollInstance } from "./types";
+import { createMotionValue } from "@/components/pages/project/technologies/bubbles/utils/create-motion-value";
 
 interface ScrollProviderProps {
   children: ReactNode;
 }
 
-type ScrollInstances = Record<string, ScrollInstance>;
+type ScrollInstances = Record<string, ScrollInstance | undefined>;
 
-type SetScrollInstancePosition = (props: {
+type RegisterScrollInstance = (props: {
   id: string;
-  position: Data2d;
+  ref: RefObject<HTMLDivElement>;
 }) => void;
 
-type RemoveScrollInstance = (id: string) => void;
+type SetScrollInstancePosition = (
+  props: {
+    id: string;
+  } & Data2d
+) => void;
+
+type UnregisterScrollInstance = (id: string) => void;
 
 interface ScrollContextValue {
   instances: ScrollInstances;
+  registerInstance: RegisterScrollInstance;
   setInstancePosition: SetScrollInstancePosition;
-  removeInstance: RemoveScrollInstance;
+  unregisterInstance: UnregisterScrollInstance;
 }
 
 export const ScrollContext = createContext<ScrollContextValue>(
@@ -41,24 +50,73 @@ export const ScrollProvider: FunctionComponent<ScrollProviderProps> = ({
   children,
 }) => {
   /**
-   * The current scroll position.
+   * The current scroll instances.
    */
   const [instances, setInstances] = useState<ScrollInstances>({});
 
   /**
-   * Set the scroll position for an instance with the specified ID.
+   * Register a new scroll instance with the provider.
    */
-  const setInstancePosition = useCallback<SetScrollInstancePosition>(
-    ({ id, position }) => {
-      setInstances((current) => ({ ...current, [id]: { position } }));
+  const registerInstance = useCallback<RegisterScrollInstance>(
+    ({ id, ref }) => {
+      setInstances((current) => {
+        /**
+         * Check if there is already an instance with the specified ID.
+         */
+        const alreadyRegistered = id in current;
+
+        /**
+         * Register the instance only if it has not already been registered.
+         */
+        return alreadyRegistered
+          ? current
+          : {
+              ...current,
+              [id]: {
+                ref,
+                motionValues: {
+                  x: createMotionValue(0),
+                  y: createMotionValue(0),
+                },
+              },
+            };
+      });
     },
     []
   );
 
   /**
+   * Set the scroll position for an instance with the specified ID.
+   */
+  const setInstancePosition = useCallback<SetScrollInstancePosition>(
+    ({ id, x, y }) => {
+      const instance = instances[id];
+      if (instance) {
+        instance.motionValues.x.set(x);
+        instance.motionValues.y.set(y);
+      } else {
+        throw new Error(
+          `No scroll instance with ID "${id}" has been registered.`
+        );
+        // setInstances((current) => ({
+        //   ...current,
+        //   [id]: {
+        //     element: document.getElementById(id) ?? null,
+        //     motionValues: {
+        //       x: createMotionValue(x),
+        //       y: createMotionValue(y),
+        //     },
+        //   },
+        // }));
+      }
+    },
+    [instances]
+  );
+
+  /**
    * Removes a scroll instance.
    */
-  const removeInstance = useCallback<RemoveScrollInstance>((id) => {
+  const unregisterInstance = useCallback<UnregisterScrollInstance>((id) => {
     setInstances((current) =>
       Object.fromEntries(
         (Object.entries(current) as Entries<typeof current>).filter(
@@ -70,7 +128,12 @@ export const ScrollProvider: FunctionComponent<ScrollProviderProps> = ({
 
   return (
     <ScrollContext.Provider
-      value={{ instances, setInstancePosition, removeInstance }}
+      value={{
+        instances,
+        registerInstance,
+        setInstancePosition,
+        unregisterInstance,
+      }}
     >
       {children}
     </ScrollContext.Provider>

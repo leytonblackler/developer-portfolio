@@ -10,13 +10,14 @@ import { Logo } from "../navigation-bar/logo";
 import { type CardListItemDataFragment } from "./types";
 import { ProjectCategory } from "./project-category";
 import { CardListItemTag } from "./tag";
-import { Qualifications } from "./qualifications";
+import { Credentials } from "./credentials";
 import { EducationalInstitutionCategory } from "./educational-institution-category";
 import { parseColorSet } from "@/hygraph/utils/parse-color-set";
 import { cn } from "@/utils/styling/cn";
 import { ENTITY_BASE_PATHS } from "@/constants/paths";
 import { formatDateRange } from "@/utils/date";
 import { useSchemedColorSet } from "@/hooks/color-scheme/use-schemed-color-set";
+import { useIsDarkMode } from "@/hooks/color-scheme/use-color-scheme-mode";
 
 /**
  * Parse the environment variable for the Hygraph project entry ID reflecting
@@ -55,6 +56,11 @@ export const CardListItem: FunctionComponent<CardListItemDataFragment> = (
   } = item;
 
   /**
+   * Get whether the current color scheme is dark.
+   */
+  const isDarkMode = useIsDarkMode();
+
+  /**
    * Parse the HEX color values from the color set.
    */
   const parsedColorSet = parseColorSet(unparsedColorSet);
@@ -62,14 +68,9 @@ export const CardListItem: FunctionComponent<CardListItemDataFragment> = (
   /**
    * Select the colors to use from this based on the current colour scheme mode.
    */
-  // const colors = useColorSchemeModeColors(parsedColorSet);
-
   const schemedColorSet = useSchemedColorSet(parsedColorSet);
 
   const href = `${ENTITY_BASE_PATHS[__typename]}/${slug}`;
-
-  const isPortfolioProjectEntry =
-    id === HYGRAPH_PORTFOLIO_WEBSITE_PROJECT_ENTRY_ID;
 
   return (
     <MotionLink
@@ -77,12 +78,9 @@ export const CardListItem: FunctionComponent<CardListItemDataFragment> = (
       className={cn(
         "group",
         "h-72",
-        "relative flex-1 px-8 py-6",
-        "overflow-hidden rounded-7xl",
-        "flex items-center justify-center",
-        schemedColorSet
-          ? schemedColorSet.classNames.background
-          : "bg-gray-100 dark:bg-gray-900"
+        "relative flex-1",
+        "overflow-hidden rounded-6xl"
+        // "bg-gray-100 dark:bg-gray-925"
       )}
       style={{
         ...(schemedColorSet?.cssVariableDeclarations ?? {}),
@@ -102,96 +100,117 @@ export const CardListItem: FunctionComponent<CardListItemDataFragment> = (
         },
       }}
     >
-      <motion.div
-        className="relative box-border h-full max-h-[90px] w-full max-w-[160px]"
-        transition={{
-          type: "tween",
-          ease: "easeOut",
-        }}
-        variants={{
-          idle: {
-            scale: 1,
-          },
-          hover: {
-            scale: 1.1,
-          },
-        }}
-      >
-        {isPortfolioProjectEntry ? (
-          <Logo
-            className={cn("mx-auto h-full text-gray-900 dark:text-gray-100")}
-          />
-        ) : (
-          <>
-            {logo?.primary ? (
-              <Image
-                fill
-                src={logo.primary.url}
-                alt={`${name} Logo`}
-                className="object-contain"
-              />
-            ) : null}
-          </>
-        )}
-      </motion.div>
-
-      <motion.div
+      <div
         className={cn(
-          "pointer-events-none",
-          "absolute inset-0 px-10 py-8",
-          "flex flex-col justify-between"
+          "size-full",
+          "px-8 py-6",
+          "flex items-center justify-center",
+          schemedColorSet?.classNames.background
         )}
-        transition={{
-          type: "tween",
-          ease: "easeOut",
-        }}
-        variants={{
-          idle: {
-            scale: 1,
-          },
-          hover: {
-            scale: 0.98,
-          },
-        }}
       >
-        <div className="flex flex-row justify-between">
-          {/* Main card title */}
-          <CardListItemTag type="primary" colors={colors}>
-            {name}
-          </CardListItemTag>
-
-          {/* Project category */}
-          {item.__typename === "Project" ? (
-            <CardListItemTag type="secondary" colors={colors}>
-              <ProjectCategory
-                {...pick(item, ["personalProject", "company", "courses"])}
-              />
-            </CardListItemTag>
+        <motion.div
+          className="relative box-border size-full max-h-[90px] max-w-[160px]"
+          transition={{
+            type: "tween",
+            ease: "easeOut",
+          }}
+          variants={{
+            idle: {
+              scale: 1,
+            },
+            hover: {
+              scale: 1.1,
+            },
+          }}
+        >
+          {/* Logo for light mode */}
+          {logo?.primaryLight?.url ? (
+            <Image
+              fill
+              src={logo.primaryLight.url}
+              alt={`${name} Logo`}
+              className={cn("object-contain", "block dark:hidden")}
+            />
           ) : null}
 
-          {/* Educational institution type */}
-          {item.__typename === "EducationalInstitution" ? (
-            <CardListItemTag type="secondary" colors={colors}>
-              <EducationalInstitutionCategory {...pick(item, ["category"])} />
-            </CardListItemTag>
+          {/* Logo for dark mode */}
+          {logo?.primaryDark?.url ? (
+            <Image
+              fill
+              src={logo.primaryDark.url}
+              alt={`${name} Logo`}
+              className={cn("object-contain", "hidden dark:block")}
+            />
           ) : null}
-        </div>
-        <div className="flex flex-row justify-between">
-          {/* Time frame */}
-          <CardListItemTag type="secondary" colors={colors}>
-            {formatDateRange(timeFrame, {
-              fullMonth: false,
-            })}
-          </CardListItemTag>
+        </motion.div>
 
-          {/* Qualifications */}
-          {item.__typename === "EducationalInstitution" ? (
-            <CardListItemTag type="secondary" colors={colors}>
-              <Qualifications {...pick(item, ["qualifications"])} />
+        <motion.div
+          className={cn(
+            "pointer-events-none",
+            "absolute inset-0 px-10 py-8",
+            "flex flex-col justify-between"
+          )}
+          transition={{
+            type: "tween",
+            ease: "easeOut",
+          }}
+          variants={{
+            idle: {
+              scale: 1,
+            },
+            hover: {
+              scale: 0.98,
+            },
+          }}
+        >
+          <div className="flex flex-row justify-between">
+            {/* Main card title */}
+            <CardListItemTag type="primary" schemedColorSet={schemedColorSet}>
+              {name}
             </CardListItemTag>
-          ) : null}
-        </div>
-      </motion.div>
+
+            {/* Project category */}
+            {item.__typename === "Project" ? (
+              <CardListItemTag
+                type="secondary"
+                schemedColorSet={schemedColorSet}
+              >
+                <ProjectCategory
+                  {...pick(item, ["personalProject", "company", "courses"])}
+                />
+              </CardListItemTag>
+            ) : null}
+
+            {/* Educational institution type */}
+            {item.__typename === "EducationalInstitution" ? (
+              <CardListItemTag
+                type="secondary"
+                schemedColorSet={schemedColorSet}
+              >
+                <EducationalInstitutionCategory {...pick(item, ["category"])} />
+              </CardListItemTag>
+            ) : null}
+          </div>
+          <div className="flex flex-row justify-between">
+            {/* Time frame */}
+            <CardListItemTag type="secondary" schemedColorSet={schemedColorSet}>
+              {formatDateRange(timeFrame, {
+                fullMonth: false,
+              })}
+            </CardListItemTag>
+
+            {/* Credentials */}
+            {item.__typename === "EducationalInstitution" ? (
+              <CardListItemTag
+                type="secondary"
+                schemedColorSet={schemedColorSet}
+              >
+                <Credentials {...pick(item, ["credentials"])} />
+              </CardListItemTag>
+            ) : null}
+          </div>
+        </motion.div>
+      </div>
     </MotionLink>
   );
 };

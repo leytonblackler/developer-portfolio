@@ -1,0 +1,224 @@
+fragment CompanyPageLinkItemData on Company {
+  id
+  name
+  logo {
+    iconLight {
+      url(transformation: {
+        image: {
+          resize: {
+            width: 64,
+            height: 64,
+            fit: max
+          }
+        }
+      })
+    }
+    iconDark {
+      url(transformation: {
+        image: {
+          resize: {
+            width: 64,
+            height: 64,
+            fit: max
+          }
+        }
+      })
+    }
+  }
+  colors {
+    foregroundLight {
+      hex
+      rgba {
+        r
+        g
+        b
+      }
+    }
+    backgroundLight {
+      hex
+      rgba {
+        r
+        g
+        b
+      }
+    }
+    foregroundDark {
+      hex
+      rgba {
+        r
+        g
+        b
+      }
+    }
+    backgroundDark {
+      hex
+      rgba {
+        r
+        g
+        b
+      }
+    }
+  }
+}
+
+fragment ProjectPageLinkItemData on Project {
+  id
+  name
+  logo {
+    iconLight {
+      url(transformation: {
+        image: {
+          resize: {
+            width: 64,
+            height: 64,
+            fit: max
+          }
+        }
+      })
+    }
+    iconDark {
+      url(transformation: {
+        image: {
+          resize: {
+            width: 64,
+            height: 64,
+            fit: max
+          }
+        }
+      })
+    }
+  }
+  colors {
+    foregroundLight {
+      hex
+      rgba {
+        r
+        g
+        b
+      }
+    }
+    backgroundLight {
+      hex
+      rgba {
+        r
+        g
+        b
+      }
+    }
+    foregroundDark {
+      hex
+      rgba {
+        r
+        g
+        b
+      }
+    }
+    backgroundDark {
+      hex
+      rgba {
+        r
+        g
+        b
+      }
+    }
+  }
+}
+
+fragment EducationalInstitutionPageLinkItemData on EducationalInstitution {
+  id
+  name
+  logo {
+    iconLight {
+      url(transformation: {
+        image: {
+          resize: {
+            width: 64,
+            height: 64,
+            fit: max
+          }
+        }
+      })
+    }
+    iconDark {
+      url(transformation: {
+        image: {
+          resize: {
+            width: 64,
+            height: 64,
+            fit: max
+          }
+        }
+      })
+    }
+  }
+  colors {
+    foregroundLight {
+      hex
+      rgba {
+        r
+        g
+        b
+      }
+    }
+    backgroundLight {
+      hex
+      rgba {
+        r
+        g
+        b
+      }
+    }
+    foregroundDark {
+      hex
+      rgba {
+        r
+        g
+        b
+      }
+    }
+    backgroundDark {
+      hex
+      rgba {
+        r
+        g
+        b
+      }
+    }
+  }
+}
+
+query PageLinkItemsQuery($experiencePageId: ID!, $projectsPageId: ID!, $educationPageId: ID!) {
+  experiencePage: generalPage(where: {id: $experiencePageId}) {
+    sections {
+      ... on CardListSection {
+        items {
+          ... on Company {
+            ...CompanyPageLinkItemData
+          }
+        }
+      }
+    }
+  }
+  projectsPage: generalPage(where: {id: $projectsPageId}) {
+    sections {
+      ... on CardListSection {
+        items {
+          ... on Project {
+            ...ProjectPageLinkItemData
+          }
+        }
+      }
+    }
+  }
+  educationPage: generalPage(where: {id: $educationPageId}) {
+    sections {
+      ... on CardListSection {
+        items {
+          ... on EducationalInstitution {
+            ...EducationalInstitutionPageLinkItemData
+          }
+        }
+      }
+    }
+  }
+}

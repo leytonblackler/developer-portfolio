@@ -12,33 +12,35 @@ export const CardListItemTag: FunctionComponent<CardListItemTagProps> = ({
   children,
   type,
   schemedColorSet,
-}) => {
-  /**
-   * Determine the inline CSS styles to apply based on the tag type.
-   */
-  // const containerStyle: HTMLAttributes<HTMLDivElement>["style"] =
-  //   type === "primary"
-  //     ? {
-  //         color: colors?.background ?? undefined,
-  //         backgroundColor: colors?.foreground ?? undefined,
-  //       }
-  //     : {
-  //         color: colors?.foreground ?? undefined,
-  //       };
+}) => (
+  <div
+    className={cn(
+      "text-xs font-semibold leading-none",
 
-  // TODO: Fix set colors from schemedColorSet
+      type === "primary" &&
+        cn(
+          "rounded-full px-3 py-2",
+          schemedColorSet
+            ? cn(
+                schemedColorSet.classNames.inverted.background,
+                schemedColorSet.classNames.inverted.text
+              )
+            : cn(
+                "bg-gray-200/50 dark:bg-gray-800/50",
+                "text-gray-700 dark:text-gray-200"
+              )
+        ),
 
-  return (
-    <div
-      className={cn(
-        "text-xs font-semibold leading-none",
-        "text-gray-700 dark:text-gray-400",
-        type === "primary" &&
-          cn("rounded-full px-3 py-2", "bg-gray-200/50 dark:bg-gray-800/50")
-      )}
-      style={schemedColorSet?.cssVariableDeclarations ?? {}}
-    >
-      {children}
-    </div>
-  );
-};
+      type === "secondary" &&
+        cn(
+          "rounded-full px-3 py-2",
+          schemedColorSet
+            ? schemedColorSet.classNames.text
+            : "text-gray-700 dark:text-gray-400"
+        )
+    )}
+    style={schemedColorSet?.cssVariableDeclarations ?? {}}
+  >
+    {children}
+  </div>
+);

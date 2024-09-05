@@ -50,9 +50,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         type={type}
         className={cn(
           "w-full",
-          "rounded-7xl",
+          "rounded-6xl",
           "p-10",
-          "bg-gray-100 dark:bg-gray-900",
+          "bg-gray-100 dark:bg-gray-925",
           "text-gray-700 dark:text-gray-200",
           "outline-none"
         )}

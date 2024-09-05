@@ -36,8 +36,8 @@ export const ReCaptchaBadge: FunctionComponent<ReCaptchaBadgeProps> = ({
     <Link
       href="https://www.google.com/recaptcha/about/"
       className={cn(
-        "bg-gray-100/50 dark:bg-gray-900/60",
-        "rounded-7xl",
+        "bg-gray-100/50 dark:bg-gray-925/60",
+        "rounded-6xl",
         "flex flex-col",
         "justify-center",
         "px-10 py-6"
@@ -53,7 +53,7 @@ export const ReCaptchaBadge: FunctionComponent<ReCaptchaBadgeProps> = ({
           alt="Google reCAPTCHA"
           width={32}
           height={32}
-          className={cn("h-8 w-8")}
+          className={cn("size-8")}
         />
         <div className="flex flex-col">
           {/* Message */}

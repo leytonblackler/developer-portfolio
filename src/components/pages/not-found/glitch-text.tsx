@@ -14,7 +14,7 @@ const Text: FunctionComponent<{
   <div
     className={cn(
       "text-[150px] font-bold",
-      "text-gray-50",
+      "text-gray-850 dark:text-gray-100",
       "leading-none",
       className
     )}
@@ -43,7 +43,7 @@ export const GlitchText: FunctionComponent<GlitchTextProps> = ({
         "z-20",
         "bg-gray-50 dark:bg-gray-950",
         "absolute",
-        "h-full w-full",
+        "size-full",
         "flex items-center justify-center",
         "left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
         "ml-1",
@@ -59,7 +59,7 @@ export const GlitchText: FunctionComponent<GlitchTextProps> = ({
         "z-20",
         "bg-gray-50 dark:bg-gray-950",
         "absolute",
-        "h-full w-full",
+        "size-full",
         "flex items-center justify-center",
         "left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
         "ml-1",

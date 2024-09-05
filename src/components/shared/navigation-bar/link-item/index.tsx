@@ -30,9 +30,18 @@ export const LinkItem: FunctionComponent<LinkItemProps> = ({
         "items-center justify-center",
         "py-4 sm:py-5",
         "px-6 sm:px-8",
+        "transition-all duration-300",
         active
-          ? cn("text-gray-200 dark:text-gray-900")
-          : cn("text-gray-900 dark:text-gray-300")
+          ? cn(
+              "pointer-events-none select-none",
+              "text-gray-850 dark:text-gray-100",
+              "opacity-100"
+            )
+          : cn(
+              "pointer-events-auto select-auto",
+              "text-gray-850 dark:text-gray-300",
+              "opacity-50 hover:opacity-100"
+            )
       )}
     >
       <Icon className={cn("w-5", "h-5", "transition-colors duration-300")} />

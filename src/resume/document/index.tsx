@@ -15,7 +15,7 @@ export const ResumeDocument: FunctionComponent<ResumeDataFragment> = ({
   projects,
 }) => (
   <Tailwind config={tailwindConfig}>
-    <Css>
+    {/* <Css>
       {`@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap');
 
           @page {
@@ -23,8 +23,16 @@ export const ResumeDocument: FunctionComponent<ResumeDataFragment> = ({
             margin: 0;
           }
         `}
+    </Css> */}
+    <Css>
+      {`@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+          @page {
+            size: a4;
+            margin: 0;
+          }
+        `}
     </Css>
-    <div className="flex h-screen w-screen flex-col bg-gray-50 p-2 font-[Figtree]">
+    <div className="flex h-screen w-screen flex-col bg-gray-50 p-2 font-[Plus_Jakarta_Sans]">
       <ResumeHeader />
       <main className="flex flex-1 flex-row">
         <div className="mr-1 flex flex-1 flex-col">
@@ -57,7 +65,7 @@ export const ResumeDocument: FunctionComponent<ResumeDataFragment> = ({
               )}
             >
               <svg
-                className="h-10 w-10 fill-gray-400"
+                className="size-10 fill-gray-400"
                 viewBox="0 0 512 512"
                 xmlns="http://www.w3.org/2000/svg"
                 xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -70,6 +78,8 @@ export const ResumeDocument: FunctionComponent<ResumeDataFragment> = ({
             </a>
           </div>
         </div>
+
+        {/* TODO: "This resume was built with React" */}
       </main>
     </div>
   </Tailwind>

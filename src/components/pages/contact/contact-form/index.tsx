@@ -225,8 +225,8 @@ export const ContactFormSection: FunctionComponent<
           type="submit"
           className={cn(
             "flex-1 rounded-full px-8 py-10 font-medium",
-            "bg-gray-900 dark:bg-gray-300",
-            "text-gray-200 dark:text-gray-900",
+            "bg-gray-925 dark:bg-gray-300",
+            "text-gray-200 dark:text-gray-925",
             "flex flex-row items-center justify-center gap-x-4"
           )}
           disabled={!reCaptchaReady}

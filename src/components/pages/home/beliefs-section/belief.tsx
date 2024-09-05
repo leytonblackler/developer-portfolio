@@ -1,17 +1,20 @@
 import { type FunctionComponent } from "react";
 import { padStart } from "lodash";
+import { motion } from "framer-motion";
 import { type BeliefDataFragment } from "@/hygraph/generated/graphql";
 import { cn } from "@/utils/styling/cn";
+import { IN_VIEW_MOTION_PROPS } from "@/constants/in-view-motion-props";
 
 export const Belief: FunctionComponent<
   BeliefDataFragment & {
     index: number;
   }
 > = ({ title, description, index }) => (
-  <li
+  <motion.li
+    {...IN_VIEW_MOTION_PROPS}
     className={cn(
       "flex flex-col rounded-4xl px-10 pb-10 pt-8",
-      "bg-gray-200/50 dark:bg-gray-800/50"
+      "card-bg-secondary"
     )}
   >
     <div
@@ -25,16 +28,16 @@ export const Belief: FunctionComponent<
     >
       {padStart((index + 1).toString(), 2, "0")}
     </div>
-    <div className={cn("text-gray-900 dark:text-gray-300", "text-2xl", "mb-4")}>
+    <div className={cn("text-gray-925 dark:text-gray-300", "text-2xl", "mb-4")}>
       <span>{title}</span>
     </div>
     <div
       className={cn(
         "text-gray-700 dark:text-gray-400",
-        "text-base leading-relaxed"
+        "text-sm leading-loose"
       )}
     >
       {description}
     </div>
-  </li>
+  </motion.li>
 );

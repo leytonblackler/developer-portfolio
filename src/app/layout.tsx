@@ -1,12 +1,31 @@
-import { Figtree } from "next/font/google";
+import {
+  Plus_Jakarta_Sans as PlusJakartaSans,
+  Noto_Color_Emoji as NotoColorEmoji,
+} from "next/font/google";
 import { type FunctionComponent, type ReactNode } from "react";
 import { NavigationBar } from "@/components/shared/navigation-bar";
-import { SafeArea } from "@/components/shared/safe-area";
 import "./global.css";
 import { Providers } from "@/components/shared/providers";
 import { SmoothScroller } from "@/components/shared/smooth-scroller";
+import { ScrollInstanceId } from "@/constants/scroll-instance-ids";
+import { cn } from "@/utils/styling/cn";
+import { Footer } from "@/components/shared/footer";
 
-const figtreeFont = Figtree({ subsets: ["latin"] });
+/**
+ * Import styles required for react-loading-skeleton.
+ */
+import "react-loading-skeleton/dist/skeleton.css";
+
+const plusJakartaSansFont = PlusJakartaSans({
+  subsets: ["latin"],
+  variable: "--font-plus-jakarta-sans",
+});
+
+const notoColorEmojiFont = NotoColorEmoji({
+  weight: ["400"],
+  subsets: ["emoji"],
+  variable: "--font-noto-color-emoji",
+});
 
 export const metadata = {
   title: "Leyton Blackler",
@@ -22,12 +41,29 @@ const RootLayout: FunctionComponent<RootLayoutProps> = ({ children }) => (
    * TODO: Change HTML element background color to match light/dark theme to
    * prevent showing white when scrolling past top and bottoms
    */
-  <html lang="en" className="bg-gray-50 dark:bg-gray-950">
-    <body className={figtreeFont.className}>
+  <html
+    lang="en"
+    className={cn(
+      "bg-gradient-to-b",
+      "dark:from-gray-975 dark:via-gray-950 dark:to-gray-950",
+      "from-white via-gray-50 to-gray-50",
+      "h-dvh max-h-dvh",
+      "max-w-dvw h-dvw",
+      "relative"
+    )}
+  >
+    <body
+      className={cn(
+        plusJakartaSansFont.variable,
+        notoColorEmojiFont.variable,
+        "font-sans"
+      )}
+    >
       <Providers>
         <main>
-          <SmoothScroller id="main-scroll-container">
-            <SafeArea>{children}</SafeArea>
+          <SmoothScroller id={ScrollInstanceId.Main}>
+            {children}
+            <Footer />
           </SmoothScroller>
         </main>
         <NavigationBar />

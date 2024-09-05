@@ -51,9 +51,9 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
         className={cn(
           "w-full",
           "min-h-[200px]",
-          "rounded-7xl",
+          "rounded-6xl",
           "p-10",
-          "bg-gray-100 dark:bg-gray-900",
+          "bg-gray-100 dark:bg-gray-925",
           "text-gray-700 dark:text-gray-200",
           "outline-none",
           "resize-none"

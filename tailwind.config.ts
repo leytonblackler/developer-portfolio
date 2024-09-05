@@ -1,29 +1,45 @@
 import type { Config } from "tailwindcss";
 import containerQueriesPlugin from "@tailwindcss/container-queries";
-import { type Entries } from "type-fest";
-import { pagesConfig } from "./src/config/pages";
+import { black, gray } from "tailwindcss/colors";
+import { colord, extend } from "colord";
+import mixPlugin from "colord/plugins/mix";
+import defaultTheme from "tailwindcss/defaultTheme";
 import { generateGlitchKeyframes } from "./src/utils/tailwind/generate-glitch-keyframes";
 
+extend([mixPlugin]);
 // eslint-disable-next-line import/no-default-export -- Tailwind config must be the default export.
 export default {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
       colors: {
-        pages: Object.fromEntries(
-          (Object.entries(pagesConfig) as Entries<typeof pagesConfig>)
-            .flatMap(([pageId, config]) =>
-              config.colors === null ? [] : [{ pageId, colors: config.colors }]
-            )
-            .map(({ pageId, colors }) => {
-              return [
-                pageId,
-                {
-                  ...colors,
-                },
-              ];
-            })
-        ),
+        // pages: Object.fromEntries(
+        //   (Object.entries(pagesConfig) as Entries<typeof pagesConfig>)
+        //     .flatMap(([pageId, config]) =>
+        // config.colors === null ? [] : [{ pageId, colors: config.colors }] )
+        //     .map(({ pageId, colors }) => {
+        //       return [
+        //         pageId,
+        //         {
+        //           ...colors,
+        //         },
+        //       ];
+        //     })
+        // ),
+        gray: {
+          ...gray,
+          150: colord(gray[100]).mix(gray[200], 0.5).toHex(),
+          850: colord(gray[800]).mix(gray[900], 0.5).toHex(),
+          925: colord(gray[900]).mix(gray[950], 0.5).toHex(),
+          975: colord(gray[950]).mix(black, 0.5).toHex(),
+        },
+      },
+      fontFamily: {
+        sans: [
+          "var(--font-plus-jakarta-sans)",
+          ...defaultTheme.fontFamily.sans,
+        ],
+        emoji: ["var(--font-noto-color-emoji)"],
       },
       screens: {
         xs: "475px",

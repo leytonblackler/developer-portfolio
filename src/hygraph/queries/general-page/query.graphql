@@ -49,7 +49,19 @@ fragment CardListSectionCompanyItemData on Company {
   slug
   name
   logo {
-    primary {
+    primaryLight {
+      id
+      url(transformation: {
+        image: {
+          resize: {
+            width: 512,
+            height: 512,
+            fit: max
+          }
+        }
+      })
+    }
+    primaryDark {
       id
       url(transformation: {
         image: {
@@ -65,15 +77,35 @@ fragment CardListSectionCompanyItemData on Company {
   colors {
     foregroundLight {
       hex
+      rgba {
+        r
+        g
+        b
+      }
     }
     backgroundLight {
       hex
+      rgba {
+        r
+        g
+        b
+      }
     }
     foregroundDark {
       hex
+      rgba {
+        r
+        g
+        b
+      }
     }
     backgroundDark {
       hex
+      rgba {
+        r
+        g
+        b
+      }
     }
   }
   timeFrame {
@@ -87,7 +119,19 @@ fragment CardListSectionEducationalInstitutionItemData on EducationalInstitution
   slug
   name
   logo {
-    primary {
+    primaryLight {
+      id
+      url(transformation: {
+        image: {
+          resize: {
+            width: 512,
+            height: 512,
+            fit: max
+          }
+        }
+      })
+    }
+    primaryDark {
       id
       url(transformation: {
         image: {
@@ -103,15 +147,35 @@ fragment CardListSectionEducationalInstitutionItemData on EducationalInstitution
   colors {
     foregroundLight {
       hex
+      rgba {
+        r
+        g
+        b
+      }
     }
     backgroundLight {
       hex
+      rgba {
+        r
+        g
+        b
+      }
     }
     foregroundDark {
       hex
+      rgba {
+        r
+        g
+        b
+      }
     }
     backgroundDark {
       hex
+      rgba {
+        r
+        g
+        b
+      }
     }
   }
   timeFrame {
@@ -120,8 +184,9 @@ fragment CardListSectionEducationalInstitutionItemData on EducationalInstitution
   }
   # ---
   category,
-  qualifications {
+  credentials {
     id
+    type
   }
 }
 
@@ -130,7 +195,19 @@ fragment CardListSectionProjectItemData on Project {
   slug
   name
   logo {
-    primary {
+    primaryLight {
+      id
+      url(transformation: {
+        image: {
+          resize: {
+            width: 512,
+            height: 512,
+            fit: max
+          }
+        }
+      })
+    }
+    primaryDark {
       id
       url(transformation: {
         image: {
@@ -143,18 +220,38 @@ fragment CardListSectionProjectItemData on Project {
       })
     }
   }
- colors {
+  colors {
     foregroundLight {
       hex
+      rgba {
+        r
+        g
+        b
+      }
     }
     backgroundLight {
       hex
+      rgba {
+        r
+        g
+        b
+      }
     }
     foregroundDark {
       hex
+      rgba {
+        r
+        g
+        b
+      }
     }
     backgroundDark {
       hex
+      rgba {
+        r
+        g
+        b
+      }
     }
   }
   timeFrame {
@@ -171,17 +268,27 @@ fragment CardListSectionProjectItemData on Project {
   }
 }
 
+fragment PageLinksSectionData on PageLinksSection {
+  id
+  pages
+}
+
+fragment SeparatorSectionData on SeparatorSection {
+  id
+  emoji
+}
+
 fragment CardListSectionData on CardListSection {
   id
   items {
     ... on Company {
       ...CardListSectionCompanyItemData
     }
-    ... on EducationalInstitution {
-      ...CardListSectionEducationalInstitutionItemData
-    }
     ... on Project {
       ...CardListSectionProjectItemData
+    }
+    ... on EducationalInstitution {
+      ...CardListSectionEducationalInstitutionItemData
     }
   }
 }
@@ -196,6 +303,8 @@ fragment GeneralPageData on GeneralPage {
   sections {
     ...BeliefsSectionData
     ...PersonalOverviewSectionData
+    ...SeparatorSectionData
+    ...PageLinksSectionData
     ...CardListSectionData
     ...ContactFormSectionData
   }

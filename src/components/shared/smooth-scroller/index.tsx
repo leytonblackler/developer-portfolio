@@ -7,23 +7,32 @@ import {
   useEffect,
   useCallback,
   useContext,
+  useRef,
 } from "react";
 import Scrollbar from "smooth-scrollbar";
 import {
   type Data2d,
-  type ScrollListener,
   type ScrollbarOptions,
+  type ScrollStatus as SmoothScrollbarScrollStatus,
 } from "smooth-scrollbar/interfaces";
 import OverscrollPlugin from "smooth-scrollbar/plugins/overscroll";
 import { isMobile } from "react-device-detect";
 import { ScrollContext } from "./provider";
 import { cn } from "@/utils/styling/cn";
 
+/**
+ * Props that the SmoothScroller component accepts.
+ */
 interface SmoothScrollerProps {
   id: string;
   children: ReactNode;
   className?: HTMLAttributes<HTMLDivElement>["className"];
 }
+
+/**
+ * The type for the listener that handles scroll events.
+ */
+type OnScrollHandler = (props: SmoothScrollbarScrollStatus | Event) => void;
 
 /**
  * Enable the overscroll plugin on the smooth scrollbar.
@@ -92,25 +101,32 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
   className,
 }) => {
   /**
-   * Access all scroll instances from the scroll context.
+   * Create a reference to the element for the scroll instance.
    */
-  const { setInstancePosition, removeInstance } = useContext(ScrollContext);
+  const ref = useRef<HTMLDivElement>(null);
+
+  /**
+   * Access the instance updater functions from the scroll context.
+   */
+  const { registerInstance, setInstancePosition, unregisterInstance } =
+    useContext(ScrollContext);
 
   /**
    * Remove the instance when the component unmounts.
    */
   useEffect(() => {
+    registerInstance({ id, ref });
     return () => {
-      removeInstance(id);
+      unregisterInstance(id);
     };
-  }, [removeInstance, id]);
+  }, [id, registerInstance, unregisterInstance]);
 
   /**
    * Handle setting the scroll position for the instance.
    */
   const setPosition = useCallback(
-    (newPosition: Data2d) => {
-      setInstancePosition({ id, position: newPosition });
+    ({ x, y }: Data2d) => {
+      setInstancePosition({ id, x, y });
     },
     [id, setInstancePosition]
   );
@@ -118,46 +134,101 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
   /**
    * Listener invoked when there are changes to the scroll position.
    */
-  const onScroll = useCallback<ScrollListener>(
-    ({ offset }) => {
-      setPosition(offset);
+  const onScroll = useCallback<OnScrollHandler>(
+    (props) => {
+      const position: Data2d | null = (() => {
+        /**
+         * Handle the event being invoked by the native scroll listener on the
+         * element.
+         */
+        if (props instanceof Event) {
+          /**
+           * Return null if the scroll container element does not exist.
+           */
+          if (!ref.current) {
+            return null;
+          }
+
+          /**
+           * Construct and return the offset of the scroll container.
+           */
+          return {
+            x: ref.current.scrollLeft,
+            y: ref.current.scrollTop,
+          };
+        }
+
+        /**
+         * Otherwise if the event was invoked by the smooth scrollbar instance,
+         * use the offset from the smooth scrollbar status to set the position.
+         */
+        const { offset } = props;
+        return offset;
+      })();
+
+      /**
+       * Update the position if it was able to be determined.
+       */
+      if (position) {
+        setPosition(position);
+      }
     },
     [setPosition]
   );
 
   /**
-   * Initialise the smooth scrollbar when the element has been added to the DOM
-   * and the device is not mobile.
+   * Handle initialisation when the element has been added to the DOM.
    */
   useEffect(() => {
-    if (!isMobile) {
-      if (typeof window !== "undefined") {
-        const element = document.getElementById(id);
-        if (element) {
+    if (typeof window !== "undefined") {
+      if (ref.current) {
+        /**
+         * Create a reference to the element within this effect, so that it may
+         * be referenced in cleanup functions.
+         */
+        const element = ref.current;
+
+        /**
+         *Native scrolling behaviour on mobile devices is typically preferred,
+         *so the smooth scroller should not be initialised for mobile.
+         */
+        if (isMobile) {
           /**
-           * Initialise the smooth scrollbar.
+           * Add listeners for both touch move and scrolling.
            */
-          const scrollbar = Scrollbar.init(element, SCROLLBAR_OPTIONS);
+          element.addEventListener("touchmove", onScroll);
+          element.addEventListener("scroll", onScroll);
 
           /**
-           * Remove the tracks from the DOM.
-           */
-          scrollbar.track.xAxis.element.remove();
-          scrollbar.track.yAxis.element.remove();
-
-          /**
-           * Add a listener for the scroll position.
-           */
-          scrollbar.addListener(onScroll);
-
-          /**
-           * Remove the listener for the scroll position when the component is
-           * unmounted.
+           * Remove the listeners when the component is unmounted.
            */
           return () => {
-            scrollbar.removeListener(onScroll);
+            element.removeEventListener("touchmove", onScroll);
+            element.removeEventListener("scroll", onScroll);
           };
         }
+        /**
+         * Initialise the smooth scrollbar.
+         */
+        const scrollbar = Scrollbar.init(element, SCROLLBAR_OPTIONS);
+
+        /**
+         * Remove the tracks from the DOM.
+         */
+        scrollbar.track.xAxis.element.remove();
+        scrollbar.track.yAxis.element.remove();
+
+        /**
+         * Add a scroll listener.
+         */
+        scrollbar.addListener(onScroll);
+
+        /**
+         * Remove the scroll listener when the component is unmounted.
+         */
+        return () => {
+          scrollbar.removeListener(onScroll);
+        };
       }
     }
   }, [id, onScroll]);
@@ -165,15 +236,21 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
   return (
     <div
       id={id}
+      ref={ref}
       className={cn(
         "h-full max-h-full",
-        "[&>.scroll-content]:h-full",
-        "[&>.scroll-content]:flex",
-        "[&>.scroll-content]:flex-col",
+        isMobile
+          ? cn("flex flex-col", "overflow-y-auto")
+          : cn(
+              "[&>.scroll-content]:h-full",
+              "[&>.scroll-content]:min-h-full",
+              "[&>.scroll-content]:flex",
+              "[&>.scroll-content]:flex-col"
+            ),
         className
       )}
     >
-      {children}
+      <div>{children}</div>
     </div>
   );
 };

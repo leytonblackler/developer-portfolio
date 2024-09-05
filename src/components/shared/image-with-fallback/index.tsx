@@ -8,8 +8,8 @@ interface FallbackProps {
 }
 
 const Fallback: FunctionComponent<FallbackProps> = ({ icon: Icon }) => (
-  <div className="flex h-full w-full flex-1 items-center justify-center">
-    <Icon className="h-6 w-6 text-gray-400 dark:text-gray-600" />
+  <div className="flex size-full flex-1 items-center justify-center">
+    <Icon className="size-6 text-gray-400 dark:text-gray-600" />
   </div>
 );
 
@@ -38,7 +38,7 @@ export const ImageWithFallback: FunctionComponent<ImageWithFallbackProps> = ({
     {props.src ? (
       <Image
         {...props}
-        className={cn("absolute left-0 top-0", "h-full w-full", imageClassName)}
+        className={cn("absolute left-0 top-0", "size-full", imageClassName)}
         placeholder="empty"
       />
     ) : null}

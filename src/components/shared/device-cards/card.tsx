@@ -239,9 +239,9 @@ export const DeviceCard: FunctionComponent<DeviceCardProps> = ({
       <motion.div
         ref={containerRef}
         className={cn(
-          "h-full w-full",
-          "rounded-7xl",
-          "bg-gray-100 dark:bg-gray-900"
+          "size-full",
+          "rounded-6xl",
+          "bg-gray-100 dark:bg-gray-925"
         )}
         onPointerMove={onPointerMove}
         onHoverStart={onHoverStart}

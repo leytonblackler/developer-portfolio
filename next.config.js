@@ -11,15 +11,12 @@ const nextConfig = {
         hostname: "media.graphassets.com",
       },
       /**
-       * Spotify CDN
+       * Spotify CDN (album artwork)
        */
       {
         protocol: "https",
         hostname: "**.scdn.co",
       },
-      /**
-       * Spotify CDN
-       */
       {
         protocol: "https",
         hostname: "**.spotifycdn.com",
