@@ -5,7 +5,21 @@ import { RotatingTextCircle } from "@/components/shared/rotating-text-circle";
 import { cn } from "@/utils/styling/cn";
 import { SafeArea } from "@/components/shared/safe-area";
 
-export const HomePageMainSection: FunctionComponent = () => {
+interface HomePageMainSectionProps {
+  heading: string;
+  subHeading: string;
+}
+
+export const HomePageMainSection: FunctionComponent<
+  HomePageMainSectionProps
+> = ({ heading, subHeading }) => {
+  console.log("heading", heading, "subheading", subHeading);
+
+  /**
+   * Split the subheading into an array of separate lines.
+   */
+  const subHeadingLines = subHeading.split("\n");
+
   return (
     <div className={cn("w-dvh h-dvh", "flex flex-col")}>
       <SafeArea>
@@ -25,14 +39,7 @@ export const HomePageMainSection: FunctionComponent = () => {
             )}
           >
             <WaveEmoji />
-            <Hero
-              large
-              heading="Hi there, I'm Leyton."
-              subHeading={[
-                "I'm a full-stack software engineer.",
-                "I develop digital experiences that delight and deliver.",
-              ]}
-            />
+            <Hero large heading={heading} subHeading={subHeadingLines} />
           </div>
           <RotatingTextCircle text="SCROLL DOWN" />
         </div>
