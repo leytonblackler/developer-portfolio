@@ -9,16 +9,16 @@ const variants = {
     opacity: 0,
     y: "10dvh",
     transition: {
-      type: "spring",
-      bounce: 0.5,
+      type: "tween",
+      ease: "easeOut",
     },
   },
   enter: {
     opacity: 1,
     y: 0,
     transition: {
-      type: "spring",
-      bounce: 0.5,
+      type: "tween",
+      ease: "easeOut",
       duration: ROUTE_CHANGE_ANIMATION_DURATION.ENTER,
     },
   },
@@ -26,8 +26,8 @@ const variants = {
     opacity: 0,
     y: "10dvh",
     transition: {
-      type: "spring",
-      bounce: 0.5,
+      type: "tween",
+      ease: "easeOut",
       duration: ROUTE_CHANGE_ANIMATION_DURATION.EXIT,
     },
   },
