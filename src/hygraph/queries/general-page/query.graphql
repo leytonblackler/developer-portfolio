@@ -42,6 +42,7 @@ fragment PersonalOverviewSectionData on PersonalOverviewSection {
   location {
     ...LocationData
   }
+  enableResumeDownload
 }
 
 fragment CardListSectionCompanyItemData on Company {

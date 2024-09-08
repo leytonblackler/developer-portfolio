@@ -65,7 +65,7 @@ export const SocialLinks: FunctionComponent = () => {
       <motion.ul
         animate={isInView ? "visible" : "hidden"}
         transition={{
-          staggerChildren: 0.3,
+          staggerChildren: 0.2,
         }}
         className={cn("grid", "grid-cols-3", "gap-2")}
       >

@@ -121,7 +121,6 @@ export const NavigationBar: FunctionComponent = () => {
       style={{
         scale,
         translateY,
-        // filter: `blur(${blur})`,
         opacity: visibilityDelta,
       }}
       className={cn("fixed", "inset-x-0 top-0", "pt-4 sm:pt-6")}

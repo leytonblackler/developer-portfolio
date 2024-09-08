@@ -19,6 +19,7 @@ import OverscrollPlugin from "smooth-scrollbar/plugins/overscroll";
 import { isMobile } from "react-device-detect";
 import { ScrollContext } from "./provider";
 import { cn } from "@/utils/styling/cn";
+import { useRouteListener } from "@/hooks/use-route-listener";
 
 /**
  * Props that the SmoothScroller component accepts.
@@ -104,6 +105,11 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
    * Create a reference to the element for the scroll instance.
    */
   const ref = useRef<HTMLDivElement>(null);
+
+  /**
+   * Create a reference to the smooth scrollbar instance.
+   */
+  const scrollbarRef = useRef<Scrollbar | null>(null);
 
   /**
    * Access the instance updater functions from the scroll context.
@@ -224,6 +230,11 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
         scrollbar.addListener(onScroll);
 
         /**
+         * Store the scrollbar instance in the ref.
+         */
+        scrollbarRef.current = scrollbar;
+
+        /**
          * Remove the scroll listener when the component is unmounted.
          */
         return () => {
@@ -232,6 +243,29 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
       }
     }
   }, [id, onScroll]);
+
+  /**
+   * Reset the scroll position when the route changes.
+   */
+  useRouteListener({
+    onChange: () => {
+      /**
+       * If the device is mobile, reset the scroll position on the native
+       * element itself.
+       */
+      if (isMobile) {
+        if (ref.current) {
+          ref.current.scrollTo(0, 0);
+        }
+      } else if (scrollbarRef.current) {
+        /**
+         * Otherwise, reset the scroll position via the smooth scrollbar
+         * instance.
+         */
+        scrollbarRef.current.scrollTo(0, 0);
+      }
+    },
+  });
 
   return (
     <div

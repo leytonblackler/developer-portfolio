@@ -36,7 +36,7 @@ export const BeliefsSection: FunctionComponent<BeliefsSectionDataFragment> = ({
         animate={isInView ? "visible" : "hidden"}
         transition={{
           delayChildren: 0.3,
-          staggerChildren: 0.3,
+          staggerChildren: 0.2,
         }}
         className={cn("grid grid-cols-1 lg:grid-cols-2", "gap-2")}
       >

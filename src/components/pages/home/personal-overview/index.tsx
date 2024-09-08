@@ -30,7 +30,14 @@ const MarkdownParagraph = (
 
 export const PersonalOverviewSection: FunctionComponent<
   PersonalOverviewSectionDataFragment
-> = ({ profilePhoto, name, pronouns, description, location }) => {
+> = ({
+  profilePhoto,
+  name,
+  pronouns,
+  description,
+  location,
+  enableResumeDownload,
+}) => {
   /**
    * Split the first paragraph in the description from the remaining paragraphs.
    */
@@ -95,16 +102,18 @@ export const PersonalOverviewSection: FunctionComponent<
                 ))}
               </div>
               {/* TODO: Add link to download and download icon */}
-              <button
-                type="button"
-                className={cn(
-                  "mt-auto",
-                  "bg-gray-100 dark:bg-gray-900",
-                  "rounded-4xl p-10"
-                )}
-              >
-                Download resume
-              </button>
+              {enableResumeDownload ? (
+                <button
+                  type="button"
+                  className={cn(
+                    "mt-auto",
+                    "bg-gray-100 dark:bg-gray-900",
+                    "rounded-4xl p-10"
+                  )}
+                >
+                  Download resume
+                </button>
+              ) : null}
             </div>
           </Card>
         </div>

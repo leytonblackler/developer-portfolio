@@ -22,7 +22,7 @@ export const PageLinksSectionContent: FunctionComponent<{
       animate={isInView ? "visible" : "hidden"}
       transition={{
         delayChildren: 0.3,
-        staggerChildren: 0.3,
+        staggerChildren: 0.2,
       }}
       className={cn(
         "bounded-page-content-x relative",
