@@ -35,7 +35,7 @@ export const SeparatorSection: FunctionComponent<
         transition={{
           duration: 1,
           type: "spring",
-          bounce: 0.5,
+          bounce: 0.3,
         }}
         className="font-emoji text-2xl"
       >

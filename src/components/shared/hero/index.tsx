@@ -1,63 +1,96 @@
-import { type FunctionComponent } from "react";
-import { AnimatedText } from "./animated-text";
+"use client";
+
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  type FunctionComponent,
+} from "react";
+import { motion } from "framer-motion";
+import { Heading } from "./heading";
+import { SubHeading } from "./subheading";
+import {
+  HEADING_CHARACTER_ANIMATION_DURATION,
+  HEADING_CHARACTER_ANIMATION_STAGGER,
+  SUBHEADING_DELAY,
+} from "./constants";
+import { useHeroContext } from "./provider/use-hero-context";
 import { cn } from "@/utils/styling/cn";
+import { ROUTE_CHANGE_ANIMATION_DURATION } from "@/components/page-animation/constants";
 
 interface HeroProps {
   heading: string;
-  subHeading: string | string[];
-  large?: true;
+  subHeading: string;
+  large?: boolean;
 }
 
 export const Hero: FunctionComponent<HeroProps> = ({
   heading,
   subHeading,
   large = false,
-}) => (
-  <div
-    className={cn(
-      "w-full",
-      "flex flex-col",
-      "items-center justify-center text-center",
-      "px-4 pb-20",
-      large ? "gap-y-7" : "gap-y-4"
-    )}
-  >
-    {/* <h1
+}) => {
+  /**
+   * Access the hero context.
+   */
+  const { setHeroHasEntered } = useHeroContext();
+
+  /**
+   * Track whether the hero is to be shown.
+   */
+  const [show, setShow] = useState<boolean>(false);
+
+  /**
+   * Show the hero after a delay.
+   */
+  useEffect(() => {
+    setTimeout(() => {
+      setShow(true);
+      /**
+       * Convert the duration to milliseconds.
+       */
+    }, ROUTE_CHANGE_ANIMATION_DURATION.ENTER * 1000 * 0.5);
+  });
+
+  const animate = useMemo<"initial" | "enter">(
+    () => (show ? "enter" : "initial"),
+    [show]
+  );
+
+  /**
+   * Record in the hero context when the hero has entered.
+   */
+  const onAnimationComplete = useCallback(() => {
+    setHeroHasEntered(true);
+  }, [setHeroHasEntered]);
+
+  return (
+    <motion.div
       className={cn(
-       
-      )}
-    >
-      <span>{heading}</span>
-    </h1> */}
-    <AnimatedText
-      element="h1"
-      className={cn(
-        large
-          ? "text-3xl sm:text-4xl md:text-6xl"
-          : "text-2xl sm:text-3xl md:text-5xl",
-        "font-bold",
-        "text-gray-850 dark:text-gray-100",
         "w-full",
-        "relative"
+        "flex flex-col",
+        "items-center justify-center text-center",
+        "px-4 pb-20",
+        large ? "gap-y-7" : "gap-y-4"
       )}
     >
-      {heading}
-    </AnimatedText>
-    <p
-      className={cn(
-        large
-          ? "text-lg sm:text-xl md:text-2xl"
-          : "text-base sm:text-lg md:text-xl",
-        "font-light",
-        "max-w-2xl",
-        "text-gray-700 dark:text-gray-400",
-        "opacity-70",
-        "flex flex-col gap-y-1"
-      )}
-    >
-      {Array.isArray(subHeading)
-        ? subHeading.map((line) => <span key={line}>{line}</span>)
-        : subHeading}
-    </p>
-  </div>
-);
+      <Heading large={large} animate={animate}>
+        {heading}
+      </Heading>
+      <SubHeading
+        large={large}
+        animate={animate}
+        onAnimationComplete={onAnimationComplete}
+        delay={
+          SUBHEADING_DELAY +
+          Math.min(
+            HEADING_CHARACTER_ANIMATION_DURATION,
+            heading.length * HEADING_CHARACTER_ANIMATION_STAGGER
+          )
+        }
+      >
+        {subHeading}
+      </SubHeading>
+    </motion.div>
+  );
+};

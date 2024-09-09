@@ -6,6 +6,7 @@ import { getGeneralPage } from "@/hygraph/queries/general-page";
 import { getSSRApolloClient } from "@/hygraph/client/ssr";
 import { getFragmentData } from "@/hygraph/generated";
 import { GeneralPageDataFragmentDoc } from "@/hygraph/generated/graphql";
+import { AfterHero } from "@/components/shared/hero/provider/after-hero";
 
 const PAGE_ID = "cljdog1ky5v9a0c2vf8m0la75";
 
@@ -36,10 +37,12 @@ const ContactPage: FunctionComponent = async () => {
   return (
     <div className="bounded-page-content-x">
       <Hero heading={heading} subHeading={subHeading} />
-      <SectionsRenderer sections={sections} />
-      <div className="mt-2">
-        <SocialLinks />
-      </div>
+      <AfterHero>
+        <SectionsRenderer sections={sections} />
+        <div className="mt-2">
+          <SocialLinks />
+        </div>
+      </AfterHero>
     </div>
   );
 };

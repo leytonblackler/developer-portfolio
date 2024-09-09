@@ -6,6 +6,7 @@ import { GeneralPageDataFragmentDoc } from "@/hygraph/generated/graphql";
 import { HomePageMainSection } from "@/components/pages/home/main";
 import { SafeArea } from "@/components/shared/safe-area";
 import { SectionsRenderer } from "@/components/sections-renderer";
+import { HeroProvider } from "@/components/shared/hero/provider";
 
 const PAGE_ID = "cljdjrcrz5tyl0b19dgn4fsfb";
 
@@ -31,16 +32,18 @@ const HomePage: FunctionComponent = async () => {
   const { heading, subHeading, sections } = aboutPageData;
 
   return (
-    <div>
-      <HomePageMainSection heading={heading} subHeading={subHeading} />
-      <SafeArea>
-        <div className="bounded-page-content-x">
-          <SectionsRenderer sections={sections} />
-        </div>
+    <HeroProvider>
+      <div>
+        <HomePageMainSection heading={heading} subHeading={subHeading} />
+        <SafeArea>
+          <div className="bounded-page-content-x">
+            <SectionsRenderer sections={sections} />
+          </div>
 
-        <div>TODO: Contact</div>
-      </SafeArea>
-    </div>
+          <div>TODO: Contact</div>
+        </SafeArea>
+      </div>
+    </HeroProvider>
   );
 };
 

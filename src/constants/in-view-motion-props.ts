@@ -17,8 +17,8 @@ export const IN_VIEW_MOTION_PROPS: Pick<
     },
   },
   transition: {
-    duration: 0.5,
-    type: "tween",
-    ease: "easeOut",
+    duration: 0.8,
+    type: "spring",
+    bounce: 0.3,
   },
 };

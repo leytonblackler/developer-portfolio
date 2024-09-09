@@ -21,6 +21,9 @@ export const useRouteListener: UseRouteListener = ({
   useEffect(() => {
     setTimeout(() => {
       onChange(pathname);
-    }, delay * 1000); // Convert seconds to milliseconds
+      /**
+       * Convert the duration to milliseconds.
+       */
+    }, delay * 1000);
   }, [pathname, onChange, delay]);
 };

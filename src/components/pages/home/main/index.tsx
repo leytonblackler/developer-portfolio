@@ -1,9 +1,12 @@
-import { type FunctionComponent } from "react";
+"use client";
+
+import { useState, type FunctionComponent } from "react";
 import { WaveEmoji } from "./wave";
+import { ScrollDown } from "./scroll-down";
 import { Hero } from "@/components/shared/hero";
-import { RotatingTextCircle } from "@/components/shared/rotating-text-circle";
 import { cn } from "@/utils/styling/cn";
 import { SafeArea } from "@/components/shared/safe-area";
+import { useHeroContext } from "@/components/shared/hero/provider/use-hero-context";
 
 interface HomePageMainSectionProps {
   heading: string;
@@ -13,12 +16,15 @@ interface HomePageMainSectionProps {
 export const HomePageMainSection: FunctionComponent<
   HomePageMainSectionProps
 > = ({ heading, subHeading }) => {
-  console.log("heading", heading, "subheading", subHeading);
+  /**
+   * Access the hero context.
+   */
+  const { heroHasEntered } = useHeroContext();
 
   /**
-   * Split the subheading into an array of separate lines.
+   * Whether the waving emoji has been animated in.
    */
-  const subHeadingLines = subHeading.split("\n");
+  const [waveHasEntered, setWaveHasEntered] = useState<boolean>(false);
 
   return (
     <div className={cn("w-dvh h-dvh", "flex flex-col")}>
@@ -38,10 +44,15 @@ export const HomePageMainSection: FunctionComponent<
               "items-center justify-center"
             )}
           >
-            <WaveEmoji />
-            <Hero large heading={heading} subHeading={subHeadingLines} />
+            <WaveEmoji
+              show={heroHasEntered}
+              onAnimationComplete={() => {
+                setWaveHasEntered(true);
+              }}
+            />
+            <Hero large heading={heading} subHeading={subHeading} />
           </div>
-          <RotatingTextCircle text="SCROLL DOWN" />
+          <ScrollDown show={waveHasEntered} />
         </div>
       </SafeArea>
     </div>

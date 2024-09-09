@@ -1,4 +1,8 @@
+"use client";
+
 import { type FunctionComponent } from "react";
+import { motion } from "framer-motion";
+import { useInView } from "../smooth-scroller/use-in-view";
 import { CardListItem } from "./item";
 import { type CardListItemDataFragment } from "./types";
 import { cn } from "@/utils/styling/cn";
@@ -16,6 +20,11 @@ import { getFragmentData } from "@/hygraph/generated";
 export const CardListSection: FunctionComponent<
   CardListSectionDataFragment
 > = ({ items }) => {
+  /**
+   * Observe when the section first enters the viewport.
+   */
+  const [ref, isInView] = useInView<HTMLUListElement>();
+
   /**
    * Get the fragment data for each of the items.
    */
@@ -61,7 +70,13 @@ export const CardListSection: FunctionComponent<
   });
 
   return (
-    <div
+    <motion.ul
+      ref={ref}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      transition={{
+        staggerChildren: 0.15,
+      }}
       className={cn(
         "mx-auto w-full max-w-7xl",
         "px-8 sm:px-10",
@@ -72,6 +87,6 @@ export const CardListSection: FunctionComponent<
       {itemsData.map((item) => (
         <CardListItem key={item.id} {...item} />
       ))}
-    </div>
+    </motion.ul>
   );
 };
