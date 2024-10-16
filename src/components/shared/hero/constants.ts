@@ -25,3 +25,8 @@ export const SUBHEADING_LINE_ANIMATION_DURATION = 0.35;
  */
 export const SUBHEADING_LINE_STAGGER =
   0.75 * SUBHEADING_LINE_ANIMATION_DURATION;
+
+/**
+ * The duration for the repositioning animation of the hero in seconds.
+ */
+export const HERO_REPOSITION_DURATION = 0.8;

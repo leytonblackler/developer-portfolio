@@ -1,6 +1,6 @@
 import { type Dispatch, type SetStateAction } from "react";
 
-export interface HeroProviderContextValue {
+export interface HeroEntryProviderContextValue {
   heroHasEntered: boolean;
   setHeroHasEntered: Dispatch<SetStateAction<boolean>>;
 }

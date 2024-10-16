@@ -33,7 +33,7 @@ export const SocialLink: FunctionComponent<SocialLinkProps> = ({
        * Default color.
        */
       !color &&
-        cn("bg-gray-100 dark:bg-gray-925", "text-gray-700 dark:text-gray-200")
+        cn("card-bg-primary", "card-border-primary border", "card-text-primary")
     )}
     style={{
       background: color?.base,

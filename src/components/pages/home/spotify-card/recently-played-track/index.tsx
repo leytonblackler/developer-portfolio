@@ -37,7 +37,7 @@ export const RecentlyPlayedTrack: FunctionComponent<
   // TODO: Scope cards to individual error boundaries
 
   return (
-    <div className="flex flex-col">
+    <div className={cn("flex flex-col", "flex-none @xl/spotify-card:flex-1")}>
       <div
         className={cn(
           "flex flex-row items-center justify-start",
@@ -51,7 +51,7 @@ export const RecentlyPlayedTrack: FunctionComponent<
           // TODO: Reuse from card component
           className={cn("font-semibold", "whitespace-nowrap", "opacity-70")}
         >
-          Last Played
+          Last played
         </h3>
         <span className="opacity-50">({playedAtLabel})</span>
       </div>
@@ -66,7 +66,7 @@ export const RecentlyPlayedTrack: FunctionComponent<
           height={80}
         />
         <div className="flex flex-col gap-y-1">
-          <span className="card-text-primary text-2xl">
+          <span className="card-text-primary text-2xl font-semibold">
             {/* TODO: Hover effect */}
             {spotifyTrackUrl ? (
               <a

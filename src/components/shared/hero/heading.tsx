@@ -28,11 +28,11 @@ export const Heading: FunctionComponent<HeadingProps> = ({
         staggerChildren: HEADING_CHARACTER_ANIMATION_STAGGER,
       }}
       className={cn(
+        "hero-text-primary",
         large
           ? "text-3xl sm:text-4xl md:text-6xl"
           : "text-2xl sm:text-3xl md:text-5xl",
-        "font-bold",
-        "text-gray-850 dark:text-gray-100",
+        "font-extrabold",
         "w-full",
         "relative",
         "flex flex-row",
@@ -46,8 +46,8 @@ export const Heading: FunctionComponent<HeadingProps> = ({
           className={cn(
             "inline-block",
             large
-              ? "mr-[calc(0.015_*_1.875rem)] sm:mr-[calc(0.015_*_2.25rem)] md:mr-[calc(0.015_*_3.75rem)]"
-              : "mr-[calc(0.015_*_1.5rem)] sm:mr-[calc(0.015_*_1.875rem)] md:mr-[calc(0.015_*_3rem)]"
+              ? "mr-[calc(0.005_*_1.875rem)] sm:mr-[calc(0.005_*_2.25rem)] md:mr-[calc(0.005_*_3.75rem)]"
+              : "mr-[calc(0.005_*_1.5rem)] sm:mr-[calc(0.005_*_1.875rem)] md:mr-[calc(0.005_*_3rem)]"
           )}
           variants={{
             initial: {

@@ -18,6 +18,7 @@ import {
 import OverscrollPlugin from "smooth-scrollbar/plugins/overscroll";
 import { isMobile } from "react-device-detect";
 import { ScrollContext } from "./provider";
+import { DisableHorizontalScrollPlugin } from "./disable-horizontal-scroll-plugin";
 import { cn } from "@/utils/styling/cn";
 import { useRouteListener } from "@/hooks/use-route-listener";
 
@@ -34,6 +35,11 @@ interface SmoothScrollerProps {
  * The type for the listener that handles scroll events.
  */
 type OnScrollHandler = (props: SmoothScrollbarScrollStatus | Event) => void;
+
+/**
+ * Enable the plugin to disable horizontal scrolling on the smooth scrollbar.
+ */
+Scrollbar.use(DisableHorizontalScrollPlugin);
 
 /**
  * Enable the overscroll plugin on the smooth scrollbar.

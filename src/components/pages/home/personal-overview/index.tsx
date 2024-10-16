@@ -1,10 +1,6 @@
-import {
-  type FunctionComponent,
-  type HTMLAttributes,
-  type ClassAttributes,
-} from "react";
+import { type FunctionComponent } from "react";
 import { HiUser } from "react-icons/hi";
-import Markdown, { type ExtraProps } from "react-markdown";
+import Markdown from "react-markdown";
 import { SocialLinks } from "../../contact/social-links";
 import { SpotifyCard } from "../spotify-card";
 import { LocationCard } from "../location-card";
@@ -16,17 +12,7 @@ import { Card } from "@/components/shared/card";
 import { ImageWithFallback } from "@/components/shared/image-with-fallback";
 import { getFragmentData } from "@/hygraph/generated";
 import { cn } from "@/utils/styling/cn";
-
-const MarkdownParagraph = (
-  props: ClassAttributes<HTMLParagraphElement> &
-    HTMLAttributes<HTMLParagraphElement> &
-    ExtraProps
-): JSX.Element => (
-  <p
-    className="card-text-secondary text-sm font-medium leading-loose"
-    {...props}
-  />
-);
+import { MarkdownParagraph } from "@/components/shared/markdown/paragraph";
 
 export const PersonalOverviewSection: FunctionComponent<
   PersonalOverviewSectionDataFragment
@@ -74,12 +60,13 @@ export const PersonalOverviewSection: FunctionComponent<
                   </div>
                   <div className="flex flex-col gap-y-4">
                     <div className="flex flex-col">
-                      <span className="mb-1 text-3xl">{name}</span>
+                      <span className="mb-1 text-3xl font-semibold">
+                        {name}
+                      </span>
                       <span className="card-text-secondary text-base font-medium opacity-70">
                         ({pronouns})
                       </span>
                     </div>
-                    {/* TODO: Add <p> styling from markdown: "text-gray-700 dark:text-gray-400" */}
                     <Markdown
                       components={{
                         p: MarkdownParagraph,
@@ -89,7 +76,6 @@ export const PersonalOverviewSection: FunctionComponent<
                     </Markdown>
                   </div>
                 </div>
-                {/* TODO: Add <p> styling from markdown: "text-gray-700 dark:text-gray-400" */}
                 {remainingDescriptionParagraphs.map((paragraph) => (
                   <Markdown
                     key={paragraph}
@@ -107,7 +93,9 @@ export const PersonalOverviewSection: FunctionComponent<
                   type="button"
                   className={cn(
                     "mt-auto",
-                    "bg-gray-100 dark:bg-gray-900",
+                    "card-bg-secondary",
+                    "card-text-secondary",
+                    "card-border-secondary",
                     "rounded-4xl p-10"
                   )}
                 >

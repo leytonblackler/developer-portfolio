@@ -37,6 +37,7 @@ export const PageLink: FunctionComponent<PageLinkProps> = ({
           "flex flex-col items-center justify-center",
           "rounded-6xl",
           "card-bg-primary",
+          "card-border-primary",
           "box-border p-6"
         )}
         whileTap={{
@@ -77,6 +78,7 @@ export const PageLink: FunctionComponent<PageLinkProps> = ({
             className={cn(
               "h-28 w-full rounded-4xl",
               "card-bg-secondary",
+              "card-border-secondary border",
               "relative box-border p-3",
               "overflow-hidden"
             )}
@@ -113,7 +115,7 @@ export const PageLink: FunctionComponent<PageLinkProps> = ({
           animate={isHovering ? "pulse" : "idle"}
         >
           <motion.div
-            className="card-bg-secondary size-full rounded-full"
+            className="card-bg-secondary card-border-secondary size-full rounded-full"
             variants={{
               idle: {
                 scale: 2,

@@ -11,7 +11,7 @@ const { Provider } = context;
 /**
  * The provider for tracking the entry animation of the hero section.
  */
-export const HeroProvider: FunctionComponent<{ children: ReactNode }> = ({
+export const HeroEntryProvider: FunctionComponent<{ children: ReactNode }> = ({
   children,
 }) => {
   const [hasEntered, setHasEntered] = useState<boolean>(false);

@@ -1,9 +1,9 @@
 import { useContext } from "react";
-import { type HeroProviderContextValue } from "./types";
+import { type HeroEntryProviderContextValue } from "./types";
 import { context } from "./context";
 
 /**
  * Convenience hook for accessing the context.
  */
-export const useHeroContext = (): HeroProviderContextValue =>
+export const useHeroEntryContext = (): HeroEntryProviderContextValue =>
   useContext(context);

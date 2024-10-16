@@ -2,11 +2,7 @@
 
 import { type FunctionComponent } from "react";
 import { motion } from "framer-motion";
-import {
-  INITIAL_WAVE_DELAY,
-  WAVE_DURATION,
-  WAVE_ENTER_DELAY,
-} from "../wave/constants";
+import { WAVE_DURATION } from "../wave/constants";
 import { RotatingTextCircle } from "@/components/shared/rotating-text-circle";
 
 interface ScrollDownProps {

@@ -65,7 +65,7 @@ export const LocationCard: FunctionComponent<LocationDataFragment> = async (
     >
       <div className="flex h-full flex-col">
         <div className="bounded-card-content-x flex flex-col">
-          <div className="mb-1 flex flex-row flex-wrap text-3xl">
+          <div className="mb-1 flex flex-row flex-wrap text-3xl font-semibold">
             <span>{`${city},`}&nbsp;</span>
             <span>{country}</span>
           </div>
@@ -84,7 +84,7 @@ export const LocationCard: FunctionComponent<LocationDataFragment> = async (
               "h-28 w-full",
               "bg-gradient-to-t",
               "from-transparent",
-              "to-gray-100 dark:to-gray-925"
+              "to-gray-25 dark:to-gray-925"
             )}
           />
         </div>

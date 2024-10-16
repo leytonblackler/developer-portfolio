@@ -38,7 +38,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
             "pointer-events-none",
             "absolute",
             "left-10 top-10",
-            "text-gray-700 dark:text-gray-200",
+            "card-text-primary",
             "font-medium"
           )}
         >
@@ -51,10 +51,11 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
         className={cn(
           "w-full",
           "min-h-[200px]",
-          "rounded-6xl",
+          "rounded-5xl",
           "p-10",
-          "bg-gray-100 dark:bg-gray-925",
-          "text-gray-700 dark:text-gray-200",
+          "card-bg-primary",
+          "card-border-primary",
+          "card-text-primary",
           "outline-none",
           "resize-none"
         )}

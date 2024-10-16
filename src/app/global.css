@@ -65,27 +65,51 @@ body, main {
 }
 
 .bounded-page-content-x {
-  @apply w-full max-w-7xl mx-auto px-2;
+  @apply w-full max-w-7xl mx-auto px-2 box-border;
 }
 
 .bounded-card-content-x {
   @apply px-10;
 }
 
-.card-bg-primary {
-  @apply bg-gray-100 dark:bg-gray-925;
+.root-bg {
+  @apply bg-gray-100 dark:bg-gray-950;
 }
 
-.card-bg-secondary {
-  @apply bg-gray-200 dark:bg-gray-900;
+.hero-text-primary {
+  @apply text-gray-850 dark:text-gray-100;
+}
+
+.hero-text-secondary {
+  @apply text-gray-700 dark:text-gray-400;
+}
+
+.card-bg-primary {
+  @apply bg-gray-25 dark:bg-gray-925;
+}
+
+.card-border-primary {
+  @apply border border-gray-100/80 dark:border-gray-900;
 }
 
 .card-text-primary {
   @apply text-gray-700 dark:text-gray-200;
 }
 
+.card-text-primary-content {
+  @apply text-gray-700/80 dark:text-gray-200/70;
+}
+
+.card-bg-secondary {
+  @apply bg-gray-75 dark:bg-gray-900;
+}
+
+.card-border-secondary {
+  @apply border border-gray-100/80 dark:border-gray-875;
+}
+
 .card-text-secondary {
-  @apply text-gray-600 dark:text-gray-400;
+  @apply text-gray-700 dark:text-gray-400;
 }
 
 .card-text-secondary-hover {

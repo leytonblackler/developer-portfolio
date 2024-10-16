@@ -46,7 +46,7 @@ const ProjectPage: FunctionComponent<ProjectPageProps> = async ({
     name,
     subtitle,
     description,
-    logo,
+    // logo,
     colors: unparsedColorSet,
     technologies,
   } = project;
@@ -58,8 +58,8 @@ const ProjectPage: FunctionComponent<ProjectPageProps> = async ({
 
   return (
     <div className={cn("bounded-page-content-x", "flex flex-col gap-y-2")}>
-      <Hero heading={name} subHeading={subtitle} />
-      <Card title="About" parsedColorSet={parsedColorSet}>
+      <Hero heading={name} subHeading={subtitle} reposition />
+      <Card title="About">
         {/* <div className="flex flex-row gap-x-12"> */}
         {/* <div
           className="relative max-w-xs flex-1 rounded-6xl px-8 py-6"

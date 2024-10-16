@@ -6,7 +6,7 @@ import { ScrollDown } from "./scroll-down";
 import { Hero } from "@/components/shared/hero";
 import { cn } from "@/utils/styling/cn";
 import { SafeArea } from "@/components/shared/safe-area";
-import { useHeroContext } from "@/components/shared/hero/provider/use-hero-context";
+import { useHeroEntryContext } from "@/components/shared/hero/entry-provider/use-hero-context";
 
 interface HomePageMainSectionProps {
   heading: string;
@@ -17,9 +17,9 @@ export const HomePageMainSection: FunctionComponent<
   HomePageMainSectionProps
 > = ({ heading, subHeading }) => {
   /**
-   * Access the hero context.
+   * Access the hero entry context.
    */
-  const { heroHasEntered } = useHeroContext();
+  const { heroHasEntered } = useHeroEntryContext();
 
   /**
    * Whether the waving emoji has been animated in.
@@ -34,11 +34,13 @@ export const HomePageMainSection: FunctionComponent<
             "flex-1",
             "flex flex-col",
             "items-center justify-center",
-            "bounded-page-content-x"
+            "bounded-page-content-x",
+            "relative"
           )}
         >
           <div
             className={cn(
+              "w-full",
               "flex-1",
               "flex flex-col",
               "items-center justify-center"

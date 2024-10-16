@@ -1,7 +1,7 @@
 "use client";
 
 // import { cookies } from "next/dist/client/components/headers";
-import { type ColorScheme } from "./types";
+import { ColorScheme } from "./types";
 import { usePreferredColorSchemeMode } from "./use-preferred-color-scheme-mode";
 
 type UseColorSchemeModeHook = () => ColorScheme;
@@ -24,9 +24,11 @@ export const useColorSchemeMode: UseColorSchemeModeHook = () =>
 /**
  * Returns whether the current color scheme mode for the website is dark.
  */
-export const useIsDarkMode = (): boolean => useColorSchemeMode() === "dark";
+export const useIsDarkMode = (): boolean =>
+  useColorSchemeMode() === ColorScheme.Dark;
 
 /**
  * Returns whether the current color scheme mode for the website is light.
  */
-export const useIsLightMode = (): boolean => useColorSchemeMode() === "light";
+export const useIsLightMode = (): boolean =>
+  useColorSchemeMode() === ColorScheme.Light;

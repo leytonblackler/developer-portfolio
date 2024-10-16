@@ -24,7 +24,7 @@ export const StatItem: FunctionComponent<StatItemProps> = ({
       )}
     >
       <Icon className="-ml-2 size-4 shrink-0 opacity-70" />
-      <span className="leading-none">{label}</span>
+      <span className="whitespace-nowrap leading-none">{label}</span>
     </div>
   </div>
 );

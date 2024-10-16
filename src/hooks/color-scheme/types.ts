@@ -1,4 +1,7 @@
-export type ColorScheme = "light" | "dark";
+export enum ColorScheme {
+  Light = "light",
+  Dark = "dark",
+}
 
 /**
  * Type guard for ColorScheme.
@@ -8,4 +11,4 @@ export const isColorScheme = (
 ): colorScheme is ColorScheme =>
   colorScheme !== null &&
   typeof colorScheme === "string" &&
-  ["light", "dark"].includes(colorScheme);
+  Object.values(ColorScheme).includes(colorScheme as ColorScheme);

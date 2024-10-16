@@ -182,63 +182,69 @@ export const ContactFormSection: FunctionComponent<
     [form, handleReCaptchaVerify]
   );
 
-  return submitted ? (
-    // TODO: Style success message
-    <div>success</div>
-  ) : (
-    <form
-      onSubmit={void form.handleSubmit(onSubmit)}
-      className="flex flex-col gap-y-2 text-black"
-    >
-      {/* Main fields */}
-      <div className="flex w-full flex-col gap-2 md:flex-row">
-        <Input
-          {...form.register("name")}
-          label="Name"
-          disabled={isSubmitting}
-        />
-        <Input
-          {...form.register("email")}
-          label="Email"
-          disabled={isSubmitting}
-        />
-      </div>
-      <div className="flex flex-row">
-        <TextArea
-          {...form.register("message")}
-          label="Message"
-          disabled={isSubmitting}
-        />
-      </div>
+  return (
+    <div className={cn("flex flex-col", "items-center", "w-full", "relative")}>
+      <div className="w-full max-w-[900px]">
+        {submitted ? (
+          // TODO: Style success message
+          <div>success</div>
+        ) : (
+          <form
+            onSubmit={void form.handleSubmit(onSubmit)}
+            className={cn("w-full", "flex flex-col gap-y-2")}
+          >
+            {/* Main fields */}
+            <div className="flex w-full flex-col gap-2 md:flex-row">
+              <Input
+                {...form.register("name")}
+                label="Name"
+                disabled={isSubmitting}
+              />
+              <Input
+                {...form.register("email")}
+                label="Email"
+                disabled={isSubmitting}
+              />
+            </div>
+            <div className="flex flex-row">
+              <TextArea
+                {...form.register("message")}
+                label="Message"
+                disabled={isSubmitting}
+              />
+            </div>
 
-      {/* Hidden fields */}
-      <Input {...form.register("userIP")} hidden />
-      <Input {...form.register("honeypot")} hidden />
+            {/* Hidden fields */}
+            <Input {...form.register("userIP")} hidden />
+            <Input {...form.register("honeypot")} hidden />
 
-      {/* Google reCAPTCHA */}
-      {/* This component is only for branding and error indication. */}
-      {/* Verification is handled via useGoogleReCaptcha hook. */}
-      <div className="flex w-full flex-col gap-2 md:flex-row">
-        <ReCaptchaBadge errorMessage={reCaptchaError?.message} />
-        {/* Submit button */}
-        <button
-          type="submit"
-          className={cn(
-            "flex-1 rounded-full px-8 py-10 font-medium",
-            "bg-gray-925 dark:bg-gray-300",
-            "text-gray-200 dark:text-gray-925",
-            "flex flex-row items-center justify-center gap-x-4"
-          )}
-          disabled={!reCaptchaReady}
-          // loading={isSubmitting} TODO: Add loading spinner
-        >
-          {isSubmitting ? "Sending..." : "Send"}
-          <TbSend className="h-6 w-6" />
-        </button>
+            {/* Google reCAPTCHA */}
+            {/* This component is only for branding and error indication. */}
+            {/* Verification is handled via useGoogleReCaptcha hook. */}
+            <div className="flex w-full flex-col-reverse gap-2 md:flex-row">
+              <ReCaptchaBadge errorMessage={reCaptchaError?.message} />
+              {/* Submit button */}
+              <button
+                type="submit"
+                className={cn(
+                  "flex-1 rounded-5xl px-8 py-10 font-medium",
+                  "bg-gray-925 dark:bg-gray-300",
+                  "text-gray-200 dark:text-gray-925",
+                  "flex flex-row items-center justify-center gap-x-4"
+                )}
+                disabled={!reCaptchaReady}
+                // loading={isSubmitting} TODO: Add loading spinner
+              >
+                {isSubmitting ? "Sending..." : "Send"}
+                <TbSend className="size-6" />
+              </button>
+            </div>
+
+            {/* TODO: style server error message */}
+            {submitError ? <div>{submitError.message}</div> : null}
+          </form>
+        )}
       </div>
-
-      {/* TODO: style server error message */}
-      {submitError ? <div>{submitError.message}</div> : null}
-    </form>
+    </div>
   );
 };

@@ -5,7 +5,7 @@ import { SectionsRenderer } from "@/components/sections-renderer";
 import { GeneralPageDataFragmentDoc } from "@/hygraph/generated/graphql";
 import { getFragmentData } from "@/hygraph/generated";
 import { Hero } from "@/components/shared/hero";
-import { AfterHero } from "@/components/shared/hero/provider/after-hero";
+import { AfterHero } from "@/components/shared/hero/entry-provider/after-hero";
 
 const PAGE_ID = "cljdo5imm5tfl0b2w62oy93cf";
 
@@ -35,7 +35,7 @@ const ProjectsPage: FunctionComponent = async () => {
 
   return (
     <div className="bounded-page-content-x">
-      <Hero heading={heading} subHeading={subHeading} />
+      <Hero heading={heading} subHeading={subHeading} reposition />
       <AfterHero>
         <SectionsRenderer sections={sections} />
       </AfterHero>

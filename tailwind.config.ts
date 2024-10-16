@@ -1,10 +1,12 @@
 import type { Config } from "tailwindcss";
 import containerQueriesPlugin from "@tailwindcss/container-queries";
-import { black, gray } from "tailwindcss/colors";
+import tailwindColors from "tailwindcss/colors";
 import { colord, extend } from "colord";
 import mixPlugin from "colord/plugins/mix";
 import defaultTheme from "tailwindcss/defaultTheme";
 import { generateGlitchKeyframes } from "./src/utils/tailwind/generate-glitch-keyframes";
+
+const { black, white, gray } = tailwindColors;
 
 extend([mixPlugin]);
 // eslint-disable-next-line import/no-default-export -- Tailwind config must be the default export.
@@ -28,8 +30,13 @@ export default {
         // ),
         gray: {
           ...gray,
+          25: colord(white).mix(gray[50], 0.5).toHex(),
+          75: colord(gray[50]).mix(gray[100], 0.5).toHex(),
+          125: colord(gray[100]).mix(gray[200], 0.5).toHex(),
           150: colord(gray[100]).mix(gray[200], 0.5).toHex(),
+          225: colord(gray[200]).mix(gray[300], 0.25).toHex(),
           850: colord(gray[800]).mix(gray[900], 0.5).toHex(),
+          875: colord(gray[800]).mix(gray[900], 0.75).toHex(),
           925: colord(gray[900]).mix(gray[950], 0.5).toHex(),
           975: colord(gray[950]).mix(black, 0.5).toHex(),
         },

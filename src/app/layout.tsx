@@ -7,6 +7,8 @@ import { NavigationBar } from "@/components/shared/navigation-bar";
 import { Providers } from "@/components/shared/providers";
 import { AnimatePagePresence } from "@/components/page-animation/animate-page-presence";
 import { cn } from "@/utils/styling/cn";
+import { SmoothScroller } from "@/components/shared/smooth-scroller";
+import { ScrollInstanceId } from "@/constants/scroll-instance-ids";
 
 /**
  * Import global styles.
@@ -17,8 +19,6 @@ import "./global.css";
  * Import styles required for react-loading-skeleton.
  */
 import "react-loading-skeleton/dist/skeleton.css";
-import { SmoothScroller } from "@/components/shared/smooth-scroller";
-import { ScrollInstanceId } from "@/constants/scroll-instance-ids";
 
 const plusJakartaSansFont = PlusJakartaSans({
   subsets: ["latin"],
@@ -43,14 +43,7 @@ interface RootLayoutProps {
 const RootLayout: FunctionComponent<RootLayoutProps> = ({ children }) => (
   <html
     lang="en"
-    className={cn(
-      "bg-gradient-to-b",
-      "dark:from-gray-975 dark:via-gray-950 dark:to-gray-950",
-      "from-white via-gray-50 to-gray-50",
-      "h-dvh max-h-dvh",
-      "max-w-dvw h-dvw",
-      "relative"
-    )}
+    className={cn("root-bg", "h-dvh max-h-dvh", "max-w-dvw h-dvw", "relative")}
   >
     <body
       className={cn(

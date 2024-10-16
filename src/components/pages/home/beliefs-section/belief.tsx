@@ -14,7 +14,8 @@ export const Belief: FunctionComponent<
     {...IN_VIEW_MOTION_PROPS}
     className={cn(
       "flex flex-col rounded-4xl px-10 pb-10 pt-8",
-      "card-bg-secondary"
+      "card-bg-secondary",
+      "card-border-secondary"
     )}
   >
     <div
@@ -28,7 +29,9 @@ export const Belief: FunctionComponent<
     >
       {padStart((index + 1).toString(), 2, "0")}
     </div>
-    <div className={cn("text-gray-925 dark:text-gray-300", "text-2xl", "mb-4")}>
+    <div
+      className={cn("card-text-primary", "font-semibold", "text-2xl", "mb-4")}
+    >
       <span>{title}</span>
     </div>
     <div

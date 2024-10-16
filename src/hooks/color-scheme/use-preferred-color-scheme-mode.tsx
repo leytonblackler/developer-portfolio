@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { type ColorScheme } from "./types";
+import { ColorScheme } from "./types";
 
 type UsePreferredColorSchemeModeHook = () => ColorScheme;
 
@@ -19,8 +19,8 @@ export const usePreferredColorSchemeMode: UsePreferredColorSchemeModeHook =
     const [preferredColorSchemeMode, setPreferredColorSchemeMode] =
       useState<ColorScheme>(
         !isClient || window.matchMedia("(prefers-color-scheme: dark)").matches
-          ? "dark"
-          : "light"
+          ? ColorScheme.Dark
+          : ColorScheme.Light
       );
 
     /**
@@ -46,7 +46,9 @@ export const usePreferredColorSchemeMode: UsePreferredColorSchemeModeHook =
       const onColorSchemePreferenceChange = (
         event: MediaQueryListEvent
       ): void => {
-        const colorScheme = event.matches ? "dark" : "light";
+        const colorScheme = event.matches
+          ? ColorScheme.Dark
+          : ColorScheme.Light;
         setPreferredColorSchemeMode(colorScheme);
       };
 
@@ -73,10 +75,10 @@ export const usePreferredColorSchemeMode: UsePreferredColorSchemeModeHook =
  * Convenience hook for determining if the preferred color scheme mode is dark.
  */
 export const usePrefersDarkMode = (): boolean =>
-  usePreferredColorSchemeMode() === "dark";
+  usePreferredColorSchemeMode() === ColorScheme.Dark;
 
 /**
  * Convenience hook for determining if the preferred color scheme mode is light.
  */
 export const usePrefersLightMode = (): boolean =>
-  usePreferredColorSchemeMode() === "light";
+  usePreferredColorSchemeMode() === ColorScheme.Light;

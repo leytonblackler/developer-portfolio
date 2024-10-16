@@ -38,12 +38,12 @@ export const SubHeading: FunctionComponent<HeroProps> = ({
       }}
       onAnimationComplete={onAnimationComplete}
       className={cn(
+        "hero-text-secondary",
         large
           ? "text-lg sm:text-xl md:text-2xl"
           : "text-base sm:text-lg md:text-xl",
-        "font-light",
+        "font-normal",
         "max-w-2xl",
-        "text-gray-700 dark:text-gray-400",
         "opacity-70",
         "flex flex-col gap-y-1"
       )}

@@ -34,7 +34,7 @@ export const Stats: FunctionComponent<
   );
 
   return (
-    <div className="flex w-full flex-1 flex-col justify-evenly">
+    <div className={cn("flex-1 shrink-0", "flex flex-col justify-evenly")}>
       <h3
         // TODO: Reuse from card component
         className={cn(
@@ -47,7 +47,7 @@ export const Stats: FunctionComponent<
       >
         {title}
       </h3>
-      <div className={cn("grid flex-1 grid-cols-2 gap-y-8")}>
+      <div className={cn("grid flex-1 grid-cols-2 gap-8")}>
         {statItems.map((props) => (
           <StatItem key={props.label} {...props} />
         ))}

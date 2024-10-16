@@ -38,7 +38,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             "pointer-events-none",
             "absolute",
             "left-10 top-10",
-            "text-gray-700 dark:text-gray-200",
+            "card-text-primary",
             "font-medium"
           )}
         >
@@ -50,10 +50,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         type={type}
         className={cn(
           "w-full",
-          "rounded-6xl",
+          "rounded-5xl",
           "p-10",
-          "bg-gray-100 dark:bg-gray-925",
-          "text-gray-700 dark:text-gray-200",
+          "card-bg-primary",
+          "card-border-primary",
+          "card-text-primary",
           "outline-none"
         )}
         {...props}

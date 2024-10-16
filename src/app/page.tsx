@@ -6,7 +6,7 @@ import { GeneralPageDataFragmentDoc } from "@/hygraph/generated/graphql";
 import { HomePageMainSection } from "@/components/pages/home/main";
 import { SafeArea } from "@/components/shared/safe-area";
 import { SectionsRenderer } from "@/components/sections-renderer";
-import { HeroProvider } from "@/components/shared/hero/provider";
+import { HeroEntryProvider } from "@/components/shared/hero/entry-provider";
 
 const PAGE_ID = "cljdjrcrz5tyl0b19dgn4fsfb";
 
@@ -32,7 +32,7 @@ const HomePage: FunctionComponent = async () => {
   const { heading, subHeading, sections } = aboutPageData;
 
   return (
-    <HeroProvider>
+    <HeroEntryProvider>
       <div>
         <HomePageMainSection heading={heading} subHeading={subHeading} />
         <SafeArea>
@@ -43,7 +43,7 @@ const HomePage: FunctionComponent = async () => {
           <div>TODO: Contact</div>
         </SafeArea>
       </div>
-    </HeroProvider>
+    </HeroEntryProvider>
   );
 };
 

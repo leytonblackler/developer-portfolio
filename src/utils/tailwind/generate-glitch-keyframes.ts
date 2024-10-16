@@ -1,4 +1,5 @@
-import { random, round } from "lodash";
+import random from "lodash/random";
+import round from "lodash/round";
 import { type KeyValuePair } from "tailwindcss/types/config";
 
 interface GlitchKeyframesOptions {
