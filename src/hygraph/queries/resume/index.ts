@@ -20,7 +20,7 @@ export const getResume: QueryFunction<NonNullable<ResumeQuery["resume"]>> = ({
     } = await client.query({
       query: ResumeDocument,
       variables: {
-        id: HYGRAPH_RESUME_ENTRY_ID,
+        resumeEntryId: HYGRAPH_RESUME_ENTRY_ID,
       },
     });
 

@@ -35,5 +35,6 @@ yarn-error.log*
 next-env.d.ts
 
 # generated
-public/Leyton Blackler - Resume.pdf
+public/Leyton Blackler - Resume (Light).pdf
+public/Leyton Blackler - Resume (Dark).pdf
 src/hygraph/generated/**/*

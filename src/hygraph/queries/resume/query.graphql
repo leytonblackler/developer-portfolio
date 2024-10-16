@@ -1,13 +1,94 @@
-fragment ResumeTechnologyData on Technology {
+fragment ResumeEducationalInstitutionData on EducationalInstitution {
   id
+  slug
   name
-  url
+  logo {
+    iconLight {
+      id
+      url(transformation: {
+        image: {
+          resize: {
+            width: 64,
+            height: 64,
+            fit: max
+          }
+        }
+      })
+    }
+    iconDark {
+      id
+      url(transformation: {
+        image: {
+          resize: {
+            width: 64,
+            height: 64,
+            fit: max
+          }
+        }
+      })
+    }
+  }
+  colors {
+    backgroundLight {
+      hex
+    }
+    backgroundDark {
+      hex
+    }
+  }
+  timeFrame {
+    startDate
+    endDate
+  }
+  credentials {
+    code
+    descriptionResume {
+      markdown
+    }
+  }
 }
 
 fragment ResumeCompanyData on Company {
   id
   slug
   name
+  descriptionResume {
+    markdown
+  }
+  logo {
+    iconLight {
+      id
+      url(transformation: {
+        image: {
+          resize: {
+            width: 64,
+            height: 64,
+            fit: max
+          }
+        }
+      })
+    }
+    iconDark {
+      id
+      url(transformation: {
+        image: {
+          resize: {
+            width: 64,
+            height: 64,
+            fit: max
+          }
+        }
+      })
+    }
+  }
+  colors {
+    backgroundLight {
+      hex
+    }
+    backgroundDark {
+      hex
+    }
+  }
   timeFrame {
     startDate
     endDate
@@ -18,13 +99,109 @@ fragment ResumeProjectData on Project {
   id
   slug
   name
+  descriptionResume {
+    markdown
+  }
+  logo {
+    iconLight {
+      id
+      url(transformation: {
+        image: {
+          resize: {
+            width: 64,
+            height: 64,
+            fit: max
+          }
+        }
+      })
+    }
+    iconDark {
+      id
+      url(transformation: {
+        image: {
+          resize: {
+            width: 64,
+            height: 64,
+            fit: max
+          }
+        }
+      })
+    }
+  }
+  colors {
+    backgroundLight {
+      hex
+    }
+    backgroundDark {
+      hex
+    }
+  }
+  personalProject
+  company {
+    id
+  }
+  courses {
+    id
+  }
   timeFrame {
     startDate
     endDate
   }
 }
 
+fragment ResumeTechnologyData on Technology {
+  id
+  name
+  firstUsed
+  logo {
+    iconLight {
+      id
+      url(transformation: {
+        image: {
+          resize: {
+            width: 64,
+            height: 64,
+            fit: max
+          }
+        }
+      })
+    }
+    iconDark {
+      id
+      url(transformation: {
+        image: {
+          resize: {
+            width: 64,
+            height: 64,
+            fit: max
+          }
+        }
+      })
+    }
+  }
+  colors {
+    backgroundLight {
+      hex
+    }
+    backgroundDark {
+      hex
+    }
+  }
+  url
+}
+
+fragment ResumePersonalOverviewSectionData on PersonalOverviewSection {
+  name
+  pronouns
+  description {
+    markdown
+  }
+}
+
 fragment ResumeData on Resume {
+  primaryEducationalInstitution {
+    ...ResumeEducationalInstitutionData
+  }
   technologies(first: 100) {
     ...ResumeTechnologyData
   }
@@ -34,10 +211,15 @@ fragment ResumeData on Resume {
   projects(first: 100) {
     ...ResumeProjectData
   }
+  pageWithPersonalOverview {
+    sections {
+      ...ResumePersonalOverviewSectionData
+    }
+  }
 }
 
-query Resume($id: ID!) {
-  resume(where: {id: $id}) {
+query Resume($resumeEntryId: ID!) {
+  resume(where: {id: $resumeEntryId}) {
     ...ResumeData
   }
 }

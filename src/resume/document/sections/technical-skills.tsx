@@ -6,15 +6,18 @@ import {
   type ResumeDataFragment,
 } from "@/hygraph/generated/graphql";
 import { getFragmentData } from "@/hygraph/generated";
+import { parseHygraphDate } from "@/utils/date/parse-hygraph-date";
+import { cn } from "@/utils/styling/cn";
 
 interface ResumeTechnicalSkillsSectionProps {
+  isDarkMode: boolean;
   className?: HTMLAttributes<HTMLDivElement>["className"];
   technologies: ResumeDataFragment["technologies"];
 }
 
 export const ResumeTechnicalSkillsSection: FunctionComponent<
   ResumeTechnicalSkillsSectionProps
-> = ({ className, technologies }) => {
+> = ({ isDarkMode, className, technologies }) => {
   /**
    * Get the fragment data for the technology entries.
    */
@@ -24,21 +27,58 @@ export const ResumeTechnicalSkillsSection: FunctionComponent<
   );
 
   return (
-    <ResumeSection title="Technical Skills" className={className}>
-      <ResumeSectionList
-        items={technologiesData.map(({ name, url }) => ({
-          title: name,
-          href: url,
-          content: "TODO",
-        }))}
-      />
-      {/* <div className="flex flex-col">
-      {technologies.map(({ id, name, url }) => (
-        <a key={id} href={url}>
-          {name}
-        </a>
-      ))}
-    </div> */}
+    <ResumeSection
+      isDarkMode={isDarkMode}
+      title="Technical Skills"
+      className={className}
+    >
+      <div className="mt-1">
+        <ResumeSectionList
+          isDarkMode={isDarkMode}
+          columns={2}
+          small
+          items={technologiesData.map(
+            ({ name, firstUsed, logo, colors, url }) => {
+              /**
+               * Throw an error if the light logo is missing.
+               */
+              if (!logo?.iconLight?.url) {
+                throw new Error(`Missing light logo for technology "${name}".`);
+              }
+
+              /**
+               * Throw an error if the dark logo is missing.
+               */
+              if (!logo.iconDark?.url) {
+                throw new Error(`Missing dark logo for technology "${name}".`);
+              }
+
+              return {
+                title: name,
+                firstUsed: parseHygraphDate(firstUsed),
+                icon: {
+                  url: logo[isDarkMode ? "iconDark" : "iconLight"]?.url,
+                  backgroundColor: colors[
+                    isDarkMode ? "backgroundDark" : "backgroundLight"
+                  ].hex as string,
+                },
+                href: url,
+              };
+            }
+          )}
+        />
+      </div>
+      <p
+        className={cn(
+          isDarkMode ? "text-gray-200" : "text-gray-700", // card-text-primary
+          "mt-4",
+          "text-[0.625rem] leading-4",
+          "text-opacity-30"
+        )}
+      >
+        This selection highlights primary skills, but does not encompass the
+        full range of technologies I have utilised.
+      </p>
     </ResumeSection>
   );
 };

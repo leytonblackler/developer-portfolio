@@ -28,6 +28,7 @@
     "dotlottie",
     "drei",
     "emojify",
+    "Fileforge",
     "GLTF",
     "graphassets",
     "inlinesvg",
@@ -50,7 +51,9 @@
     "spotifycdn",
     "statsfm",
     "uidotdev",
+    "utilised",
     "visualisation",
-    "visx"
+    "visx",
+    "wght"
   ],
 }

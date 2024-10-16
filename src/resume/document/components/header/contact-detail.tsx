@@ -1,28 +1,37 @@
 import React from "react";
 import { type FunctionComponent } from "react";
-import { type IconType } from "react-icons";
-import { cn } from "@/utils/styling/cn";
+import { Link, Text } from "@react-pdf/renderer";
+import colors from "tailwindcss/colors";
+import { tw } from "../../tailwind";
+import { type ReactPDFIcon } from "../icons/types";
 
 interface ResumeContactDetailProps {
+  isDarkMode: boolean;
   href: string;
-  icon: IconType;
+  icon: ReactPDFIcon;
   className?: string;
   children: string;
 }
 
 export const ResumeContactDetail: FunctionComponent<
   ResumeContactDetailProps
-> = ({ href, icon: Icon, children, className }) => (
-  <a
+> = ({ isDarkMode, href, icon: Icon, className, children }) => (
+  <Link
     href={href}
-    className={cn("flex flex-row", "items-center", " text-gray-600", className)}
+    style={tw(
+      "no-underline",
+      "flex flex-row",
+      "items-center",
+      isDarkMode ? "text-gray-400" : "text-gray-700", // hero-text-secondary,
+      "opacity-70",
+      className
+    )}
   >
     <Icon
-      style={{
-        width: 16,
-        height: 16,
-      }}
+      width={16}
+      height={16}
+      color={isDarkMode ? colors.gray[400] : colors.gray[700]} // hero-text-secondary,
     />
-    <span className="ml-2 text-sm font-medium leading-none">{children}</span>
-  </a>
+    <Text style={tw("ml-2 text-xs font-medium leading-none")}>{children}</Text>
+  </Link>
 );
