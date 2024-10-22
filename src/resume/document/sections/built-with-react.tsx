@@ -1,6 +1,7 @@
 import React, { type HTMLAttributes, type FunctionComponent } from "react";
+import { Link, Text, View } from "@react-pdf/renderer";
 import { evaluateSectionCardClassName } from "../components/section/classname";
-import { cn } from "@/utils/styling/cn";
+import { tw } from "../tailwind";
 
 type ResumeBuiltWithReactSectionProps = { isDarkMode: boolean } & Pick<
   HTMLAttributes<HTMLDivElement>,
@@ -9,37 +10,41 @@ type ResumeBuiltWithReactSectionProps = { isDarkMode: boolean } & Pick<
 
 export const ResumeBuiltWithReactSection: FunctionComponent<
   ResumeBuiltWithReactSectionProps
-> = ({ isDarkMode, className }) => {
-  return (
-    <div
-      className={cn(
-        evaluateSectionCardClassName({ isDarkMode }),
-        "flex items-center justify-center",
-        className
+> = ({ isDarkMode, className }) => (
+  <View
+    style={tw(
+      evaluateSectionCardClassName({ isDarkMode }),
+      "flex items-center justify-center",
+      className
+    )}
+  >
+    <View
+      style={tw(
+        "mt-0.5",
+        "flex flex-row justify-center items-center",
+        isDarkMode ? "text-gray-200" : "text-gray-700" // card-text-primary
       )}
     >
-      <p
-        className={cn(
-          "mt-0.5 whitespace-nowrap text-center",
-          "text-[0.625rem]", // text-xxs
-          "leading-none",
-          isDarkMode ? "text-gray-200" : "text-gray-700", // card-text-primary
-          "text-opacity-50"
-        )}
-      >
+      <Text style={tw("opacity-50", "text-xxs")}>
         Resume built with React, with content sourced from Hygraph CMS, and
         generated as part of the CI/CD pipeline for{" "}
-        <a
-          href="https://leytonblackler.dev/"
-          className={cn(
-            "font-medium",
-            isDarkMode ? "text-gray-200/70" : "text-gray-700/80" // card-text-primary-content
-          )}
+      </Text>
+      <Link href="https://leytonblackler.dev/" style={tw("no-underline")}>
+        <Text
+          style={{
+            ...tw(
+              "font-medium",
+              "text-xxs text-current",
+              isDarkMode // card-text-primary-content
+                ? "text-gray-200 opacity-70"
+                : "text-gray-700 opacity-80"
+            ),
+          }}
         >
           leytonblackler.dev
-        </a>
-        .
-      </p>
-    </div>
-  );
-};
+        </Text>
+      </Link>
+      <Text style={tw("opacity-50", "text-xxs")}>.</Text>
+    </View>
+  </View>
+);

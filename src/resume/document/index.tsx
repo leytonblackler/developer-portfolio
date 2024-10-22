@@ -1,13 +1,5 @@
 import React, { type FunctionComponent } from "react";
-import {
-  Page,
-  Text,
-  View,
-  Document,
-  StyleSheet,
-  Font,
-} from "@react-pdf/renderer";
-import tailwindConfig from "../../../tailwind.config";
+import { Page, View, Document } from "@react-pdf/renderer";
 import { ResumeHeader } from "./components/header";
 import { ResumeProjectsSection } from "./sections/projects";
 import { ResumeExperienceSection } from "./sections/experience";
@@ -22,7 +14,6 @@ import {
   type ResumePersonalOverviewSectionDataFragment,
   type ResumeDataFragment,
 } from "@/hygraph/generated/graphql";
-import { cn } from "@/utils/styling/cn";
 import { ColorScheme } from "@/hooks/color-scheme/types";
 
 export const ResumeDocument: FunctionComponent<
@@ -75,6 +66,49 @@ export const ResumeDocument: FunctionComponent<
         }}
       >
         <ResumeHeader isDarkMode={isDarkMode} name={name} pronouns={pronouns} />
+        <View style={tw("flex flex-1 flex-col")}>
+          <View style={tw("flex flex-1 flex-row")}>
+            <View style={tw("mr-0.5 flex flex-1 flex-col")}>
+              <ResumeProfileSection
+                isDarkMode={isDarkMode}
+                className="mb-0.5 flex-1"
+                description={description}
+              />
+              <ResumeTechnicalSkillsSection
+                isDarkMode={isDarkMode}
+                className="mt-0.5 grow-0"
+                technologies={technologies}
+              />
+            </View>
+            <View style={tw("ml-0.5 flex flex-1 flex-col")}>
+              <ResumeExperienceSection
+                isDarkMode={isDarkMode}
+                className="mb-0.5 flex-1"
+                companies={companies}
+              />
+              <ResumeEducationSection
+                isDarkMode={isDarkMode}
+                className="my-0.5 grow-0"
+                primaryEducationalInstitution={primaryEducationalInstitution}
+              />
+              <ResumeProjectsSection
+                isDarkMode={isDarkMode}
+                className="my-0.5 flex-1"
+                projects={projects}
+              />
+              <View style={tw("mt-0.5 flex flex-row")}>
+                <ReferencesSection
+                  isDarkMode={isDarkMode}
+                  className="mr-1 flex-1"
+                />
+              </View>
+            </View>
+          </View>
+          <ResumeBuiltWithReactSection
+            isDarkMode={isDarkMode}
+            className="mt-1"
+          />
+        </View>
       </Page>
     </Document>
   );

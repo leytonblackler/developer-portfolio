@@ -6,7 +6,7 @@ export const evaluateSectionCardClassName = cva(
     "flex flex-col",
     "w-full",
     "px-5 pb-4 pt-3",
-    "relative box-border",
+    "relative",
     "rounded-3xl",
     "border"
   ),
@@ -21,7 +21,7 @@ export const evaluateSectionCardClassName = cva(
         false: cn(
           "text-gray-700", // card-text-primary
           "bg-gray-25", // card-bg-primary
-          "border-gray-100/80" // card-border-primary
+          "border-gray-100" // card-border-primary TODO: Set border opacity to 80%
         ),
       },
     },

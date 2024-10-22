@@ -3,7 +3,7 @@ import { getGeneralPage } from "@/hygraph/queries/general-page";
 import { getSSRApolloClient } from "@/hygraph/client/ssr";
 import { getFragmentData } from "@/hygraph/generated";
 import { GeneralPageDataFragmentDoc } from "@/hygraph/generated/graphql";
-import { HomePageMainSection } from "@/components/pages/home/main";
+import { HomePageMainSection } from "@/components/pages/about/main";
 import { SafeArea } from "@/components/shared/safe-area";
 import { SectionsRenderer } from "@/components/sections-renderer";
 import { HeroEntryProvider } from "@/components/shared/hero/entry-provider";

@@ -23,15 +23,22 @@ export const ResumeContactDetail: FunctionComponent<
       "flex flex-row",
       "items-center",
       isDarkMode ? "text-gray-400" : "text-gray-700", // hero-text-secondary,
-      "opacity-70",
+      "opacity-80",
       className
     )}
   >
     <Icon
-      width={16}
-      height={16}
+      width={12}
+      height={12}
       color={isDarkMode ? colors.gray[400] : colors.gray[700]} // hero-text-secondary,
     />
-    <Text style={tw("ml-2 text-xs font-medium leading-none")}>{children}</Text>
+    <Text
+      style={{
+        ...tw("leading-none"),
+        ...tw("ml-2 mb-0.5 text-[0.72rem] font-medium"),
+      }}
+    >
+      {children}
+    </Text>
   </Link>
 );

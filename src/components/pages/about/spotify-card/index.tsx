@@ -20,7 +20,7 @@ export const SpotifyCard: FunctionComponent = async () => {
             "flex-wrap"
           )}
         >
-          <RecentlyPlayedTrack {...mostRecentlyPlayedTrackData} />
+          <RecentlyPlayedTrack data={mostRecentlyPlayedTrackData} />
           <Stats title="Past 6 Months" {...statsForPastSixMonths} />
         </div>
       </div>

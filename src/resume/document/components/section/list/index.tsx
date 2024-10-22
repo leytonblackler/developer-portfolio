@@ -1,6 +1,9 @@
+/* eslint-disable react/jsx-pascal-case -- Required for TR & TD components */
 import React, { type FunctionComponent } from "react";
+import { View } from "@react-pdf/renderer";
+import { Table, TR, TD } from "@ag-media/react-pdf-table";
 import { ResumeSectionListItem, type ResumeSectionListItemData } from "./item";
-import { cn } from "@/utils/styling/cn";
+import { tw } from "@/resume/document/tailwind";
 
 interface ResumeSectionListProps {
   isDarkMode: boolean;
@@ -24,36 +27,36 @@ export const ResumeSectionList: FunctionComponent<ResumeSectionListProps> = ({
   );
 
   return (
-    <table className={cn("w-full")}>
-      <tbody>
-        {rows.map((rowItems, rowIndex) => (
-          <tr
-            // eslint-disable-next-line react/no-array-index-key -- This is safe since the rows will be static.
-            key={rowIndex}
-          >
-            {rowItems.map((item, itemIndex) => (
-              <td key={item.title}>
-                <div
-                  className={cn(
-                    rowItems.length > 1 && itemIndex < rowItems.length - 1
-                      ? "mr-4"
-                      : "mr-0",
-                    rows.length > 1 && rowIndex < rows.length - 1
-                      ? cn(small ? "mb-2.5" : "mb-4")
-                      : "mb-0"
-                  )}
-                >
-                  <ResumeSectionListItem
-                    isDarkMode={isDarkMode}
-                    small={small}
-                    {...item}
-                  />
-                </div>
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <Table style={tw("w-full")}>
+      {rows.map((rowItems, rowIndex) => (
+        <TR
+          // eslint-disable-next-line react/no-array-index-key -- This is safe since the rows will be static.
+          key={rowIndex}
+          style={tw("w-full")}
+        >
+          {rowItems.map((item, itemIndex) => (
+            <TD key={item.title} style={tw("border-0")}>
+              <View
+                style={tw(
+                  "w-full",
+                  rowItems.length > 1 && itemIndex < rowItems.length - 1
+                    ? "mr-4"
+                    : "mr-0",
+                  rows.length > 1 && rowIndex < rows.length - 1
+                    ? "mb-3"
+                    : "mb-0"
+                )}
+              >
+                <ResumeSectionListItem
+                  isDarkMode={isDarkMode}
+                  small={small}
+                  {...item}
+                />
+              </View>
+            </TD>
+          ))}
+        </TR>
+      ))}
+    </Table>
   );
 };

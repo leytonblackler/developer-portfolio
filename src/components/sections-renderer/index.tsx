@@ -1,6 +1,6 @@
 import { type FunctionComponent } from "react";
 import { SeparatorSection } from "../shared/separator";
-import { PersonalOverviewSection } from "@/components/pages/home/personal-overview";
+import { PersonalOverviewSection } from "@/components/pages/about/personal-overview";
 import { ContactFormSection } from "@/components/pages/contact/contact-form";
 import {
   type GeneralPageDataFragment,
@@ -13,7 +13,7 @@ import {
 } from "@/hygraph/generated/graphql";
 import { CardListSection } from "@/components/shared/card-list";
 import { getFragmentData } from "@/hygraph/generated";
-import { BeliefsSection } from "@/components/pages/home/beliefs-section";
+import { BeliefsSection } from "@/components/pages/about/beliefs-section";
 import { PageLinksSection } from "@/components/shared/page-links";
 
 interface SectionsRendererProps {

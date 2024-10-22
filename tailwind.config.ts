@@ -41,6 +41,9 @@ export default {
           975: colord(gray[950]).mix(black, 0.5).toHex(),
         },
       },
+      fontSize: {
+        xxs: "0.625rem",
+      },
       fontFamily: {
         sans: [
           "var(--font-plus-jakarta-sans)",

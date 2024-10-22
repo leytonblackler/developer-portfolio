@@ -64,9 +64,11 @@ export const CardListItem: FunctionComponent<CardListItemDataFragment> = (
         }}
         initial="idle"
         whileHover="hover"
+        whileTap="tap"
         transition={{
           type: "tween",
           ease: "easeOut",
+          duration: 0.2,
         }}
         variants={{
           idle: {
@@ -74,6 +76,13 @@ export const CardListItem: FunctionComponent<CardListItemDataFragment> = (
           },
           hover: {
             scale: 0.98,
+          },
+          tap: {
+            scale: 0.96,
+            transition: {
+              type: "spring",
+              duration: 0.3,
+            },
           },
         }}
       >
@@ -90,6 +99,7 @@ export const CardListItem: FunctionComponent<CardListItemDataFragment> = (
             transition={{
               type: "tween",
               ease: "easeOut",
+              duration: 0.2,
             }}
             variants={{
               idle: {
@@ -97,6 +107,13 @@ export const CardListItem: FunctionComponent<CardListItemDataFragment> = (
               },
               hover: {
                 scale: 1.1,
+              },
+              tap: {
+                scale: 1,
+                transition: {
+                  type: "spring",
+                  duration: 0.3,
+                },
               },
             }}
           >
@@ -130,6 +147,7 @@ export const CardListItem: FunctionComponent<CardListItemDataFragment> = (
             transition={{
               type: "tween",
               ease: "easeOut",
+              duration: 0.2,
             }}
             variants={{
               idle: {
@@ -137,6 +155,13 @@ export const CardListItem: FunctionComponent<CardListItemDataFragment> = (
               },
               hover: {
                 scale: 0.98,
+              },
+              tap: {
+                scale: 0.96,
+                transition: {
+                  type: "spring",
+                  duration: 0.3,
+                },
               },
             }}
           >

@@ -1,7 +1,9 @@
 import React, { type HTMLAttributes, type FunctionComponent } from "react";
 import Markdown from "react-markdown";
+import { Text } from "@react-pdf/renderer";
 import { ResumeSection } from "../components/section";
 import { ResumeSectionList } from "../components/section/list";
+import { tw } from "../tailwind";
 import {
   ResumeEducationalInstitutionDataFragmentDoc,
   type ResumeDataFragment,
@@ -78,7 +80,25 @@ export const ResumeEducationSection: FunctionComponent<
             href: `https://leytonblackler.dev/education/${slug}`,
             tag: code,
             dateRange: timeFrame,
-            content: <Markdown>{description.markdown}</Markdown>,
+            content: (
+              <Markdown
+                components={{
+                  // eslint-disable-next-line react/no-unstable-nested-components -- This is safe since the document is static and only renders once.
+                  p: ({ children }) => (
+                    <Text
+                      style={{
+                        ...tw("leading-relaxed"),
+                        ...tw("text-xxs", "font-normal"),
+                      }}
+                    >
+                      {children}
+                    </Text>
+                  ),
+                }}
+              >
+                {description.markdown}
+              </Markdown>
+            ),
           },
         ]}
       />

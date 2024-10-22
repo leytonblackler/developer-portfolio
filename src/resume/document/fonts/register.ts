@@ -1,4 +1,4 @@
-import { StyleSheet } from "@react-pdf/renderer";
+import { Font, StyleSheet } from "@react-pdf/renderer";
 import { registerPlusJakartaSansFonts } from "./plus-jakarta-sans";
 
 interface FontFamilyStyle {
@@ -17,6 +17,11 @@ export const registerFonts = (): {
    * Register the Plus Jakarta Sans fonts.
    */
   registerPlusJakartaSansFonts();
+
+  /**
+   * Prevent text-wrapping with hyphens.
+   */
+  Font.registerHyphenationCallback((word) => [word]);
 
   /**
    * Generate and return font styles for the registered fonts.

@@ -7,9 +7,10 @@ import colors from "tailwindcss/colors";
 import dayjs, { type Dayjs } from "dayjs";
 import pluralize from "pluralize";
 import { colord } from "colord";
+import { Image, Link, Text, View } from "@react-pdf/renderer";
 import { type DateRange } from "@/hygraph/generated/graphql";
 import { formatDateRange } from "@/utils/date";
-import { cn } from "@/utils/styling/cn";
+import { tw } from "@/resume/document/tailwind";
 
 export interface ResumeSectionListItemData {
   isDarkMode: boolean;
@@ -40,17 +41,26 @@ export const ResumeSectionListItem: FunctionComponent<
   small = false,
 }) => {
   return (
-    <div className={cn("flex w-full flex-col")}>
-      <div className={cn("flex w-full flex-col", content ? "mb-1.5" : "mb-0")}>
-        <div className="flex w-full flex-row items-start justify-between">
-          <a
+    <View style={tw("flex w-full flex-col")}>
+      <View style={tw("flex w-full flex-col", content ? "mb-1.5" : "mb-0")}>
+        <View style={tw("flex w-full flex-row items-start justify-between")}>
+          <Link
             href={href}
-            className="mr-2 flex w-full flex-row items-center justify-start"
+            style={tw(
+              "flex-1",
+              "no-underline",
+              "mr-1 flex flex-row items-center justify-start"
+            )}
           >
             {typeof icon === "object" && icon.url && icon.backgroundColor ? (
-              <div
-                className="mr-1.5 flex items-center justify-center rounded-full p-1"
+              <View
                 style={{
+                  ...tw(
+                    "flex items-center justify-center rounded-full",
+                    "mr-1.5",
+                    "w-5 min-w-5 max-w-5",
+                    "h-5 min-h-5 max-h-5"
+                  ),
                   backgroundColor: (() => {
                     /**
                      * Map white background colors to gray-150.
@@ -78,48 +88,51 @@ export const ResumeSectionListItem: FunctionComponent<
                   })(),
                 }}
               >
-                <img
+                <Image
                   src={icon.url}
-                  className="object-contain"
-                  width={10}
-                  height={10}
-                  alt={`${title} Icon`}
+                  style={tw("object-contain", "w-2.5", "h-2.5")}
                 />
-              </div>
+              </View>
             ) : null}
 
-            <div className="mb-0.5 flex w-full flex-col">
-              <div
-                className={cn(
+            <View style={tw("mb-0.5 flex w-full flex-col")}>
+              <View
+                style={tw(
                   "w-full",
                   "flex flex-row",
                   "items-center justify-between"
                 )}
               >
-                <h3
-                  className={cn(
-                    isDarkMode ? "text-gray-200/80" : "text-gray-700/90", // card-text-primary
-                    small ? "text-xs" : "text-[0.8125rem]",
-                    "font-medium",
-                    "whitespace-nowrap",
-                    "leading-none"
-                  )}
+                <Text
+                  style={{
+                    ...tw("leading-none"),
+                    ...tw(
+                      isDarkMode
+                        ? "text-gray-200 opacity-80"
+                        : "text-gray-700 opacity-90", // card-text-primary
+                      small ? "text-xxs" : "text-[0.8125rem]",
+                      "font-medium"
+                    ),
+                  }}
                 >
                   {title}
-                </h3>
+                </Text>
                 {firstUsed
                   ? (() => {
                       const years = dayjs().diff(firstUsed, "year", true);
                       const unit: "year" | "month" =
                         years < 1 ? "month" : "year";
                       return (
-                        <span
-                          className={cn(
-                            isDarkMode ? "text-gray-200" : "text-gray-700", // card-text-primary
-                            "text-opacity-50",
-                            "text-[0.625rem]", // text-xxs
-                            "ml-1.5 whitespace-nowrap italic leading-none"
-                          )}
+                        <Text
+                          style={{
+                            ...tw("leading-none"),
+                            ...tw(
+                              isDarkMode ? "text-gray-200" : "text-gray-700", // card-text-primary
+                              "opacity-50",
+                              "ml-1.5 italic",
+                              "text-[0.55rem]"
+                            ),
+                          }}
                         >
                           {pluralize(
                             unit,
@@ -131,66 +144,82 @@ export const ResumeSectionListItem: FunctionComponent<
                             ),
                             true
                           )}
-                        </span>
+                        </Text>
                       );
                     })()
                   : null}
-              </div>
+              </View>
               {dateRange ? (
-                <span
-                  className={cn(
-                    isDarkMode ? "text-gray-200" : "text-gray-700", // card-text-primary
-                    "text-[0.625rem]", // text-xxs
-                    "mt-1 italic leading-none",
-                    "text-opacity-50"
-                  )}
+                <Text
+                  style={{
+                    ...tw(
+                      isDarkMode ? "text-gray-200" : "text-gray-700", // card-text-primary
+                      "text-xxs",
+                      "mt-1.5 italic",
+                      "opacity-50"
+                    ),
+                  }}
                 >
                   {formatDateRange(dateRange, {
                     fullMonth: false,
                   })}
-                </span>
+                </Text>
               ) : null}
-            </div>
-          </a>
+            </View>
+          </Link>
 
           {tag ? (
-            <div
-              className={cn(
-                isDarkMode ? "bg-gray-900" : "bg-gray-75", // card-bg-secondary
-                isDarkMode ? "text-gray-400/70" : "text-gray-700/80", // card-text-secondary
+            // <View style={tw("grow-0")}>
+            <View
+              style={tw(
+                isDarkMode ? "bg-gray-850" : "bg-gray-150", // card-bg-secondary
                 "rounded-full",
-                "px-2 pb-1.5 pt-1",
-                "text-[0.625rem]", // text-xxs
-                "font-medium",
-                "leading-none"
+                "pb-1.5 pt-1 px-2"
               )}
             >
-              {tag}
-            </div>
-          ) : null}
-        </div>
-      </div>
+              <Text
+                style={{
+                  ...tw("leading-none"),
+                  ...tw(
+                    "text-xxs",
+                    "font-medium",
+                    isDarkMode // card-text-secondary
+                      ? "text-gray-400 opacity-70"
+                      : "text-gray-700 opacity-80"
+                  ),
+                }}
+              >
+                {tag}
+              </Text>
+            </View>
+          ) : // </View>
+          null}
+        </View>
+      </View>
       {content ? (
-        <div
-          className={cn(
-            isDarkMode ? "text-gray-200/70" : "text-gray-700/80", // card-text-primary-content
+        <View
+          style={tw(
+            isDarkMode // card-text-primary-content
+              ? "text-gray-200 opacity-70"
+              : "text-gray-700 opacity-80",
             "flex flex-col",
-            "text-[0.625rem]", // text-xxs
-            "leading-4"
+            "text-xxs"
           )}
         >
           {typeof content === "string" ? (
-            <p>{content}</p>
+            <Text>{content}</Text>
           ) : (
             <>
               {Array.isArray(content) &&
               content.every((item) => typeof item === "string")
-                ? content.map((paragraph) => <p key={paragraph}>{paragraph}</p>)
+                ? content.map((paragraph) => (
+                    <Text key={paragraph}>{paragraph}</Text>
+                  ))
                 : content}
             </>
           )}
-        </div>
+        </View>
       ) : null}
-    </div>
+    </View>
   );
 };

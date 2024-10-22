@@ -18,7 +18,8 @@ export const getStatsForPastSixMonths: GetStatsForPastSixMonths = async () => {
       }
     )();
   } catch (error) {
-    console.log("error", error);
+    // TODO: Log error
+    console.log(error);
     throw error;
   }
 };

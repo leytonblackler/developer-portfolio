@@ -3,8 +3,10 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import Markdown from "react-markdown";
+import { Text } from "@react-pdf/renderer";
 import { ResumeSection } from "../components/section";
 import { ResumeSectionList } from "../components/section/list";
+import { tw } from "../tailwind";
 import {
   ResumeCompanyDataFragmentDoc,
   type ResumeDataFragment,
@@ -68,7 +70,25 @@ export const ResumeExperienceSection: FunctionComponent<
               },
               href: `https://leytonblackler.dev/experience/${slug}`,
               dateRange: timeFrame,
-              content: <Markdown>{description.markdown}</Markdown>,
+              content: (
+                <Markdown
+                  components={{
+                    // eslint-disable-next-line react/no-unstable-nested-components -- This is safe since the document is static and only renders once.
+                    p: ({ children }) => (
+                      <Text
+                        style={{
+                          ...tw("leading-relaxed"),
+                          ...tw("text-xxs", "font-normal"),
+                        }}
+                      >
+                        {children}
+                      </Text>
+                    ),
+                  }}
+                >
+                  {description.markdown}
+                </Markdown>
+              ),
             };
           }
         )}

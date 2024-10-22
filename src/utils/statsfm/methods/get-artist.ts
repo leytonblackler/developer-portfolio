@@ -15,7 +15,8 @@ export const getArtist: GetArtist = async (artistId) => {
     )();
     return artist;
   } catch (error) {
-    console.log("error", error);
+    // TODO: Log error
+    console.log(error);
     throw error;
   }
 };

@@ -7,23 +7,40 @@ import { ImageWithFallback } from "@/components/shared/image-with-fallback";
 import { type MostRecentlyPlayedTrackData } from "@/utils/statsfm/methods/get-most-recent-track";
 import { dayjs } from "@/utils/date/instance";
 
-export const RecentlyPlayedTrack: FunctionComponent<
-  MostRecentlyPlayedTrackData
-> = ({
-  track: {
-    name,
-    artists,
-    albums,
-    // spotifyPreview: coverImage, // mp3
-    externalIds,
-  },
-  endTime,
-}) => {
+export const RecentlyPlayedTrack: FunctionComponent<{
+  data: MostRecentlyPlayedTrackData | null;
+}> = ({ data }) => {
+  /**
+   * If the most recently played track data is null, use placeholder data
+   * instead.
+   */
+  const { track, endTime } = data ?? {
+    track: {
+      name: "N/A",
+      artists: [
+        {
+          followers: 0,
+          spotifyPopularity: 0,
+          externalIds: {},
+          genres: [],
+        },
+      ],
+      albums: [
+        {
+          image: "",
+        },
+      ],
+      externalIds: {},
+    },
+  };
+
+  const { name, artists, albums, externalIds } = track;
+
   const [mostRelevantAlbum] = albums;
 
   const coverImage = mostRelevantAlbum.image;
 
-  const spotifyTrackId = getSpotifyId(externalIds);
+  const spotifyTrackId: number | null = data ? getSpotifyId(externalIds) : null;
 
   const spotifyTrackUrl: string | null = spotifyTrackId
     ? `https://open.spotify.com/track/${spotifyTrackId}`

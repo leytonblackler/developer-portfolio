@@ -1,5 +1,7 @@
 import React, { type HTMLAttributes, type FunctionComponent } from "react";
+import { Text } from "@react-pdf/renderer";
 import { ResumeSection } from "../components/section";
+import { tw } from "../tailwind";
 
 type ReferencesSectionProps = { isDarkMode: boolean } & Pick<
   HTMLAttributes<HTMLDivElement>,
@@ -16,9 +18,9 @@ export const ReferencesSection: FunctionComponent<ReferencesSectionProps> = ({
       title="References"
       className={className}
     >
-      <p className="-mt-0.5 text-[0.625rem] leading-none">
+      <Text style={tw("-mt-0.5 text-xxs leading-none")}>
         Professional and personal references are available upon request.
-      </p>
+      </Text>
     </ResumeSection>
   );
 };

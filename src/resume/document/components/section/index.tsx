@@ -3,8 +3,9 @@ import React, {
   type FunctionComponent,
   type ReactNode,
 } from "react";
+import { Link, Text, View } from "@react-pdf/renderer";
+import { tw } from "../../tailwind";
 import { evaluateSectionCardClassName } from "./classname";
-import { cn } from "@/utils/styling/cn";
 
 interface ResumeSectionProps {
   isDarkMode: boolean;
@@ -26,54 +27,69 @@ export const ResumeSection: FunctionComponent<ResumeSectionProps> = ({
   /**
    * Create the element for the section title.
    */
-  const titleElement = <h2 className="text-base font-semibold">{title}</h2>;
+  const titleElement = (
+    <Text style={tw("text-base font-semibold")}>{title}</Text>
+  );
 
   return (
-    <div
-      className={cn(
+    <View
+      style={tw(
         evaluateSectionCardClassName({
           isDarkMode,
         }),
         className
       )}
     >
-      <div
-        className={cn(
+      <View
+        style={tw(
           "w-full",
           "flex flex-row",
           "items-center justify-between",
           "mb-2.5"
         )}
       >
-        {href ? <a href={href}>{titleElement}</a> : <span>{titleElement}</span>}
+        <Text
+          style={tw(
+            "font-semibold",
+            isDarkMode ? "text-gray-200" : "text-gray-700" // card-text-primary
+          )}
+        >
+          {href ? (
+            <Link
+              href={href}
+              style={tw(
+                "no-underline",
+                "font-medium",
+                isDarkMode ? "text-gray-200" : "text-gray-700" // card-text-primary
+              )}
+            >
+              {titleElement}
+            </Link>
+          ) : (
+            titleElement
+          )}
+        </Text>
+
         {indexHref ? (
-          <a
+          <Link
             href={indexHref}
-            className={cn(
-              "flex items-center justify-center",
-              "whitespace-nowrap"
-            )}
+            style={tw("no-underline", "flex items-center justify-center")}
           >
-            <span
-              className={cn(
+            <Text
+              style={tw(
                 isDarkMode ? "text-gray-200" : "text-gray-700", // card-text-primary-content
-                "text-[0.625rem]", // text-xxs
-                "italic text-opacity-50"
+                "text-xxs",
+                "italic opacity-50"
               )}
             >
               View all on my website
-            </span>
-          </a>
+            </Text>
+          </Link>
         ) : null}
-      </div>
-      <div
-        className={cn(
-          "w-full text-xs",
-          isDarkMode ? "text-gray-200/70" : "text-gray-700/80" // card-text-primary-content
-        )}
-      >
+      </View>
+      <View style={tw("w-full text-xxs", "flex flex-col gap-y-2")}>
         {children}
-      </div>
-    </div>
+      </View>
+    </View>
   );
 };

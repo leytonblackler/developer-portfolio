@@ -21,15 +21,16 @@ import { ScrollContext } from "./provider";
 import { DisableHorizontalScrollPlugin } from "./disable-horizontal-scroll-plugin";
 import { cn } from "@/utils/styling/cn";
 import { useRouteListener } from "@/hooks/use-route-listener";
+import { ScrollInstanceId } from "@/constants/scroll-instance-ids";
 
 /**
  * Props that the SmoothScroller component accepts.
  */
-interface SmoothScrollerProps {
-  id: string;
+type SmoothScrollerProps = {
+  id: ScrollInstanceId;
   children: ReactNode;
   className?: HTMLAttributes<HTMLDivElement>["className"];
-}
+} & Omit<HTMLAttributes<HTMLDivElement>, "id" | "children" | "className">;
 
 /**
  * The type for the listener that handles scroll events.
@@ -106,6 +107,7 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
   id,
   children,
   className,
+  ...props
 }) => {
   /**
    * Create a reference to the element for the scroll instance.
@@ -147,13 +149,13 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
    * Listener invoked when there are changes to the scroll position.
    */
   const onScroll = useCallback<OnScrollHandler>(
-    (props) => {
+    (onScrollProps) => {
       const position: Data2d | null = (() => {
         /**
          * Handle the event being invoked by the native scroll listener on the
          * element.
          */
-        if (props instanceof Event) {
+        if (onScrollProps instanceof Event) {
           /**
            * Return null if the scroll container element does not exist.
            */
@@ -174,7 +176,7 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
          * Otherwise if the event was invoked by the smooth scrollbar instance,
          * use the offset from the smooth scrollbar status to set the position.
          */
-        const { offset } = props;
+        const { offset } = onScrollProps;
         return offset;
       })();
 
@@ -274,23 +276,32 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
   });
 
   return (
-    <div
-      id={id}
-      ref={ref}
-      className={cn(
-        "h-full max-h-full",
-        isMobile
-          ? cn("flex flex-col", "overflow-y-auto")
-          : cn(
-              "[&>.scroll-content]:h-full",
-              "[&>.scroll-content]:min-h-full",
-              "[&>.scroll-content]:flex",
-              "[&>.scroll-content]:flex-col"
-            ),
-        className
-      )}
-    >
-      <div>{children}</div>
+    <div className={cn("h-full max-h-full")}>
+      <div
+        id={id}
+        ref={ref}
+        className={cn(
+          "h-full max-h-full",
+          isMobile
+            ? cn("flex flex-col", "overflow-y-auto")
+            : cn(
+                "[&>.scroll-content]:h-full",
+                "[&>.scroll-content]:min-h-full",
+                "[&>.scroll-content]:flex",
+                "[&>.scroll-content]:flex-col"
+              ),
+          className
+        )}
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- Can be removed when the ScrollInstanceId has multiple values
+        {...(id === ScrollInstanceId.Main
+          ? {
+              "data-vaul-drawer-wrapper": true,
+            }
+          : {})}
+        {...props}
+      >
+        <div>{children}</div>
+      </div>
     </div>
   );
 };

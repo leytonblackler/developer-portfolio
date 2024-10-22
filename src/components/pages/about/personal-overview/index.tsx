@@ -4,6 +4,7 @@ import Markdown from "react-markdown";
 import { SocialLinks } from "../../contact/social-links";
 import { SpotifyCard } from "../spotify-card";
 import { LocationCard } from "../location-card";
+import { DownloadResumeButton } from "./download-resume";
 import {
   LocationDataFragmentDoc,
   type PersonalOverviewSectionDataFragment,
@@ -87,21 +88,7 @@ export const PersonalOverviewSection: FunctionComponent<
                   </Markdown>
                 ))}
               </div>
-              {/* TODO: Add link to download and download icon */}
-              {enableResumeDownload ? (
-                <button
-                  type="button"
-                  className={cn(
-                    "mt-auto",
-                    "card-bg-secondary",
-                    "card-text-secondary",
-                    "card-border-secondary",
-                    "rounded-4xl p-10"
-                  )}
-                >
-                  Download resume
-                </button>
-              ) : null}
+              {enableResumeDownload ? <DownloadResumeButton /> : null}
             </div>
           </Card>
         </div>

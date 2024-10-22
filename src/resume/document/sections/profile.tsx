@@ -1,6 +1,8 @@
 import React, { type HTMLAttributes, type FunctionComponent } from "react";
 import Markdown from "react-markdown";
+import { Link, Text } from "@react-pdf/renderer";
 import { ResumeSection } from "../components/section";
+import { tw } from "../tailwind";
 import { type ResumePersonalOverviewSectionDataFragment } from "@/hygraph/generated/graphql";
 import { cn } from "@/utils/styling/cn";
 
@@ -13,6 +15,10 @@ type ResumeProfileSectionProps = {
 export const ResumeProfileSection: FunctionComponent<
   ResumeProfileSectionProps
 > = ({ isDarkMode, className, description }) => {
+  const descriptionLines = description.markdown
+    .split("\n")
+    .filter((line) => line !== "");
+
   return (
     <ResumeSection
       isDarkMode={isDarkMode}
@@ -20,32 +26,64 @@ export const ResumeProfileSection: FunctionComponent<
       className={cn(className, "pb-2")}
       href="https://leytonblackler.dev/"
     >
-      <Markdown
-        components={{
-          // eslint-disable-next-line react/no-unstable-nested-components -- This is safe since the document is static and only renders once.
-          p: (props) => (
-            <p
-              {...props}
-              className="mb-2 text-xs font-normal leading-[1.2rem]"
-            />
+      {descriptionLines.map((line) => (
+        <Markdown
+          key={line}
+          components={{
+            // eslint-disable-next-line react/no-unstable-nested-components -- This is safe since the document is static and only renders once.
+            p: ({ children }) => (
+              <Text
+                style={{
+                  ...tw("leading-relaxed"),
+                  ...tw(
+                    "text-[0.72rem]",
+                    "font-normal",
+                    isDarkMode // card-text-primary-content
+                      ? "text-gray-200 opacity-70"
+                      : "text-gray-700 opacity-80"
+                  ),
+                }}
+              >
+                {children}
+              </Text>
+            ),
+          }}
+        >
+          {line}
+        </Markdown>
+      ))}
+      <Text
+        style={{
+          ...tw("leading-relaxed"),
+          ...tw(
+            "mb-2",
+            "text-[0.72rem]",
+            "font-normal",
+            isDarkMode // card-text-primary-content
+              ? "text-gray-200"
+              : "text-gray-700"
           ),
         }}
       >
-        {description.markdown}
-      </Markdown>
-      <p className="mb-2 text-xs font-normal leading-[1.2rem]">
-        <span>{"Check out my website at "}</span>
-        <a
+        <Text style={tw(isDarkMode ? "opacity-70" : "opacity-80")}>
+          {"Check out my website at "}
+        </Text>
+        <Link
           href="https://leytonblackler.dev/"
-          className={cn(
+          style={tw(
+            "no-underline",
             "font-semibold",
-            isDarkMode ? "text-gray-200" : "text-gray-700" // card-text-primary
+            isDarkMode // card-text-primary-content
+              ? "text-gray-200"
+              : "text-gray-700"
           )}
         >
           leytonblackler.dev
-        </a>
-        <span>{" for my showcase and to learn more about me."}</span>
-      </p>
+        </Link>
+        <Text style={tw(isDarkMode ? "opacity-70" : "opacity-80")}>
+          {" for my showcase and to learn more about me."}
+        </Text>
+      </Text>
     </ResumeSection>
   );
 };

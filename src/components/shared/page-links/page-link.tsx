@@ -42,6 +42,10 @@ export const PageLink: FunctionComponent<PageLinkProps> = ({
         )}
         whileTap={{
           scale: 0.95,
+          transition: {
+            type: "spring",
+            duration: 0.3,
+          },
         }}
       >
         <div

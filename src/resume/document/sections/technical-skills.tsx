@@ -1,13 +1,14 @@
 import React, { type HTMLAttributes, type FunctionComponent } from "react";
+import { Text, View } from "@react-pdf/renderer";
 import { ResumeSection } from "../components/section";
 import { ResumeSectionList } from "../components/section/list";
+import { tw } from "../tailwind";
 import {
   ResumeTechnologyDataFragmentDoc,
   type ResumeDataFragment,
 } from "@/hygraph/generated/graphql";
 import { getFragmentData } from "@/hygraph/generated";
 import { parseHygraphDate } from "@/utils/date/parse-hygraph-date";
-import { cn } from "@/utils/styling/cn";
 
 interface ResumeTechnicalSkillsSectionProps {
   isDarkMode: boolean;
@@ -32,7 +33,7 @@ export const ResumeTechnicalSkillsSection: FunctionComponent<
       title="Technical Skills"
       className={className}
     >
-      <div className="mt-1">
+      <View style={tw("mt-1")}>
         <ResumeSectionList
           isDarkMode={isDarkMode}
           columns={2}
@@ -67,18 +68,21 @@ export const ResumeTechnicalSkillsSection: FunctionComponent<
             }
           )}
         />
-      </div>
-      <p
-        className={cn(
-          isDarkMode ? "text-gray-200" : "text-gray-700", // card-text-primary
-          "mt-4",
-          "text-[0.625rem] leading-4",
-          "text-opacity-30"
-        )}
+      </View>
+      <Text
+        style={{
+          ...tw("leading-relaxed"),
+          ...tw(
+            isDarkMode ? "text-gray-200" : "text-gray-700", // card-text-primary
+            "mt-4",
+            "text-xxs",
+            "opacity-50"
+          ),
+        }}
       >
         This selection highlights primary skills, but does not encompass the
         full range of technologies I have utilised.
-      </p>
+      </Text>
     </ResumeSection>
   );
 };
