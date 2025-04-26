@@ -1,0 +1,75 @@
+fragment CompanyPageData on Company {
+  id
+  name
+  subtitle
+  description {
+    markdown
+  }
+  logo {
+    primaryLight {
+      id
+      url(transformation: {
+        image: {
+          resize: {
+            width: 512,
+            height: 512,
+            fit: max
+          }
+        }
+      })
+    }
+    primaryDark {
+      id
+      url(transformation: {
+        image: {
+          resize: {
+            width: 512,
+            height: 512,
+            fit: max
+          }
+        }
+      })
+    }
+  }
+  # colors {
+  #   foregroundLight {
+  #     hex
+  #     rgba {
+  #       r
+  #       g
+  #       b
+  #     }
+  #   }
+  #   backgroundLight {
+  #     hex
+  #     rgba {
+  #       r
+  #       g
+  #       b
+  #     }
+  #   }
+  #   foregroundDark {
+  #     hex
+  #     rgba {
+  #       r
+  #       g
+  #       b
+  #     }
+  #   }
+  #   backgroundDark {
+  #     hex
+  #     rgba {
+  #       r
+  #       g
+  #       b
+  #     }
+  #   }
+  # }
+}
+
+query CompanyPage($slug: String) {
+  company(stage: PUBLISHED, where: {slug: $slug}) {
+    ...CompanyPageData
+  }
+}
+

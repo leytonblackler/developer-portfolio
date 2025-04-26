@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { type FunctionComponent, type ReactNode } from "react";
+import { useState, type FunctionComponent, type ReactNode } from "react";
+import { AnimatedPageContext } from "./context";
 import { ROUTE_CHANGE_ANIMATION_DURATION } from "@/components/page-animation/constants";
 
 const variants = {
@@ -36,6 +37,11 @@ const variants = {
 export const AnimatedPage: FunctionComponent<{ children: ReactNode }> = ({
   children,
 }) => {
+  /**
+   * Whether the page container is currently animating.
+   */
+  const [isAnimating, setIsAnimating] = useState<boolean>(true);
+
   return (
     <motion.main
       key="page"
@@ -44,8 +50,16 @@ export const AnimatedPage: FunctionComponent<{ children: ReactNode }> = ({
       animate="enter"
       exit="exit"
       className="origin-bottom"
+      onAnimationStart={() => {
+        setIsAnimating(true);
+      }}
+      onAnimationComplete={() => {
+        setIsAnimating(false);
+      }}
     >
-      {children}
+      <AnimatedPageContext.Provider value={{ isAnimating }}>
+        {children}
+      </AnimatedPageContext.Provider>
     </motion.main>
   );
 };

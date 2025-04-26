@@ -142,4 +142,3 @@ query ProjectPage($slug: String) {
     ...ProjectPageData
   }
 }
-

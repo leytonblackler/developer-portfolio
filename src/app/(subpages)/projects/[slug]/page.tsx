@@ -1,5 +1,6 @@
 import { type FunctionComponent } from "react";
 import { notFound } from "next/navigation";
+import Markdown from "react-markdown";
 import { getProject } from "@/hygraph/queries/project";
 import { getSSRApolloClient } from "@/hygraph/client/ssr";
 import { LaptopCard } from "@/components/shared/device-cards/laptop";
@@ -9,6 +10,8 @@ import { TechnologiesCard } from "@/components/pages/project/technologies";
 import { Hero } from "@/components/shared/hero";
 import { parseColorSet } from "@/hygraph/utils/parse-color-set";
 import { Card } from "@/components/shared/card";
+import { MarkdownParagraph } from "@/components/shared/markdown/paragraph";
+import { AfterHero } from "@/components/shared/hero/entry-provider/after-hero";
 
 interface ProjectPageParams {
   slug: string;
@@ -59,9 +62,10 @@ const ProjectPage: FunctionComponent<ProjectPageProps> = async ({
   return (
     <div className={cn("bounded-page-content-x", "flex flex-col gap-y-2")}>
       <Hero heading={name} subHeading={subtitle} reposition />
-      <Card title="About">
-        {/* <div className="flex flex-row gap-x-12"> */}
-        {/* <div
+      <AfterHero>
+        <Card title="About">
+          {/* <div className="flex flex-row gap-x-12"> */}
+          {/* <div
           className="relative max-w-xs flex-1 rounded-6xl px-8 py-6"
           style={{
             background: colors?.background ?? undefined,
@@ -76,15 +80,20 @@ const ProjectPage: FunctionComponent<ProjectPageProps> = async ({
             />
           ) : null}
         </div> */}
-        <div className="h-96">{description}</div>
-        {/* </div> */}
-      </Card>
-      <TechnologiesCard
-        technologies={technologies}
-        parsedColorSet={parsedColorSet}
-      />
-      <LaptopCard />
-      <PhoneCard />
+          {/* <div className="h-96">{description}</div> */}
+          {/* </div> */}
+          <Markdown
+            components={{
+              p: MarkdownParagraph,
+            }}
+          >
+            {description.markdown}
+          </Markdown>
+        </Card>
+        <TechnologiesCard technologies={technologies} />
+        <LaptopCard />
+        <PhoneCard />
+      </AfterHero>
     </div>
   );
 };

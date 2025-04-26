@@ -11,7 +11,7 @@ import {
 import { type Entries } from "type-fest";
 import { type Data2d } from "smooth-scrollbar/interfaces";
 import { type ScrollInstance } from "./types";
-import { createMotionValue } from "@/components/pages/project/technologies/bubbles/utils/create-motion-value";
+import { createMotionValue } from "@/components/shared/bubbles/utils/create-motion-value";
 
 interface ScrollProviderProps {
   children: ReactNode;
@@ -98,16 +98,6 @@ export const ScrollProvider: FunctionComponent<ScrollProviderProps> = ({
         throw new Error(
           `No scroll instance with ID "${id}" has been registered.`
         );
-        // setInstances((current) => ({
-        //   ...current,
-        //   [id]: {
-        //     element: document.getElementById(id) ?? null,
-        //     motionValues: {
-        //       x: createMotionValue(x),
-        //       y: createMotionValue(y),
-        //     },
-        //   },
-        // }));
       }
     },
     [instances]

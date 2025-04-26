@@ -42,7 +42,11 @@ export const Drawer: FunctionComponent<{
   trigger: ReactNode;
   children: ReactNode;
 }> = ({ trigger, children }) => {
+  /**
+   * Access the main scroll instance.
+   */
   const mainScrollInstance = useScrollInstance(ScrollInstanceId.Main);
+
   /**
    * Get the parent element of the main scroll instance.
    */

@@ -50,55 +50,65 @@ Scrollbar.use(OverscrollPlugin);
 /*
  * The configuration for the smooth scrollbar.
  */
-const SCROLLBAR_OPTIONS: Partial<ScrollbarOptions> = {
+const SCROLLBAR_OPTIONS = {
   /**
    * Momentum reduction damping factor, a float value between `(0, 1)`.
    * The lower the value is, the more smooth the scrolling will be (also the
    * more paint frames).
    */
   damping: 0.08,
+
   /**
    *  Minimal size for scrollbar thumbs.
    */
   thumbMinSize: 20,
+
   /**
    * Render every frame in integer pixel values, set to `true` to **improve**
    * scrolling performance.
    */
   renderByPixels: true,
+
   /**
    * Keep scrollbar tracks visible.
    */
   alwaysShowTracks: false,
+
   /**
    * Set to `true` to allow outer scrollbars continue scrolling when current
    * scrollbar reaches edge.
    */
   continuousScrolling: true,
+
   /**
    * Options for plugins.
    * Refer to: https://github.com/idiotWu/smooth-scrollbar/blob/develop/docs/plugin.md
    */
   plugins: {
+    /**
+     * Refer to: https://github.com/idiotWu/smooth-scrollbar/blob/develop/docs/overscroll.md
+     */
     overscroll: {
       /**
        * Overscroll effect, 'bounce' for iOS style effect and 'glow' for
        * Android style effect.
        */
       effect: "bounce",
+
       /**
        * Momentum reduction damping factor, a float value between (0, 1).
        * The lower the value is, the more smooth the over-scrolling will be
        * (also the more paint frames).
        */
       damping: 0.1,
+
       /**
        * Max-allowed overscroll distance.
        */
       maxOverscroll: 100,
     },
   },
-};
+} satisfies Partial<ScrollbarOptions>;
 
 /**
  * A container enabling smooth scrolling of the content on non-mobile devices.
@@ -134,6 +144,13 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
       unregisterInstance(id);
     };
   }, [id, registerInstance, unregisterInstance]);
+
+  /**
+   * Handle notifying the context of the instance overscrolling.
+   */
+  // const onOverscroll = useCallback<OnOverscrollCallback>(({ x, y, }) => {
+  //   console.log("args", args);
+  // }, []);
 
   /**
    * Handle setting the scroll position for the instance.
@@ -221,10 +238,27 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
             element.removeEventListener("scroll", onScroll);
           };
         }
+
+        /**
+         * Add a listener to the overscroll plugin options to detect when
+         * overscrolling is occurring, since this is not reflected by the
+         * motion values.
+         */
+        const scrollbarOptions: Partial<ScrollbarOptions> = {
+          ...SCROLLBAR_OPTIONS,
+          plugins: {
+            ...SCROLLBAR_OPTIONS.plugins,
+            overscroll: {
+              ...SCROLLBAR_OPTIONS.plugins.overscroll,
+              onScroll: setPosition,
+            },
+          },
+        };
+
         /**
          * Initialise the smooth scrollbar.
          */
-        const scrollbar = Scrollbar.init(element, SCROLLBAR_OPTIONS);
+        const scrollbar = Scrollbar.init(element, scrollbarOptions);
 
         /**
          * Remove the tracks from the DOM.
@@ -236,6 +270,13 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
          * Add a scroll listener.
          */
         scrollbar.addListener(onScroll);
+
+        /**
+         * Update the listener for the overscroll plugin.
+         */
+        scrollbar.updatePluginOptions("overscroll", {
+          onScroll: setPosition,
+        });
 
         /**
          * Store the scrollbar instance in the ref.
@@ -250,7 +291,7 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
         };
       }
     }
-  }, [id, onScroll]);
+  }, [id, onScroll, setPosition]);
 
   /**
    * Reset the scroll position when the route changes.
@@ -276,7 +317,7 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
   });
 
   return (
-    <div className={cn("h-full max-h-full")}>
+    <div className={cn("relative h-full max-h-full")}>
       <div
         id={id}
         ref={ref}
@@ -300,7 +341,7 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
           : {})}
         {...props}
       >
-        <div>{children}</div>
+        <div className="relative min-h-full">{children}</div>
       </div>
     </div>
   );

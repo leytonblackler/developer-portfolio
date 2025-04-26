@@ -7,6 +7,6 @@ export const ENTITY_BASE_PATHS: Record<
   string
 > = {
   [EntityTypeName.Project]: "/projects",
-  [EntityTypeName.Company]: "/companies",
+  [EntityTypeName.Company]: "/experience",
   [EntityTypeName.EducationalInstitution]: "/education",
 };
