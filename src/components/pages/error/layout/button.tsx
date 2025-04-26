@@ -17,7 +17,7 @@ export type ErrorPageButtonProps = {
 
 const CLASS_NAME = cn(
   "w-full md:w-fit",
-  "rounded-6xl font-medium",
+  "rounded-5xl font-medium",
   "px-14 py-4 md:px-16 md:py-6",
   "transition-all duration-300",
   "scale-100 active:scale-95",

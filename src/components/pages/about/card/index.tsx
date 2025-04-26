@@ -14,7 +14,7 @@ export const Card: FunctionComponent<CardProps> = ({ pageId, className }) => {
    * Get the configuration for the page reflected by the card.
    */
   const {
-    navLink: { label, icon: Icon, href },
+    navLink: { label, href },
   } = pagesConfig[pageId];
 
   return (
@@ -33,7 +33,6 @@ export const Card: FunctionComponent<CardProps> = ({ pageId, className }) => {
         "dark:bg-gray-925 dark:hover:bg-gray-100",
         "dark:text-gray-500 dark:hover:text-gray-925",
         "text-gray-600 hover:text-gray-50",
-        // "text-gray-700 dark:text-gray-400",
         className
       )}
     >

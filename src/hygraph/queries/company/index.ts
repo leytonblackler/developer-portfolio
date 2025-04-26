@@ -1,6 +1,10 @@
 import { catchErrors } from "@/hygraph/errors";
 import { getFragmentData } from "@/hygraph/generated";
-import { CompanyPageDataFragment, CompanyPageDataFragmentDoc, CompanyPageDocument } from "@/hygraph/generated/graphql";
+import {
+  type CompanyPageDataFragment,
+  CompanyPageDataFragmentDoc,
+  CompanyPageDocument,
+} from "@/hygraph/generated/graphql";
 import { type QueryFunction } from "@/hygraph/types";
 
 export const getCompany: QueryFunction<

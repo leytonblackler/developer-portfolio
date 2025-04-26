@@ -76,6 +76,8 @@ body, main {
   @apply bg-gray-100 dark:bg-gray-950;
 }
 
+/* Here text primary */
+
 .hero-text-primary {
   @apply text-gray-850 dark:text-gray-100;
 }
@@ -83,6 +85,8 @@ body, main {
 .hero-text-secondary {
   @apply text-gray-700 dark:text-gray-400;
 }
+
+/* Card background primary */
 
 .card-bg-primary {
   @apply bg-gray-25 dark:bg-gray-925;
@@ -92,6 +96,8 @@ body, main {
   @apply border border-gray-100/80 dark:border-gray-900;
 }
 
+/* Card text primary */
+
 .card-text-primary {
   @apply text-gray-700 dark:text-gray-200;
 }
@@ -100,18 +106,74 @@ body, main {
   @apply text-gray-700/80 dark:text-gray-200/70;
 }
 
+/* Card background secondary */
+
 .card-bg-secondary {
   @apply bg-gray-75 dark:bg-gray-900;
 }
+
+.card-bg-secondary-light {
+  @apply bg-gray-75;
+}
+
+.card-bg-secondary-dark {
+  @apply bg-gray-900;
+}
+
+.card-bg-secondary-inverted {
+  @apply bg-gray-900 dark:bg-gray-75;
+}
+
+/* Card border secondary */
 
 .card-border-secondary {
   @apply border border-gray-100/80 dark:border-gray-875;
 }
 
+.card-border-secondary-light {
+  @apply border border-gray-100/80;
+}
+
+.card-border-secondary-dark {
+  @apply border border-gray-875;
+}
+
+.card-border-secondary-inverted {
+  @apply border border-gray-875 dark:border-gray-100/80;
+}
+
+/* Card text secondary */
+
 .card-text-secondary {
   @apply text-gray-700 dark:text-gray-400;
 }
 
+.card-text-secondary-light {
+  @apply text-gray-700;
+}
+
+.card-text-secondary-dark {
+  @apply text-gray-400;
+}
+
+.card-text-secondary-inverted {
+  @apply text-gray-400 dark:text-gray-700;
+}
+
+/* Card text secondary hover */
+
 .card-text-secondary-hover {
   @apply text-gray-600 dark:text-gray-400;
+}
+
+.card-text-secondary-hover-light {
+  @apply text-gray-600;
+}
+
+.card-text-secondary-hover-dark {
+  @apply text-gray-400;
+}
+
+.card-text-secondary-hover-inverted {
+  @apply text-gray-400 dark:text-gray-600;
 }

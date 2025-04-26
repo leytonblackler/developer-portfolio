@@ -4,8 +4,8 @@
  */
 export const evaluateRadius = ({
   importance,
-  minImportance,
-  maxImportance,
+  // minImportance,
+  // maxImportance,
   maxIdleBubbleRadius,
 }: {
   importance: number;

@@ -1,6 +1,10 @@
 import { catchErrors } from "@/hygraph/errors";
 import { getFragmentData } from "@/hygraph/generated";
-import { EducationalInstitutionPageDataFragment, EducationalInstitutionPageDataFragmentDoc, EducationalInstitutionPageDocument } from "@/hygraph/generated/graphql";
+import {
+  type EducationalInstitutionPageDataFragment,
+  EducationalInstitutionPageDataFragmentDoc,
+  EducationalInstitutionPageDocument,
+} from "@/hygraph/generated/graphql";
 import { type QueryFunction } from "@/hygraph/types";
 
 export const getEducationalInstitution: QueryFunction<
@@ -17,6 +21,9 @@ export const getEducationalInstitution: QueryFunction<
       },
     });
     return educationalInstitution
-      ? getFragmentData(EducationalInstitutionPageDataFragmentDoc, educationalInstitution)
+      ? getFragmentData(
+          EducationalInstitutionPageDataFragmentDoc,
+          educationalInstitution
+        )
       : null;
   });

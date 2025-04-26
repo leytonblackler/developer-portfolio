@@ -7,6 +7,31 @@ import { ImageWithFallback } from "@/components/shared/image-with-fallback";
 import { type MostRecentlyPlayedTrackData } from "@/utils/statsfm/methods/get-most-recent-track";
 import { dayjs } from "@/utils/date/instance";
 
+const FALLBACK_DATA: MostRecentlyPlayedTrackData = {
+  track: {
+    id: -1,
+    name: "N/A",
+    artists: [
+      {
+        id: -1,
+        name: "N/A",
+      },
+    ],
+    albums: [
+      {
+        id: -1,
+        name: "N/A",
+        image: "",
+      },
+    ],
+    durationMs: 1,
+    spotifyPopularity: -1,
+    explicit: false,
+    externalIds: {},
+  },
+  endTime: new Date(),
+};
+
 export const RecentlyPlayedTrack: FunctionComponent<{
   data: MostRecentlyPlayedTrackData | null;
 }> = ({ data }) => {
@@ -14,25 +39,7 @@ export const RecentlyPlayedTrack: FunctionComponent<{
    * If the most recently played track data is null, use placeholder data
    * instead.
    */
-  const { track, endTime } = data ?? {
-    track: {
-      name: "N/A",
-      artists: [
-        {
-          followers: 0,
-          spotifyPopularity: 0,
-          externalIds: {},
-          genres: [],
-        },
-      ],
-      albums: [
-        {
-          image: "",
-        },
-      ],
-      externalIds: {},
-    },
-  };
+  const { track, endTime } = data ?? FALLBACK_DATA;
 
   const { name, artists, albums, externalIds } = track;
 
@@ -52,6 +59,8 @@ export const RecentlyPlayedTrack: FunctionComponent<{
   const playedAtLabel = dayjs(endTime).from(dayjs());
 
   // TODO: Scope cards to individual error boundaries
+
+  console.log("track", track);
 
   return (
     <div className={cn("flex flex-col", "flex-none @xl/spotify-card:flex-1")}>

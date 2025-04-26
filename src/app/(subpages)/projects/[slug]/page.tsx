@@ -50,14 +50,14 @@ const ProjectPage: FunctionComponent<ProjectPageProps> = async ({
     subtitle,
     description,
     // logo,
-    colors: unparsedColorSet,
+    // colors: unparsedColorSet,
     technologies,
   } = project;
 
   /**
    * Parse the HEX color values from the color set.
    */
-  const parsedColorSet = parseColorSet(unparsedColorSet);
+  // const parsedColorSet = parseColorSet(unparsedColorSet);
 
   return (
     <div className={cn("bounded-page-content-x", "flex flex-col gap-y-2")}>

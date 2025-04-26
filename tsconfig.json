@@ -24,6 +24,19 @@
       "~/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "**/*.cjs", ".next/types/**/*.ts", "next.config.mts", "postcss.config.cjs", "src/hooks/color-scheme", "src/utils/colors/material-design-3-tailwind-color-generator", ".eslintrc.cjs", "src/components/shared/device-cards/index.phone.tsx.bkp"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.js",
+    "**/*.jsx",
+    "**/*.cjs",
+    ".next/types/**/*.ts",
+    "next.config.mts",
+    "postcss.config.cjs",
+    "src/hooks/color-scheme",
+    "src/utils/colors/material-design-3-tailwind-color-generator",
+    ".eslintrc.cjs"
+  ],
   "exclude": ["node_modules", "src/hygraph/generated/**/*"]
 }

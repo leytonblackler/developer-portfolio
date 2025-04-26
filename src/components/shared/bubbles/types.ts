@@ -10,8 +10,6 @@ export interface BubbleData {
   iconIsCircle: boolean;
   importance: number;
   parsedColorSet: ParsedColorSet;
-  // backgroundColor: string;
-  // textColor: string;
 }
 
 export interface BubbleNode extends SimulationNodeDatum, BubbleData {

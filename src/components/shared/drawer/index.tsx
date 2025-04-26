@@ -10,6 +10,7 @@ import {
 import { Drawer as Vaul } from "vaul";
 import { useScrollInstance } from "../smooth-scroller/use-scroll-instance";
 import { ScrollInstanceId } from "@/constants/scroll-instance-ids";
+import { cn } from "@/utils/styling/cn";
 
 /**
  * From: https://github.com/emilkowalski/vaul/blob/main/src/constants.ts
@@ -114,11 +115,19 @@ export const Drawer: FunctionComponent<{
       onOpenChange={onOpenChange}
       onDrag={onDrag}
     >
-      <Vaul.Trigger>{trigger}</Vaul.Trigger>
+      <Vaul.Trigger asChild>{trigger}</Vaul.Trigger>
       <Vaul.Portal>
-        <Vaul.Overlay className="fixed inset-0 bg-black/40 backdrop-blur-xs" />
-        <Vaul.Content className="fixed inset-x-0 bottom-0 h-fit bg-gray-100 outline-none">
-          <div className="bg-white p-4">{children}</div>
+        <Vaul.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-xs" />
+        <Vaul.Content
+          className={cn(
+            "fixed inset-x-0 bottom-0 h-fit",
+            "rounded-t-5xl",
+            "card-bg-primary",
+            "card-text-primary",
+            "card-border-primary"
+          )}
+        >
+          <div className="px-4 pb-4 pt-6">{children}</div>
         </Vaul.Content>
       </Vaul.Portal>
     </Vaul.Root>

@@ -6,10 +6,11 @@ import {
   useMemo,
   type FunctionComponent,
 } from "react";
-import { isMobile } from "react-device-detect";
+import { useMediaQuery } from "usehooks-ts";
+import { HiOutlineCloudDownload } from "react-icons/hi";
 import { type DownloadResumeHandler } from "./types";
+import { DownloadResumeDrawer } from "./drawer";
 import { cn } from "@/utils/styling/cn";
-import { Drawer } from "@/components/shared/drawer";
 
 export const DownloadResumeButton: FunctionComponent = () => {
   // /* TODO: Add link to download and download icon */
@@ -19,11 +20,19 @@ export const DownloadResumeButton: FunctionComponent = () => {
     console.log("onclick");
   }, []);
 
+  /**
+   * Display the download options as a drawer on narrower screen sizes.
+   */
+  const drawerMode = useMediaQuery("(max-width: 700px)");
+
   const button = useMemo<ReactNode>(
     () => (
+      // TODO: Share button code with buttons in drawer
       <button
         className={cn(
           "mt-auto",
+          "flex flex-row gap-x-2",
+          "items-center justify-center",
           "card-bg-secondary",
           "card-text-secondary",
           "card-border-secondary",
@@ -31,20 +40,17 @@ export const DownloadResumeButton: FunctionComponent = () => {
         )}
         type="button"
       >
-        Download resume
+        <HiOutlineCloudDownload className="size-6 shrink-0" />
+        <span className="font-medium leading-tight">Download resume</span>
       </button>
     ),
     []
   );
 
-  return isMobile ? (
-    <Drawer trigger={button}>
-      <div className="h-[200px]">mobile</div>
-    </Drawer>
+  // TODO: Add tap effects to buttons
+  return drawerMode ? (
+    <DownloadResumeDrawer trigger={button} onDownload={onDownload} />
   ) : (
-    <div>
-      <span>not mobile</span>
-      {button}
-    </div>
+    <div className="flex flex-row">{button}</div>
   );
 };
