@@ -53,7 +53,7 @@ export const DeviceCard: FunctionComponent<DeviceCardProps> = ({
   hoverScaleMultiplier,
   hoverRotation,
 }) => {
-  const [containerRef, bounds] = useMeasure({ scroll: false });
+  const [containerRef, containerRect] = useMeasure({ scroll: false });
 
   const [isHovering, setIsHovering] = useState(false);
 
@@ -73,10 +73,10 @@ export const DeviceCard: FunctionComponent<DeviceCardProps> = ({
 
     const breakpoint = 600;
 
-    return bounds.width > breakpoint
+    return containerRect.width > breakpoint
       ? 1
-      : 0.3 + (0.7 * bounds.width) / breakpoint;
-  }, [hasMeasured, bounds.width]);
+      : 0.3 + (0.7 * containerRect.width) / breakpoint;
+  }, [hasMeasured, containerRect.width]);
 
   const scale = useMemo<number>(() => {
     const adjustedBaseScale = baseScale * scaleMultiplier;
@@ -97,7 +97,7 @@ export const DeviceCard: FunctionComponent<DeviceCardProps> = ({
   const pointerRotateX = useSpring(
     useTransform(
       mouseY,
-      [-(bounds.height / 2), bounds.height / 2],
+      [-(containerRect.height / 2), containerRect.height / 2],
       [hoverRotation.x.min, hoverRotation.x.max]
       // [idle.rotation.x - 0.15, idle.rotation.x + 0.15]
     ),
@@ -107,7 +107,7 @@ export const DeviceCard: FunctionComponent<DeviceCardProps> = ({
   const pointerRotateY = useSpring(
     useTransform(
       mouseX,
-      [-(bounds.width / 2), bounds.width / 2],
+      [-(containerRect.width / 2), containerRect.width / 2],
       [hoverRotation.y.min, hoverRotation.y.max]
       // [idle.rotation.y - 0.4, idle.rotation.y + 0.4]
     ),
@@ -141,14 +141,14 @@ export const DeviceCard: FunctionComponent<DeviceCardProps> = ({
   const onPointerMove = useCallback<PointerEventHandler<HTMLDivElement>>(
     ({ clientX, clientY }) => {
       if (hasEntered) {
-        const x = clientX - bounds.x - bounds.width / 2;
+        const x = clientX - containerRect.x - containerRect.width / 2;
         mouseX.set(x);
 
-        const y = clientY - bounds.y - bounds.height / 2;
+        const y = clientY - containerRect.y - containerRect.height / 2;
         mouseY.set(y);
       }
     },
-    [hasEntered, bounds, mouseX, mouseY]
+    [hasEntered, containerRect, mouseX, mouseY]
   );
 
   /**
@@ -156,10 +156,10 @@ export const DeviceCard: FunctionComponent<DeviceCardProps> = ({
    * reflect this.
    */
   useEffect(() => {
-    if (!hasMeasured && bounds.width && bounds.height) {
+    if (!hasMeasured && containerRect.width && containerRect.height) {
       setHasMeasured(true);
     }
-  }, [hasMeasured, bounds]);
+  }, [hasMeasured, containerRect]);
 
   const performEntryAnimation = useCallback(async () => {
     await Promise.all([

@@ -88,7 +88,9 @@ export const PersonalOverviewSection: FunctionComponent<
                   </Markdown>
                 ))}
               </div>
-              {enableResumeDownload ? <DownloadResumeButton /> : null}
+              <div className="mt-auto">
+                {enableResumeDownload ? <DownloadResumeButton /> : null}
+              </div>
             </div>
           </Card>
         </div>

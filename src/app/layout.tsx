@@ -3,7 +3,7 @@ import {
   Noto_Color_Emoji as NotoColorEmoji,
 } from "next/font/google";
 import { type FunctionComponent, type ReactNode } from "react";
-import { NavigationBar } from "@/components/shared/navigation-bar";
+import { Header, NavigationBar } from "@/components/shared/header";
 import { Providers } from "@/components/shared/providers";
 import { AnimatePagePresence } from "@/components/page-animation/animate-page-presence";
 import { cn } from "@/utils/styling/cn";
@@ -56,7 +56,7 @@ const RootLayout: FunctionComponent<RootLayoutProps> = ({ children }) => (
         <SmoothScroller id={ScrollInstanceId.Main}>
           <AnimatePagePresence>{children}</AnimatePagePresence>
         </SmoothScroller>
-        <NavigationBar />
+        <Header />
       </Providers>
     </body>
   </html>

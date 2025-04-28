@@ -7,22 +7,11 @@ import { default as ReactPDF } from "@react-pdf/renderer";
 import { ResumePersonalOverviewSectionDataFragmentDoc } from "../hygraph/generated/graphql";
 import { ColorScheme } from "../hooks/color-scheme/types";
 import { ResumeDocument } from "./document";
+import { constructResumePdfFilename, RESUME_PDF_TITLE } from "./filename";
 import { getResume } from "@/hygraph/queries/resume";
 import { getGeneralApolloClient } from "@/hygraph/client/general";
 import { getFragmentData } from "@/hygraph/generated";
 import { ResumeDataFragmentDoc } from "@/hygraph/generated/graphql";
-
-/**
- * Define the title to use for the generated PDF file, as well as the internal
- * PDF document title.
- */
-const PDF_TITLE = "Leyton Blackler - Resume";
-
-/**
- * Construct the file name for the generated PDF file.
- */
-const constructPdfFilename = (colorScheme: ColorScheme): `${string}.pdf` =>
-  `${PDF_TITLE} (${capitalCase(colorScheme)}).pdf`;
 
 /**
  * Fetch the resume entry from Hygraph.
@@ -89,7 +78,7 @@ for (const colorScheme of Object.values(ColorScheme)) {
   /**
    * Construct the filename for the PDF.
    */
-  const fileName = constructPdfFilename(colorScheme);
+  const fileName = constructResumePdfFilename(colorScheme);
 
   /**
    * Construct the output path for the PDF.
@@ -102,7 +91,7 @@ for (const colorScheme of Object.values(ColorScheme)) {
   try {
     await ReactPDF.render(
       <ResumeDocument
-        title={PDF_TITLE}
+        title={RESUME_PDF_TITLE}
         colorScheme={colorScheme}
         {...resumeData}
         {...personalOverviewSectionData}

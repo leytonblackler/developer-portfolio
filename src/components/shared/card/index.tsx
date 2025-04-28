@@ -4,6 +4,7 @@ import { useState, type FunctionComponent, type ReactNode } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "../smooth-scroller/use-in-view";
 import { CardContext } from "./context";
+import { CardTitle } from "./title";
 import { cn } from "@/utils/styling/cn";
 import { IN_VIEW_MOTION_PROPS } from "@/constants/in-view-motion-props";
 
@@ -69,17 +70,7 @@ export const Card: FunctionComponent<CardProps> = ({
     >
       <CardContext.Provider value={{ isAnimating }}>
         <div className={cn("px-6 pt-8 sm:px-10")}>
-          <h2
-            className={cn(
-              "text-xl",
-              "font-bold",
-              "whitespace-nowrap",
-              "card-text-primary",
-              "opacity-80 dark:text-opacity-70"
-            )}
-          >
-            {title}
-          </h2>
+          <CardTitle>{title}</CardTitle>
         </div>
         <div
           className={cn(

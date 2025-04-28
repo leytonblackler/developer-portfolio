@@ -19,12 +19,13 @@ export const Footer: FunctionComponent = () => {
         className={cn(
           "group",
           "px-6",
-          "flex flex-row",
+          "flex flex-row flex-wrap",
           "items-center justify-center gap-x-1",
           "text-sm font-medium"
         )}
       >
-        <span className="opacity-50">{`Designed and built with `}</span>
+        <span className="whitespace-nowrap opacity-50">{`Designed and built `}</span>
+        <span className="whitespace-nowrap opacity-50">{`with `}</span>
         <div className="relative size-4">
           <HiHeart className={cn("size-full", "text-inherit", "opacity-50")} />
           <HiHeart
@@ -37,7 +38,7 @@ export const Footer: FunctionComponent = () => {
             )}
           />
         </div>
-        <span className="opacity-50">{` by Leyton Blackler`}</span>
+        <span className="whitespace-nowrap opacity-50">{` by Leyton Blackler`}</span>
       </div>
 
       <div

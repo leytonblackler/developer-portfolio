@@ -78,8 +78,8 @@ export const CardListSection: FunctionComponent<
         staggerChildren: 0.15,
       }}
       className={cn(
-        "mx-auto w-full max-w-7xl",
-        "px-8 sm:px-10",
+        "mx-auto w-full max-w-6xl",
+        // "px-8 sm:px-10",
         "pb-10 md:pb-16",
         "grid grid-cols-1 gap-2 md:grid-cols-2"
       )}

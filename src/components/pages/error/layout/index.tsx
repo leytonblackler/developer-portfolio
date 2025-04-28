@@ -1,10 +1,10 @@
 import { type FunctionComponent, type ReactNode } from "react";
-import { ErrorPageButton, type ErrorPageButtonProps } from "./button";
 import { cn } from "@/utils/styling/cn";
+import { Button, type ButtonProps } from "@/components/shared/button";
 
 interface ErrorPageLayoutProps {
   children: ReactNode;
-  buttons: ErrorPageButtonProps[];
+  buttons: ButtonProps[];
 }
 
 export const ErrorPageLayout: FunctionComponent<ErrorPageLayoutProps> = ({
@@ -15,7 +15,7 @@ export const ErrorPageLayout: FunctionComponent<ErrorPageLayoutProps> = ({
     <div
       className={cn(
         "h-dvh",
-        "mx-auto max-w-7xl",
+        "mx-auto max-w-6xl",
         "mt-4",
         "px-8 sm:px-10",
         "flex flex-col",
@@ -33,8 +33,12 @@ export const ErrorPageLayout: FunctionComponent<ErrorPageLayoutProps> = ({
             "gap-x-6 gap-y-4"
           )}
         >
-          {buttons.map((props) => (
-            <ErrorPageButton key={props.label} {...props} />
+          {buttons.map((buttonProps) => (
+            <Button
+              key={buttonProps.label}
+              cardStyle="primary"
+              {...buttonProps}
+            />
           ))}
         </div>
       ) : null}

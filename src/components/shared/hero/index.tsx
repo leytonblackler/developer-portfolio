@@ -133,7 +133,7 @@ export const Hero: FunctionComponent<HeroProps> = ({
           bounce: 0.2,
           duration: HERO_REPOSITION_DURATION,
         }}
-        className={cn("mx-auto box-border w-dvw max-w-7xl", "absolute")}
+        className={cn("mx-auto box-border w-full max-w-6xl", "absolute")}
       >
         <div
           className={cn(

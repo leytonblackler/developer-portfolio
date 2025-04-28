@@ -1,9 +1,6 @@
-import { type AnimationProps } from "framer-motion";
+import { type MotionProps } from "framer-motion";
 
-export const IN_VIEW_MOTION_PROPS: Pick<
-  AnimationProps,
-  "variants" | "transition"
-> = {
+export const IN_VIEW_MOTION_PROPS = {
   variants: {
     hidden: {
       opacity: 0,
@@ -21,4 +18,4 @@ export const IN_VIEW_MOTION_PROPS: Pick<
     type: "spring",
     bounce: 0.3,
   },
-};
+} satisfies MotionProps;

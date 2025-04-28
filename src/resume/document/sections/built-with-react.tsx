@@ -35,7 +35,7 @@ export const ResumeBuiltWithReactSection: FunctionComponent<
             ...tw(
               "font-medium",
               "text-xxs text-current",
-              isDarkMode // card-text-primary-content
+              isDarkMode // card-text-primary--content
                 ? "text-gray-200 opacity-70"
                 : "text-gray-700 opacity-80"
             ),

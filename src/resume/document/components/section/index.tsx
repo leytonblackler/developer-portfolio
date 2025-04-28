@@ -77,7 +77,7 @@ export const ResumeSection: FunctionComponent<ResumeSectionProps> = ({
           >
             <Text
               style={tw(
-                isDarkMode ? "text-gray-200" : "text-gray-700", // card-text-primary-content
+                isDarkMode ? "text-gray-200" : "text-gray-700", // card-text-primary--content
                 "text-xxs",
                 "italic opacity-50"
               )}

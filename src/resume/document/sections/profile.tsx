@@ -38,7 +38,7 @@ export const ResumeProfileSection: FunctionComponent<
                   ...tw(
                     "text-[0.72rem]",
                     "font-normal",
-                    isDarkMode // card-text-primary-content
+                    isDarkMode // card-text-primary--content
                       ? "text-gray-200 opacity-70"
                       : "text-gray-700 opacity-80"
                   ),
@@ -59,7 +59,7 @@ export const ResumeProfileSection: FunctionComponent<
             "mb-2",
             "text-[0.72rem]",
             "font-normal",
-            isDarkMode // card-text-primary-content
+            isDarkMode // card-text-primary--content
               ? "text-gray-200"
               : "text-gray-700"
           ),
@@ -73,7 +73,7 @@ export const ResumeProfileSection: FunctionComponent<
           style={tw(
             "no-underline",
             "font-semibold",
-            isDarkMode // card-text-primary-content
+            isDarkMode // card-text-primary--content
               ? "text-gray-200"
               : "text-gray-700"
           )}

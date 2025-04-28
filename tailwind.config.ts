@@ -4,6 +4,7 @@ import tailwindColors from "tailwindcss/colors";
 import { colord, extend } from "colord";
 import mixPlugin from "colord/plugins/mix";
 import defaultTheme from "tailwindcss/defaultTheme";
+import hamburgersPlugin from "tailwind-hamburgers";
 import { generateGlitchKeyframes } from "./src/utils/tailwind/generate-glitch-keyframes";
 
 const { black, white, gray } = tailwindColors;
@@ -78,5 +79,5 @@ export default {
       },
     },
   },
-  plugins: [containerQueriesPlugin],
+  plugins: [containerQueriesPlugin, hamburgersPlugin],
 } satisfies Config;

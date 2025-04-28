@@ -63,11 +63,11 @@ export const ResumeSectionListItem: FunctionComponent<
                   ),
                   backgroundColor: (() => {
                     /**
-                     * Map white background colors to gray-150.
+                     * Map white background colors to gray-125.
                      */
                     if (colord(icon.backgroundColor).isEqual(colors.white)) {
                       return colord(colors.gray[100])
-                        .mix(colors.gray[200], 0.5)
+                        .mix(colors.gray[200], 0.25)
                         .toHex();
                     }
 
@@ -199,7 +199,7 @@ export const ResumeSectionListItem: FunctionComponent<
       {content ? (
         <View
           style={tw(
-            isDarkMode // card-text-primary-content
+            isDarkMode // card-text-primary--content
               ? "text-gray-200 opacity-70"
               : "text-gray-700 opacity-80",
             "flex flex-col",

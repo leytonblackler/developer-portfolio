@@ -1,18 +1,11 @@
 import { type FunctionComponent, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { type PageConfigNavLink } from "@/config/pages";
+import { type NavigationLinkItemProps } from "../../types";
 import { cn } from "@/utils/styling/cn";
 
-interface LinkItemProps extends PageConfigNavLink {
-  active: boolean;
-}
-
-export const LinkItem: FunctionComponent<LinkItemProps> = ({
-  label,
-  icon: Icon,
-  href,
-  active,
-}) => {
+export const NavigationBarLinkItem: FunctionComponent<
+  NavigationLinkItemProps
+> = ({ label, icon: Icon, href, active }) => {
   const labelRef = useRef<HTMLSpanElement>(null);
 
   const [labelWidth, setLabelWidth] = useState<number | undefined>();
@@ -28,8 +21,8 @@ export const LinkItem: FunctionComponent<LinkItemProps> = ({
         "group",
         "flex flex-row",
         "items-center justify-center",
-        "py-4 sm:py-5",
-        "px-6 sm:px-8",
+        "py-5",
+        "px-8",
         "transition-all duration-300",
         active
           ? cn(
@@ -60,12 +53,11 @@ export const LinkItem: FunctionComponent<LinkItemProps> = ({
             "whitespace-nowrap",
             "leading-none",
             "overflow-visible",
-
             "text-sm",
             active ? "opacity-100" : "opacity-0"
           )}
         >
-          <span className="pl-1 sm:pl-2">{label}</span>
+          <span className="pl-2">{label}</span>
         </span>
       </span>
     </Link>

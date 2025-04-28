@@ -6,9 +6,12 @@ import {
   useCallback,
   type PointerEvent,
   useMemo,
+  type ComponentProps,
 } from "react";
 import { Drawer as Vaul } from "vaul";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { useScrollInstance } from "../smooth-scroller/use-scroll-instance";
+import { CardTitle } from "../card/title";
 import { ScrollInstanceId } from "@/constants/scroll-instance-ids";
 import { cn } from "@/utils/styling/cn";
 
@@ -40,9 +43,24 @@ const getTranslateY = (): number =>
   -(window.innerHeight * (1 - getScale())) / 2;
 
 export const Drawer: FunctionComponent<{
+  title: string;
+  hideTitle?: boolean;
+  allowBackgroundInteraction?: boolean;
   trigger: ReactNode;
+  onOpenChange?: (open: boolean) => void;
+  contentHeight: NonNullable<
+    ComponentProps<typeof Vaul.Content>["style"]
+  >["height"];
   children: ReactNode;
-}> = ({ trigger, children }) => {
+}> = ({
+  title,
+  hideTitle,
+  allowBackgroundInteraction = false,
+  trigger,
+  onOpenChange: _onOpenChange,
+  contentHeight = "fit-content",
+  children,
+}) => {
   /**
    * Access the main scroll instance.
    */
@@ -77,8 +95,13 @@ export const Drawer: FunctionComponent<{
           ? `0 ${getTranslateY()}px`
           : "0 0";
       }
+
+      /**
+       * Invoke the callback in the parent component if provided.
+       */
+      _onOpenChange?.(open);
     },
-    [mainScrollInstanceParent]
+    [mainScrollInstanceParent, _onOpenChange]
   );
 
   /**
@@ -108,26 +131,47 @@ export const Drawer: FunctionComponent<{
     [mainScrollInstanceParent]
   );
 
+  /**
+   * The title for the drawer content.
+   */
+  const titleNode = useMemo<ReactNode>(
+    () => (
+      <Vaul.Title
+        id="dialog-title"
+        className={cn("flex items-center justify-center", "pb-2 pt-6")}
+      >
+        <CardTitle centred>{title}</CardTitle>
+      </Vaul.Title>
+    ),
+    [title]
+  );
+
   return (
     <Vaul.Root
       noBodyStyles
       shouldScaleBackground
       onOpenChange={onOpenChange}
       onDrag={onDrag}
+      modal={!allowBackgroundInteraction}
     >
       <Vaul.Trigger asChild>{trigger}</Vaul.Trigger>
       <Vaul.Portal>
         <Vaul.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-xs" />
         <Vaul.Content
           className={cn(
-            "fixed inset-x-0 bottom-0 h-fit",
+            "fixed bottom-0",
+            "inset-x-2 mx-auto max-w-6xl",
             "rounded-t-5xl",
             "card-bg-primary",
             "card-text-primary",
             "card-border-primary"
           )}
+          style={{
+            height: contentHeight,
+          }}
         >
-          <div className="px-4 pb-4 pt-6">{children}</div>
+          {hideTitle ? <VisuallyHidden>{titleNode}</VisuallyHidden> : titleNode}
+          <div className="p-4">{children}</div>
         </Vaul.Content>
       </Vaul.Portal>
     </Vaul.Root>

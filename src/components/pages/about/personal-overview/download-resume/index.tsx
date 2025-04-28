@@ -1,56 +1,26 @@
 "use client";
 
-import {
-  type ReactNode,
-  useCallback,
-  useMemo,
-  type FunctionComponent,
-} from "react";
-import { useMediaQuery } from "usehooks-ts";
-import { HiOutlineCloudDownload } from "react-icons/hi";
-import { type DownloadResumeHandler } from "./types";
+import { type ReactNode, useMemo, type FunctionComponent } from "react";
+import { HiOutlineDocumentDownload } from "react-icons/hi";
 import { DownloadResumeDrawer } from "./drawer";
-import { cn } from "@/utils/styling/cn";
+import { Button } from "@/components/shared/button";
 
 export const DownloadResumeButton: FunctionComponent = () => {
-  // /* TODO: Add link to download and download icon */
-
-  const onDownload = useCallback<DownloadResumeHandler>(() => {
-    //
-    console.log("onclick");
-  }, []);
-
   /**
-   * Display the download options as a drawer on narrower screen sizes.
+   * The button to be used as the trigger for the drawer or modal (depending on
+   * screen width).
    */
-  const drawerMode = useMediaQuery("(max-width: 700px)");
-
-  const button = useMemo<ReactNode>(
+  const trigger = useMemo<ReactNode>(
     () => (
-      // TODO: Share button code with buttons in drawer
-      <button
-        className={cn(
-          "mt-auto",
-          "flex flex-row gap-x-2",
-          "items-center justify-center",
-          "card-bg-secondary",
-          "card-text-secondary",
-          "card-border-secondary",
-          "rounded-4xl p-10"
-        )}
+      <Button
+        label="Download my resume"
         type="button"
-      >
-        <HiOutlineCloudDownload className="size-6 shrink-0" />
-        <span className="font-medium leading-tight">Download resume</span>
-      </button>
+        icon={HiOutlineDocumentDownload}
+        cardStyle="secondary"
+      />
     ),
     []
   );
 
-  // TODO: Add tap effects to buttons
-  return drawerMode ? (
-    <DownloadResumeDrawer trigger={button} onDownload={onDownload} />
-  ) : (
-    <div className="flex flex-row">{button}</div>
-  );
+  return <DownloadResumeDrawer trigger={trigger} />;
 };
