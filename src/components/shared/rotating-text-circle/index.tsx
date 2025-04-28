@@ -105,7 +105,6 @@ export const RotatingTextCircle: FunctionComponent<RotatingTextCircleProps> = ({
         "pointer-events-none select-none",
         "relative",
         "font-bold",
-        // "text-gray-850 dark:text-gray-100",
         "card-text-primary",
         className
       )}
@@ -131,7 +130,6 @@ export const RotatingTextCircle: FunctionComponent<RotatingTextCircleProps> = ({
           "rounded-full",
           "card-bg-primary",
           "card-border-primary",
-          // "bg-gray-150 dark:bg-gray-925",
           "flex items-center justify-center"
         )}
         style={{

@@ -6,7 +6,7 @@ import { useInView } from "../smooth-scroller/use-in-view";
 import { CardContext } from "./context";
 import { CardTitle } from "./title";
 import { cn } from "@/utils/styling/cn";
-import { IN_VIEW_MOTION_PROPS } from "@/constants/in-view-motion-props";
+import { IN_VIEW_ANIMATION_PROPS } from "@/constants/in-view-animation-props";
 
 interface CardProps {
   children: ReactNode;
@@ -44,7 +44,7 @@ export const Card: FunctionComponent<CardProps> = ({
   return (
     <motion.div
       animate={isInView ? "visible" : "hidden"}
-      {...IN_VIEW_MOTION_PROPS}
+      {...IN_VIEW_ANIMATION_PROPS}
       ref={ref}
       className={cn(
         "flex-1",

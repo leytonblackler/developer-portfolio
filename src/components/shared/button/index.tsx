@@ -1,22 +1,21 @@
 "use client";
 
-import { type FunctionComponent } from "react";
+import { useMemo, type FunctionComponent } from "react";
 import { type IconType } from "react-icons";
 import { cva, type VariantProps } from "class-variance-authority";
 import { motion } from "framer-motion";
 import { MotionLink } from "../motion-link";
 import { cn } from "@/utils/styling/cn";
 import {
-  BUTTON_INNER_MOTION_PROPS,
-  BUTTON_OUTER_MOTION_PROPS,
-  createButtonContentMotionProps,
-} from "@/constants/button-motion-props";
+  type ButtonAnimationProps,
+  createButtonAnimationProps,
+} from "@/utils/motion/create-button-animation-props";
 
 const constructClassName = cva(
   cn(
-    "flex-1",
+    "flex-1 self-stretch",
     "flex items-center justify-center",
-    "rounded-3xl md:rounded-4xl",
+    "rounded-4xl",
     "px-14 py-6 md:px-16 md:py-8",
     "whitespace-nowrap text-base font-medium leading-tight",
     cn(
@@ -70,6 +69,8 @@ export type ButtonProps = NonNullable<
 > & {
   label: string;
   icon: IconType;
+  fillHeight?: boolean;
+  minSize?: "sm" | "default";
   className?: string;
 } & (
     | {
@@ -101,10 +102,33 @@ export type ButtonProps = NonNullable<
 export const Button: FunctionComponent<ButtonProps> = ({
   label,
   icon: Icon,
+  fillHeight = false,
+  minSize = "default",
   className: _className,
   cardStyle,
   ...props
 }) => {
+  /**
+   * Create the necessary motion animation props for the components comprising
+   * the button.
+   */
+  const buttonAnimationProps = useMemo<ButtonAnimationProps>(
+    () =>
+      createButtonAnimationProps({
+        padding:
+          minSize === "sm"
+            ? {
+                x: 30,
+                y: 20,
+              }
+            : undefined,
+        content: {
+          scale: 1.05,
+        },
+      }),
+    [minSize]
+  );
+
   /**
    * Construct the class name for the button element, with any explicitly
    * provided classes taking precedence.
@@ -120,29 +144,27 @@ export const Button: FunctionComponent<ButtonProps> = ({
    * Define the content for the button.
    */
   const content = (
-    <motion.div
-      data-button-content
-      {...createButtonContentMotionProps({
-        scale: 1.05,
-      })}
-    >
+    <motion.div data-button-content {...buttonAnimationProps.content}>
       <Icon className="size-5 shrink-0" />
       <span>{label}</span>
     </motion.div>
   );
 
   /**
-   * Render as either a button element or a Next.js link depending on the props
-   * provided.
+   * Render as either a button element, Next.js link, or anchor element,
+   * depending on the props provided.
    */
   return (
     <motion.div
-      {...BUTTON_OUTER_MOTION_PROPS}
-      className="flex flex-1 items-center justify-center"
+      {...buttonAnimationProps.outer}
+      className={cn(
+        "flex flex-col items-center justify-center",
+        fillHeight ? "flex-1" : "flex-initial"
+      )}
     >
       {"onClick" in props || ("type" in props && props.type === "button") ? (
         <motion.button
-          {...BUTTON_INNER_MOTION_PROPS}
+          {...buttonAnimationProps.inner}
           type="button"
           className={className}
           onClick={props.onClick}
@@ -153,7 +175,7 @@ export const Button: FunctionComponent<ButtonProps> = ({
         <>
           {"href" in props && props.href !== undefined ? (
             <MotionLink
-              {...BUTTON_INNER_MOTION_PROPS}
+              {...buttonAnimationProps.inner}
               className={className}
               href={props.href}
             >
@@ -161,7 +183,7 @@ export const Button: FunctionComponent<ButtonProps> = ({
             </MotionLink>
           ) : (
             <motion.a
-              {...BUTTON_INNER_MOTION_PROPS}
+              {...buttonAnimationProps.inner}
               className={className}
               download
               href={props.download}

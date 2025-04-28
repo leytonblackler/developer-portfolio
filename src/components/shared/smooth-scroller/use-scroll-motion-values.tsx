@@ -1,4 +1,4 @@
-import { useRef, useEffect, useMemo } from "react";
+import { useRef, useEffect, useMemo, type MutableRefObject } from "react";
 import { type ScrollInstanceMotionValues } from "./types";
 import { useScrollInstance } from "./use-scroll-instance";
 import { createMotionValue } from "@/components/shared/bubbles/utils/create-motion-value";
@@ -43,14 +43,17 @@ export const useScrollMotionValues = (
    * Timestamp of the last horizontal scroll motion change.
    */
   const lastXChangeTime = useRef<number | null>(null);
+
   /**
    * Timestamp of the last vertical scroll motion change.
    */
   const lastYChangeTime = useRef<number | null>(null);
+
   /**
    * Tracks whether horizontal motion is currently active.
    */
   const isActiveX = useRef(false);
+
   /**
    * Tracks whether vertical motion is currently active.
    */
@@ -70,8 +73,8 @@ export const useScrollMotionValues = (
    */
   const createChangeHandler = (
     axis: "x" | "y",
-    isActiveRef: React.MutableRefObject<boolean>,
-    lastChangeTimeRef: React.MutableRefObject<number | null>,
+    isActiveRef: MutableRefObject<boolean>,
+    lastChangeTimeRef: MutableRefObject<number | null>,
     motionOptions?: {
       onStart?: ListenerCallback;
       onChange?: ListenerCallback;

@@ -17,8 +17,10 @@ import {
 } from "smooth-scrollbar/interfaces";
 import OverscrollPlugin from "smooth-scrollbar/plugins/overscroll";
 import { isMobile } from "react-device-detect";
+import { type MotionValue } from "framer-motion";
 import { ScrollContext } from "./provider";
 import { DisableHorizontalScrollPlugin } from "./disable-horizontal-scroll-plugin";
+import { useScrollMotionValues } from "./use-scroll-motion-values";
 import { cn } from "@/utils/styling/cn";
 import { useRouteListener } from "@/hooks/use-route-listener";
 import { ScrollInstanceId } from "@/constants/scroll-instance-ids";
@@ -136,6 +138,12 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
     useContext(ScrollContext);
 
   /**
+   * Access the motion values for the scroll instance once it has been
+   * registered.
+   */
+  const motionValues = useScrollMotionValues(id);
+
+  /**
    * Remove the instance when the component unmounts.
    */
   useEffect(() => {
@@ -144,13 +152,6 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
       unregisterInstance(id);
     };
   }, [id, registerInstance, unregisterInstance]);
-
-  /**
-   * Handle notifying the context of the instance overscrolling.
-   */
-  // const onOverscroll = useCallback<OnOverscrollCallback>(({ x, y, }) => {
-  //   console.log("args", args);
-  // }, []);
 
   /**
    * Handle setting the scroll position for the instance.
@@ -208,6 +209,95 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
   );
 
   /**
+   * Handle updating the motion values for the scroll position when
+   * overscrolling.
+   */
+  const onOverscroll = useCallback(
+    (overscrollPosition: Data2d) => {
+      /**
+       * If there is no current element for the smooth scroller set on the ref,
+       * do not proceed.
+       */
+      if (!ref.current) {
+        return;
+      }
+
+      /**
+       * Get the scroll content element.
+       */
+      const scrollContentElement = ref.current.querySelector(".scroll-content");
+
+      /**
+       * If the scroll content element could not be found, do not proceed.
+       */
+      if (!scrollContentElement) {
+        return;
+      }
+
+      /**
+       * Deconstruct the maximum scrollable width and height of the scroll
+       * content excluding overscroll.
+       */
+      const { scrollWidth, scrollHeight } = scrollContentElement;
+
+      /**
+       * Calculates the value to set as the motion value for either the
+       * horizontal or vertical dimension.
+       */
+      const calculateDimension = ({
+        overscrollAmount,
+        maxScroll,
+        motionValue,
+      }: {
+        overscrollAmount: number;
+        maxScroll: number;
+        motionValue: MotionValue<number>;
+      }): number => {
+        /**
+         * Get the current value from the motion value.
+         */
+        const currentValue = motionValue.get();
+
+        /**
+         * If the overscroll amount is 0, this indicates that overscrolling has
+         * completed from either the left/top or the right/bottom.
+         */
+        if (overscrollAmount === 0) {
+          /**
+           * Return the dimension value as either the minimum or maximum
+           * scrollable amount for the dimension.
+           */
+          return currentValue <= 0 ? 0 : maxScroll;
+        }
+        /**
+         * If the overscroll amount is a negative value, it can be set directly
+         * (since it would subtracted from the minimum scroll amount of 0).
+         */
+        return overscrollAmount < 0
+          ? overscrollAmount
+          : /**
+             * Otherwise, the scroll position will be the maximum scroll amount in addition to the amount overscrolled.
+             */
+            maxScroll + overscrollAmount;
+      };
+
+      setPosition({
+        x: calculateDimension({
+          overscrollAmount: overscrollPosition.x,
+          maxScroll: scrollWidth,
+          motionValue: motionValues.x,
+        }),
+        y: calculateDimension({
+          overscrollAmount: overscrollPosition.y,
+          maxScroll: scrollHeight,
+          motionValue: motionValues.y,
+        }),
+      });
+    },
+    [setPosition, motionValues]
+  );
+
+  /**
    * Handle initialisation when the element has been added to the DOM.
    */
   useEffect(() => {
@@ -250,7 +340,7 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
             ...SCROLLBAR_OPTIONS.plugins,
             overscroll: {
               ...SCROLLBAR_OPTIONS.plugins.overscroll,
-              onScroll: setPosition,
+              onScroll: onOverscroll,
             },
           },
         };
@@ -275,7 +365,7 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
          * Update the listener for the overscroll plugin.
          */
         scrollbar.updatePluginOptions("overscroll", {
-          onScroll: setPosition,
+          onScroll: onOverscroll,
         });
 
         /**
@@ -291,7 +381,7 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
         };
       }
     }
-  }, [id, onScroll, setPosition]);
+  }, [id, onScroll, setPosition, onOverscroll]);
 
   /**
    * Reset the scroll position when the route changes.
@@ -326,7 +416,7 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
           isMobile
             ? cn("flex flex-col", "overflow-y-auto")
             : cn(
-                "[&>.scroll-content]:h-full",
+                // "[&>.scroll-content]:h-full",
                 "[&>.scroll-content]:min-h-full",
                 "[&>.scroll-content]:flex",
                 "[&>.scroll-content]:flex-col"

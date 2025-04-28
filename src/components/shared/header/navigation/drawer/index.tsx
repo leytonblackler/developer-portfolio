@@ -22,13 +22,11 @@ export const NavigationDrawer: FunctionComponent<NavigationComponentProps> = ({
    */
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  console.log("headerRect", headerRect);
-
   return (
     <Drawer
       title="Navigation"
       hideTitle
-      allowBackgroundInteraction
+      open={isOpen}
       onOpenChange={setIsOpen}
       contentHeight={`calc(100dvh - ${headerRect.height}px - ${
         headerRect.top * 2
@@ -36,7 +34,16 @@ export const NavigationDrawer: FunctionComponent<NavigationComponentProps> = ({
       trigger={
         <motion.button
           type="button"
+          /**
+           * Prevent the drawer from closing via the onPointerDownOutside event
+           * on the drawer content if the button is clicked, since this would
+           * cause a double invocation of toggling the drawer's open state.
+           */
+          data-vaul-overlay-ignore
           className="rounded-full p-2"
+          onClick={() => {
+            setIsOpen((current) => !current);
+          }}
           whileTap={{
             scale: 0.9,
             opacity: 0.8,
@@ -61,9 +68,9 @@ export const NavigationDrawer: FunctionComponent<NavigationComponentProps> = ({
       }
     >
       {/* Items */}
-      <ul className={cn("flex flex-col gap-y-2", "justify-start")}>
+      <ul className={cn("h-full", "flex flex-col gap-y-2", "justify-start")}>
         {Object.values(pagesConfig).map(({ navLink }, index) => (
-          <li key={navLink.href}>
+          <li key={navLink.href} className="relative flex flex-1 flex-col">
             <NavigationDrawerLinkItem
               {...navLink}
               active={activePageIndex === index}

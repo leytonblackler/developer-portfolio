@@ -7,6 +7,7 @@ import {
   type PointerEvent,
   useMemo,
   type ComponentProps,
+  useEffect,
 } from "react";
 import { Drawer as Vaul } from "vaul";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
@@ -42,22 +43,34 @@ const getScale = (): number => {
 const getTranslateY = (): number =>
   -(window.innerHeight * (1 - getScale())) / 2;
 
-export const Drawer: FunctionComponent<{
-  title: string;
-  hideTitle?: boolean;
-  allowBackgroundInteraction?: boolean;
-  trigger: ReactNode;
-  onOpenChange?: (open: boolean) => void;
-  contentHeight: NonNullable<
-    ComponentProps<typeof Vaul.Content>["style"]
-  >["height"];
-  children: ReactNode;
-}> = ({
+export const Drawer: FunctionComponent<
+  {
+    title: string;
+    hideTitle?: boolean;
+    allowBackgroundInteraction?: boolean;
+    trigger: ReactNode;
+    contentHeight?: NonNullable<
+      ComponentProps<typeof Vaul.Content>["style"]
+    >["height"];
+    children: ReactNode;
+  } & (
+    | {
+        open: boolean;
+        onOpenChange: (open: boolean) => void;
+      }
+    | {
+        open?: never;
+        onOpenChange?: never;
+      }
+  )
+> = ({
   title,
   hideTitle,
   allowBackgroundInteraction = false,
+  ignoreOverlayClickOn = [],
   trigger,
-  onOpenChange: _onOpenChange,
+  open,
+  onOpenChange,
   contentHeight = "fit-content",
   children,
 }) => {
@@ -78,8 +91,8 @@ export const Drawer: FunctionComponent<{
    * Animate the vertical translation of the element containing the main scroll
    * container when the drawer opens and closes to avoid clipping the top.
    */
-  const onOpenChange = useCallback(
-    (open: boolean) => {
+  const _onOpenChange = useCallback(
+    (_open: boolean, external: boolean) => {
       if (mainScrollInstanceParent) {
         /**
          * Set the transition for the vertical translation.
@@ -91,18 +104,30 @@ export const Drawer: FunctionComponent<{
         /**
          * Set the vertical translation.
          */
-        mainScrollInstanceParent.style.translate = open
+        mainScrollInstanceParent.style.translate = _open
           ? `0 ${getTranslateY()}px`
           : "0 0";
       }
 
       /**
-       * Invoke the callback in the parent component if provided.
+       * Invoke the callback in the parent component if provided and the
+       * invocation was not caused by an external state change.
        */
-      _onOpenChange?.(open);
+      if (!external && onOpenChange !== undefined) {
+        onOpenChange(_open);
+      }
     },
-    [mainScrollInstanceParent, _onOpenChange]
+    [mainScrollInstanceParent, onOpenChange]
   );
+
+  /**
+   * Invoke the internal handler when the open state changes.
+   */
+  useEffect(() => {
+    if (typeof open === "boolean") {
+      _onOpenChange(open, true);
+    }
+  }, [open, _onOpenChange]);
 
   /**
    * Animate the vertical translation of the element containing the main scroll
@@ -150,7 +175,10 @@ export const Drawer: FunctionComponent<{
     <Vaul.Root
       noBodyStyles
       shouldScaleBackground
-      onOpenChange={onOpenChange}
+      open={open}
+      onOpenChange={(_open) => {
+        _onOpenChange(_open, false);
+      }}
       onDrag={onDrag}
       modal={!allowBackgroundInteraction}
     >
@@ -158,6 +186,22 @@ export const Drawer: FunctionComponent<{
       <Vaul.Portal>
         <Vaul.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-xs" />
         <Vaul.Content
+          aria-describedby={title}
+          onPointerDownOutside={(event) => {
+            /**
+             * If the clicked element has the  data-vaul-overlay-ignore
+             * attribute set (or is a descendant of an element with this),
+             * ignore the click.
+             */
+            if (event.target instanceof HTMLElement) {
+              if (
+                event.target.closest('[data-vaul-overlay-ignore="true"]') !==
+                null
+              ) {
+                event.preventDefault();
+              }
+            }
+          }}
           className={cn(
             "fixed bottom-0",
             "inset-x-2 mx-auto max-w-6xl",
@@ -171,7 +215,9 @@ export const Drawer: FunctionComponent<{
           }}
         >
           {hideTitle ? <VisuallyHidden>{titleNode}</VisuallyHidden> : titleNode}
-          <div className="p-4">{children}</div>
+          <div className="max-size-full relative box-border size-full p-4">
+            <div className="relative size-full">{children}</div>
+          </div>
         </Vaul.Content>
       </Vaul.Portal>
     </Vaul.Root>

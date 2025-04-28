@@ -15,7 +15,7 @@ import { cn } from "@/utils/styling/cn";
 import { ENTITY_BASE_PATHS } from "@/constants/paths";
 import { formatDateRange } from "@/utils/date";
 import { useSchemedColorSet } from "@/hooks/color-scheme/use-schemed-color-set";
-import { IN_VIEW_MOTION_PROPS } from "@/constants/in-view-motion-props";
+import { IN_VIEW_ANIMATION_PROPS } from "@/constants/in-view-animation-props";
 
 /**
  * A card reflecting an item within a card list section.
@@ -49,7 +49,7 @@ export const CardListItem: FunctionComponent<CardListItemDataFragment> = (
   const href = `${ENTITY_BASE_PATHS[__typename]}/${slug}`;
 
   return (
-    <motion.li className="flex flex-1" {...IN_VIEW_MOTION_PROPS}>
+    <motion.li className="flex flex-1" {...IN_VIEW_ANIMATION_PROPS}>
       <MotionLink
         key={id}
         href={href}

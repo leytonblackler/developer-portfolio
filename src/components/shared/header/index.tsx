@@ -39,7 +39,7 @@ export const Header: FunctionComponent = () => {
         translateY,
         opacity: visibilityDelta,
       }}
-      className={cn("fixed", "inset-x-0 top-6 z-20")}
+      className={cn("fixed z-50", "inset-x-0 top-6", "pointer-events-auto")}
     >
       <HeaderContext.Provider value={{ headerRect }}>
         <div

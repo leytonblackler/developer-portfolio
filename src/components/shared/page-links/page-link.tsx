@@ -11,7 +11,7 @@ import { Marquee } from "@/components/shared/marquee";
 import { MotionLink } from "@/components/shared/motion-link";
 import { type TopLevelPage } from "@/hygraph/generated/graphql";
 import { type PageLinkItemData } from "@/hygraph/queries/page-link-items";
-import { IN_VIEW_MOTION_PROPS } from "@/constants/in-view-motion-props";
+import { IN_VIEW_ANIMATION_PROPS } from "@/constants/in-view-animation-props";
 
 interface PageLinkProps {
   pageId: TopLevelPage;
@@ -26,7 +26,7 @@ export const PageLink: FunctionComponent<PageLinkProps> = ({
   const isHovering = useHover(containerRef);
 
   return (
-    <motion.li {...IN_VIEW_MOTION_PROPS}>
+    <motion.li {...IN_VIEW_ANIMATION_PROPS}>
       <MotionLink
         href={`/${pageId}`}
         ref={containerRef}

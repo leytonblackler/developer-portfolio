@@ -1,6 +1,6 @@
-import { type MotionProps } from "framer-motion";
+import { type AnimationProps } from "framer-motion";
 
-export const IN_VIEW_MOTION_PROPS = {
+export const IN_VIEW_ANIMATION_PROPS = {
   variants: {
     hidden: {
       opacity: 0,
@@ -18,4 +18,4 @@ export const IN_VIEW_MOTION_PROPS = {
     type: "spring",
     bounce: 0.3,
   },
-} satisfies MotionProps;
+} satisfies AnimationProps;

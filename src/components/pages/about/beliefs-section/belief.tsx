@@ -3,7 +3,7 @@ import { padStart } from "lodash";
 import { motion } from "framer-motion";
 import { type BeliefDataFragment } from "@/hygraph/generated/graphql";
 import { cn } from "@/utils/styling/cn";
-import { IN_VIEW_MOTION_PROPS } from "@/constants/in-view-motion-props";
+import { IN_VIEW_ANIMATION_PROPS } from "@/constants/in-view-animation-props";
 
 export const Belief: FunctionComponent<
   BeliefDataFragment & {
@@ -11,7 +11,7 @@ export const Belief: FunctionComponent<
   }
 > = ({ title, description, index }) => (
   <motion.li
-    {...IN_VIEW_MOTION_PROPS}
+    {...IN_VIEW_ANIMATION_PROPS}
     className={cn(
       "flex flex-col rounded-4xl px-10 pb-10 pt-8",
       "card-bg-secondary",
