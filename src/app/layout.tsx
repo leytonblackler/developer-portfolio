@@ -3,8 +3,8 @@ import {
   Noto_Color_Emoji as NotoColorEmoji,
 } from "next/font/google";
 import { type FunctionComponent, type ReactNode } from "react";
-import Head from "next/head";
-import { type Metadata } from "next";
+import { type Metadata, type Viewport } from "next";
+import colors from "tailwindcss/colors";
 import { Header } from "@/components/shared/header";
 import { Providers } from "@/components/shared/providers";
 import { AnimatePagePresence } from "@/components/page-animation/animate-page-presence";
@@ -37,15 +37,23 @@ const notoColorEmojiFont = NotoColorEmoji({
 export const metadata: Metadata = {
   title: "Leyton Blackler",
   description: "TODO",
-  viewport: [
-    Object.entries({
-      width: "device-width",
-      "user-scalable": "no",
-      "initial-scale": "1.0",
-      "maximum-scale": "1.0",
-      "minimum-scale": "1.0",
-    }).map(([key, value]) => `${key}=${value}`),
-  ].join(", "),
+};
+
+// eslint-disable-next-line react-refresh/only-export-components -- Viewport must be exported as per: https://nextjs.org/docs/app/api-reference/functions/generate-viewport#the-viewport-object
+export const viewport: Viewport = {
+  width: "device-width",
+  userScalable: false,
+  initialScale: 1,
+  maximumScale: 1,
+  minimumScale: 1,
+
+  /**
+   * Same colors as the root background elements (root-bg class).
+   */
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: colors.gray[100] },
+    { media: "(prefers-color-scheme: dark)", color: colors.gray[950] },
+  ],
 };
 
 interface RootLayoutProps {

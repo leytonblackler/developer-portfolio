@@ -130,11 +130,17 @@ export const ContactFormSection: FunctionComponent<
     return executeRecaptcha("contactFormSubmit");
   }, [executeRecaptcha]);
 
+  useEffect(() => {
+    console.log("form", form.formState);
+  }, [form.formState]);
+
   /**
    * Handle submission of the form after successful validation.
    */
   const onSubmit = useCallback(
     async (formData: ContactFormDataWithoutRecaptcha) => {
+      console.log("on submit");
+
       /**
        * Attempt reCAPTCHA verification.
        */
@@ -190,7 +196,7 @@ export const ContactFormSection: FunctionComponent<
           <div>success</div>
         ) : (
           <form
-            onSubmit={void form.handleSubmit(onSubmit)}
+            onSubmit={(event) => void form.handleSubmit(onSubmit)(event)}
             className={cn("w-full", "flex flex-col gap-y-2")}
           >
             {/* Main fields */}
