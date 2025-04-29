@@ -8,7 +8,6 @@ import { PhoneCard } from "@/components/shared/device-cards/phone";
 import { cn } from "@/utils/styling/cn";
 import { TechnologiesCard } from "@/components/pages/project/technologies";
 import { Hero } from "@/components/shared/hero";
-import { parseColorSet } from "@/hygraph/utils/parse-color-set";
 import { Card } from "@/components/shared/card";
 import { MarkdownParagraph } from "@/components/shared/markdown/paragraph";
 import { AfterHero } from "@/components/shared/hero/entry-provider/after-hero";

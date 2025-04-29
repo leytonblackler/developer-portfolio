@@ -2,7 +2,7 @@ import { type FunctionComponent } from "react";
 import { cn } from "@/utils/styling/cn";
 
 export const CardTitle: FunctionComponent<{
-  centred: boolean;
+  centred?: boolean;
   children: string;
 }> = ({ centred = false, children }) => (
   <h2

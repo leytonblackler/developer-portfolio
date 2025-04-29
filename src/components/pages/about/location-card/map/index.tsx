@@ -288,7 +288,7 @@ export const Map: FunctionComponent<MapProps> = ({
     <div
       ref={containerRef}
       className={cn(
-        "relative h-full min-h-[20rem] w-full",
+        "relative size-full min-h-80",
         /**
          * Animate the opacity of the Mapbox logo on hover.
          */
@@ -350,7 +350,7 @@ export const Map: FunctionComponent<MapProps> = ({
           /**
            * Match the height of the Mapbox logo.
            */
-          "h-[23px] w-[23px]",
+          "size-[23px]",
           "box-border py-0.5",
           "absolute bottom-4 right-10",
           "flex items-center justify-center"
@@ -377,7 +377,7 @@ export const Map: FunctionComponent<MapProps> = ({
         </div> */}
         <HiInformationCircle
           className={cn(
-            "h-full w-full",
+            "size-full",
             // "text-gray-500",
             /**
              * The Mapbox logo has a fill opacity of 90%, so we must match this

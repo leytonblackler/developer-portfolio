@@ -67,7 +67,6 @@ export const Drawer: FunctionComponent<
   title,
   hideTitle,
   allowBackgroundInteraction = false,
-  ignoreOverlayClickOn = [],
   trigger,
   open,
   onOpenChange,

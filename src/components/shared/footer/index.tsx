@@ -1,6 +1,5 @@
 import { type FunctionComponent } from "react";
 import { HiHeart } from "react-icons/hi";
-import { useHeroEntryContext } from "../hero/entry-provider/use-hero-context";
 import { cn } from "@/utils/styling/cn";
 
 export const Footer: FunctionComponent = () => (

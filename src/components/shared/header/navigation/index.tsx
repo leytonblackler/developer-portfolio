@@ -3,11 +3,9 @@ import { usePathname } from "next/navigation";
 import { type Entries } from "type-fest";
 import { isEqual } from "lodash";
 import { useMediaQuery } from "usehooks-ts";
-import { Logo } from "../logo";
 import { NavigationBar } from "./bar";
 import { NavigationDrawer } from "./drawer";
 import { type NavigationComponentProps } from "./types";
-import { cn } from "@/utils/styling/cn";
 import { type TopLevelPage } from "@/hygraph/generated/graphql";
 import { type PageConfig, pagesConfig } from "@/config/pages";
 
