@@ -10,18 +10,19 @@ import {
 } from "react";
 import { type Entries } from "type-fest";
 import { type Data2d } from "smooth-scrollbar/interfaces";
-import { type ScrollInstance } from "./types";
+import { type BaseScrollInstance } from "./types";
 import { createMotionValue } from "@/components/shared/bubbles/utils/create-motion-value";
 
 interface ScrollProviderProps {
   children: ReactNode;
 }
 
-type ScrollInstances = Record<string, ScrollInstance | undefined>;
+type ScrollInstances = Record<string, BaseScrollInstance | undefined>;
 
 type RegisterScrollInstance = (props: {
   id: string;
   ref: RefObject<HTMLDivElement>;
+  disabled?: boolean;
 }) => void;
 
 type SetScrollInstancePosition = (
@@ -30,12 +31,18 @@ type SetScrollInstancePosition = (
   } & Data2d
 ) => void;
 
+type SetScrollInstanceDisabled = (props: {
+  id: string;
+  disabled: boolean;
+}) => void;
+
 type UnregisterScrollInstance = (id: string) => void;
 
 interface ScrollContextValue {
   instances: ScrollInstances;
   registerInstance: RegisterScrollInstance;
   setInstancePosition: SetScrollInstancePosition;
+  setInstanceDisabled: SetScrollInstanceDisabled;
   unregisterInstance: UnregisterScrollInstance;
 }
 
@@ -58,7 +65,7 @@ export const ScrollProvider: FunctionComponent<ScrollProviderProps> = ({
    * Register a new scroll instance with the provider.
    */
   const registerInstance = useCallback<RegisterScrollInstance>(
-    ({ id, ref }) => {
+    ({ id, ref, disabled = false }) => {
       setInstances((current) => {
         /**
          * Check if there is already an instance with the specified ID.
@@ -78,6 +85,7 @@ export const ScrollProvider: FunctionComponent<ScrollProviderProps> = ({
                   x: createMotionValue(0),
                   y: createMotionValue(0),
                 },
+                disabled,
               },
             };
       });
@@ -104,6 +112,32 @@ export const ScrollProvider: FunctionComponent<ScrollProviderProps> = ({
   );
 
   /**
+   * Set the disabled state for an instance with the specified ID.
+   */
+  const setInstanceDisabled = useCallback<SetScrollInstanceDisabled>(
+    ({ id, disabled }) => {
+      setInstances((current) => {
+        const instance = current[id];
+
+        if (!instance) {
+          throw new Error(
+            `No scroll instance with ID "${id}" has been registered.`
+          );
+        }
+
+        return {
+          ...current,
+          [id]: {
+            ...instance,
+            disabled,
+          },
+        };
+      });
+    },
+    []
+  );
+
+  /**
    * Removes a scroll instance.
    */
   const unregisterInstance = useCallback<UnregisterScrollInstance>((id) => {
@@ -122,6 +156,7 @@ export const ScrollProvider: FunctionComponent<ScrollProviderProps> = ({
         instances,
         registerInstance,
         setInstancePosition,
+        setInstanceDisabled,
         unregisterInstance,
       }}
     >

@@ -10,6 +10,7 @@ import {
 } from "react";
 import { motion } from "framer-motion";
 import { useResizeDetector } from "react-resize-detector";
+import { useScrollInstance } from "../smooth-scroller/use-scroll-instance";
 import { Heading } from "./heading";
 import { SubHeading } from "./subheading";
 import {
@@ -21,6 +22,8 @@ import {
 import { useHeroEntryContext } from "./entry-provider/use-hero-context";
 import { cn } from "@/utils/styling/cn";
 import { ROUTE_CHANGE_ANIMATION_DURATION } from "@/components/page-animation/constants";
+import { ScrollInstanceId } from "@/constants/scroll-instance-ids";
+import { useIsPageAnimating } from "@/components/page-animation/use-is-page-animating";
 
 interface HeroProps {
   heading: string;
@@ -72,8 +75,11 @@ export const Hero: FunctionComponent<HeroProps> = ({
        * Convert the duration to milliseconds.
        */
     }, ROUTE_CHANGE_ANIMATION_DURATION.ENTER * 1000 * 0.5);
-  });
+  }, []);
 
+  /**
+   * Handles starting the entry animations.
+   */
   const animate = useMemo<"initial" | "enter">(
     () => (show ? "enter" : "initial"),
     [show]
@@ -107,6 +113,32 @@ export const Hero: FunctionComponent<HeroProps> = ({
       );
     }
   }, [subheadingHasEntered, heroHasEntered, reposition, setHeroHasEntered]);
+
+  /**
+   * Access the main scroll instance.
+   */
+  const mainScrollInstance = useScrollInstance(ScrollInstanceId.Main);
+
+  /**
+   * Access whether the page is animating.
+   */
+  const pageIsAnimating = useIsPageAnimating();
+
+  /**
+   * Disable the main scroll instance if the hero has not yet entered, and
+   * re-enable it again once it has (and the page is not currently animating).
+   */
+  useEffect(() => {
+    if (mainScrollInstance) {
+      if (!heroHasEntered) {
+        if (!mainScrollInstance.disabled) {
+          mainScrollInstance.setDisabled(true);
+        }
+      } else if (mainScrollInstance.disabled && !pageIsAnimating) {
+        mainScrollInstance.setDisabled(false);
+      }
+    }
+  }, [mainScrollInstance, heroHasEntered, pageIsAnimating]);
 
   return (
     <div

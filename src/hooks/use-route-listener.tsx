@@ -16,14 +16,27 @@ export const useRouteListener: UseRouteListener = ({
   onChange,
   delay = ROUTE_CHANGE_ANIMATION_DURATION.EXIT,
 }) => {
+  /**
+   * Get the current pathname.
+   */
   const pathname = usePathname();
 
+  /**
+   * Invoke the callback when the pathname changes after the specified delay.
+   */
   useEffect(() => {
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       onChange(pathname);
       /**
        * Convert the duration to milliseconds.
        */
     }, delay * 1000);
-  }, [pathname, onChange, delay]);
+
+    /**
+     * Prevent multiple timeouts coexisting.
+     */
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [delay, pathname, onChange]);
 };

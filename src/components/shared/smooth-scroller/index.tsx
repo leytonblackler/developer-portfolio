@@ -18,10 +18,11 @@ import {
 import OverscrollPlugin from "smooth-scrollbar/plugins/overscroll";
 import { isMobile } from "react-device-detect";
 import { type MotionValue } from "framer-motion";
-import { useHeroEntryContext } from "../hero/entry-provider/use-hero-context";
 import { ScrollContext } from "./provider";
 import { DisableHorizontalScrollPlugin } from "./disable-horizontal-scroll-plugin";
 import { useScrollMotionValues } from "./use-scroll-motion-values";
+import { useScrollInstance } from "./use-scroll-instance";
+import { DisableScrollPlugin } from "./disable-scroll-plugin";
 import { cn } from "@/utils/styling/cn";
 import { useRouteListener } from "@/hooks/use-route-listener";
 import { ScrollInstanceId } from "@/constants/scroll-instance-ids";
@@ -31,6 +32,7 @@ import { ScrollInstanceId } from "@/constants/scroll-instance-ids";
  */
 type SmoothScrollerProps = {
   id: ScrollInstanceId;
+  defaultDisabled?: boolean;
   children: ReactNode;
   className?: HTMLAttributes<HTMLDivElement>["className"];
 } & Omit<HTMLAttributes<HTMLDivElement>, "id" | "children" | "className">;
@@ -41,9 +43,16 @@ type SmoothScrollerProps = {
 type OnScrollHandler = (props: SmoothScrollbarScrollStatus | Event) => void;
 
 /**
- * Enable the plugin to disable horizontal scrolling on the smooth scrollbar.
+ * Enable the plugin to disable horizontal scrolling on the smooth scrollbar in
+ * all cases.
  */
 Scrollbar.use(DisableHorizontalScrollPlugin);
+
+/**
+ * Enable the plugin to disable any scrolling on the smooth scrollbar when the
+ * option has been set.
+ */
+Scrollbar.use(DisableScrollPlugin);
 
 /**
  * Enable the overscroll plugin on the smooth scrollbar.
@@ -118,6 +127,7 @@ const SCROLLBAR_OPTIONS = {
  */
 export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
   id,
+  defaultDisabled = false,
   children,
   className,
   ...props
@@ -135,8 +145,12 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
   /**
    * Access the instance updater functions from the scroll context.
    */
-  const { registerInstance, setInstancePosition, unregisterInstance } =
-    useContext(ScrollContext);
+  const { registerInstance, unregisterInstance } = useContext(ScrollContext);
+
+  /**
+   * Access the scroll instance once it has been registered.
+   */
+  const instance = useScrollInstance(id);
 
   /**
    * Access the motion values for the scroll instance once it has been
@@ -148,21 +162,66 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
    * Remove the instance when the component unmounts.
    */
   useEffect(() => {
-    registerInstance({ id, ref });
+    registerInstance({ id, ref, disabled: defaultDisabled });
     return () => {
       unregisterInstance(id);
     };
-  }, [id, registerInstance, unregisterInstance]);
+  }, [id, defaultDisabled, registerInstance, unregisterInstance]);
 
   /**
-   * Handle setting the scroll position for the instance.
+   * Update the disabled state on the scrollbar plugin when the instance state
+   * changes.
    */
-  const setPosition = useCallback(
-    ({ x, y }: Data2d) => {
-      setInstancePosition({ id, x, y });
-    },
-    [id, setInstancePosition]
-  );
+  useEffect(() => {
+    /**
+     * If the scroll instance has not been registered, or the smooth scroller
+     * ref has not yet been set, do not proceed.
+     */
+    if (!instance || !scrollbarRef.current) {
+      return;
+    }
+
+    /**
+     * Get the current disabled setting from the plugin.
+     */
+    const pluginDisabled: boolean | null = (() => {
+      /**
+       * Deconstruct the plugins from the smooth scrollbar.
+       */
+      const plugins = scrollbarRef.current.options.plugins as unknown;
+
+      /**
+       * Validate that the disable scroll setting is present for the plugin and
+       * return it.
+       */
+      if (
+        plugins !== null &&
+        typeof plugins === "object" &&
+        "disableScroll" in plugins &&
+        plugins.disableScroll !== null &&
+        typeof plugins.disableScroll === "object" &&
+        "disabled" in plugins.disableScroll &&
+        typeof plugins.disableScroll.disabled === "boolean"
+      ) {
+        return plugins.disableScroll.disabled;
+      }
+
+      /**
+       * Otherwise, return null if the current setting could not be determined.
+       */
+      return null;
+    })();
+
+    /**
+     * Update the listener for the scroll disable plugin if the current option
+     * for the plugin is not the same as the value on the scroll instance.
+     */
+    if (pluginDisabled !== instance.disabled) {
+      scrollbarRef.current.updatePluginOptions("disableScroll", {
+        disabled: instance.disabled,
+      });
+    }
+  }, [instance]);
 
   /**
    * Listener invoked when there are changes to the scroll position.
@@ -203,10 +262,10 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
        * Update the position if it was able to be determined.
        */
       if (position) {
-        setPosition(position);
+        instance?.setPosition(position);
       }
     },
-    [setPosition]
+    [instance]
   );
 
   /**
@@ -282,7 +341,7 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
             maxScroll + overscrollAmount;
       };
 
-      setPosition({
+      instance?.setPosition({
         x: calculateDimension({
           overscrollAmount: overscrollPosition.x,
           maxScroll: scrollWidth,
@@ -295,7 +354,7 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
         }),
       });
     },
-    [setPosition, motionValues]
+    [instance, motionValues]
   );
 
   /**
@@ -331,14 +390,24 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
         }
 
         /**
-         * Add a listener to the overscroll plugin options to detect when
-         * overscrolling is occurring, since this is not reflected by the
-         * motion values.
+         * Update the constant options to include dynamic properties.
          */
         const scrollbarOptions: Partial<ScrollbarOptions> = {
           ...SCROLLBAR_OPTIONS,
           plugins: {
             ...SCROLLBAR_OPTIONS.plugins,
+            /**
+             * Set the initial disabled state.
+             */
+            disableScroll: {
+              disabled: defaultDisabled,
+            },
+
+            /**
+             * Add a listener to the overscroll plugin options to detect when
+             * overscrolling is occurring, since this is not reflected by the
+             * motion values.
+             */
             overscroll: {
               ...SCROLLBAR_OPTIONS.plugins.overscroll,
               onScroll: onOverscroll,
@@ -382,30 +451,33 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
         };
       }
     }
-  }, [id, onScroll, setPosition, onOverscroll]);
+  }, [id, defaultDisabled, onScroll, onOverscroll]);
 
   /**
    * Reset the scroll position when the route changes.
    */
-  useRouteListener({
-    onChange: () => {
-      /**
-       * If the device is mobile, reset the scroll position on the native
-       * element itself.
-       */
-      if (isMobile) {
-        if (ref.current) {
-          ref.current.scrollTo(0, 0);
-        }
-      } else if (scrollbarRef.current) {
-        /**
-         * Otherwise, reset the scroll position via the smooth scrollbar
-         * instance.
-         */
-        scrollbarRef.current.scrollTo(0, 0);
+  const onRouteChange = useCallback(() => {
+    /**
+     * If the device is mobile, reset the scroll position on the native
+     * element itself.
+     */
+    if (isMobile) {
+      if (ref.current) {
+        ref.current.scrollTo(0, 0);
       }
-    },
-  });
+    } else if (scrollbarRef.current) {
+      /**
+       * Otherwise, reset the scroll position via the smooth scrollbar
+       * instance.
+       */
+      scrollbarRef.current.scrollTo(0, 0);
+    }
+  }, []);
+
+  /**
+   * Add the route change listener.
+   */
+  useRouteListener({ onChange: onRouteChange });
 
   return (
     <div className={cn("relative h-full max-h-full")}>

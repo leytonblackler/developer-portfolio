@@ -5,6 +5,10 @@ interface Delta {
   y: number;
 }
 
+/**
+ * Explicitly disable any horizontal scrolling in the scroll container at all
+ * times.
+ */
 export class DisableHorizontalScrollPlugin extends ScrollbarPlugin {
   static pluginName = "disableHorizontalScroll";
   transformDelta(delta: Delta): Delta {
