@@ -7,13 +7,13 @@ import {
   type ContactFormData,
   ContactFormSchema,
 } from "@/components/pages/contact/contact-form/schema";
-import { sendEmail } from "@/utils/email/send-email";
-import { SenderAddress } from "@/utils/email/sender-addresses";
+// import { sendEmail } from "@/utils/email/send-email";
+// import { SenderAddress } from "@/utils/email/sender-addresses";
 import { checkSpam } from "@/utils/spam/check-spam";
 import { parseZodErrors } from "@/utils/zod/parse-errors";
-import { mongodb } from "@/utils/database/mongodb";
-import { verifyRecaptchaToken } from "@/utils/recaptcha/verify-token";
-import { RecaptchaVerificationError } from "@/utils/recaptcha/errors";
+// import { mongodb } from "@/utils/database/mongodb";
+// import { verifyRecaptchaToken } from "@/utils/recaptcha/verify-token";
+// import { RecaptchaVerificationError } from "@/utils/recaptcha/errors";
 
 type ContactFormSubmissionEndpoint = (
   request: NextRequest
@@ -64,7 +64,14 @@ export const POST: ContactFormSubmissionEndpoint = async (request) => {
   /**
    * Deconstruct the form data.
    */
-  const { name, email, message, honeypot, userIP, reCaptchaToken } = formData;
+  const {
+    name,
+    email,
+    message,
+    honeypot,
+    userIP,
+    // reCaptchaToken
+  } = formData;
 
   /**
    * Log the details of the message.
@@ -85,52 +92,46 @@ export const POST: ContactFormSubmissionEndpoint = async (request) => {
   /**
    * Verify the reCAPTCHA token.
    */
-  console.info(chalk.cyan("Validating reCAPTCHA token..."));
-  let recaptchaVerified: boolean | null = null;
-  try {
-    recaptchaVerified = await verifyRecaptchaToken({
-      token: reCaptchaToken,
-      userIP,
-    });
-  } catch (error) {
-    /**
-     * Log the error.
-     */
-    console.error(
-      chalk.red(
-        error instanceof RecaptchaVerificationError
-          ? error.toString()
-          : "Unknown reCAPTCHA verification error"
-      )
-    );
-  }
+  // TODO: Re-enable
+  // console.info(chalk.cyan("Validating reCAPTCHA token..."));
+  // let recaptchaVerified: boolean | null = null;
+  // try {
+  //   recaptchaVerified = await verifyRecaptchaToken({
+  //     token: reCaptchaToken,
+  //     userIP,
+  //   });
+  // } catch (error) {
+  //   /**
+  //    * Log the error.
+  //    */
+  //   console.error(
+  //     chalk.red(
+  //       error instanceof RecaptchaVerificationError
+  //         ? error.toString()
+  //         : "Unknown reCAPTCHA verification error"
+  //     )
+  //   );
+  // }
 
   /**
    * The spam check was performed successfully is the result is not null.
    */
-  const recaptchaVerificationPerformed = recaptchaVerified !== null;
+  // TODO: Re-enable
+  // const recaptchaVerificationPerformed = recaptchaVerified !== null;
 
   /**
-   * Log to the console whether reCPATCHA verfication was performed and the
+   * Log to the console whether reCAPTCHA verification was performed and the
    * verification result.
    */
-  if (recaptchaVerificationPerformed) {
-    console.log(
-      emoji.emojify(
-        recaptchaVerified
-          ? chalk.green(":white_check_mark: reCAPTCHA verification passed!\n")
-          : chalk.red(":x: reCAPTCHA verification did not pass\n")
-      )
-    );
-  } else {
-    console.log(
-      emoji.emojify(
-        chalk.yellow(
-          ":warning:  reCAPTCHA verification could not be performed - skipping reCATPCHA...\n"
-        )
-      )
-    );
-  }
+  // TODO: Re-enable
+  // if (recaptchaVerificationPerformed) {
+  //   console.log(
+  //     emoji.emojify(
+  //       recaptchaVerified
+  // ? chalk.green(":white_check_mark: reCAPTCHA verification passed!\n") :
+  // chalk.red(":x: reCAPTCHA verification did not pass\n") ) ); } else {
+  // console.log( emoji.emojify( chalk.yellow( ":warning:  reCAPTCHA
+  // verification could not be performed - skipping reCATPCHA...\n" ) ) ); }
 
   /**
    * Get the required properties from the request headers for tracking / spam
@@ -239,57 +240,59 @@ export const POST: ContactFormSubmissionEndpoint = async (request) => {
    * verification and spam check passed (or if they were not performed, to
    * avoid blocking).
    */
-  let emailSent = false;
-  if (
-    (!spamCheckPerformed || !isSpam) &&
-    (!recaptchaVerificationPerformed || recaptchaVerified)
-  ) {
-    try {
-      console.info(chalk.cyan("Forwarding message as email..."));
-      await sendEmail({
-        senderAddress: SenderAddress.MAILER,
-        senderName: name,
-        replyTo: email,
-        to: "hello@leytonblackler.dev",
-        subject: "New message on leytonblackler.dev",
-        text: message, // TODO: Format email body
-      });
-      emailSent = true;
-    } catch (error) {
-      // TODO: Handle email failing to send
-    }
-  }
+  // TODO: Re-enable
+  // let emailSent = false;
+  // if (
+  //   (!spamCheckPerformed || !isSpam) &&
+  //   (!recaptchaVerificationPerformed || recaptchaVerified)
+  // ) {
+  //   try {
+  //     console.info(chalk.cyan("Forwarding message as email..."));
+  //     await sendEmail({
+  //       senderAddress: SenderAddress.MAILER,
+  //       senderName: name,
+  //       replyTo: email,
+  //       to: "hello@leytonblackler.dev",
+  //       subject: "New message on leytonblackler.dev",
+  //       text: message, // TODO: Format email body
+  //     });
+  //     emailSent = true;
+  //   } catch (error) {
+  //     // TODO: Handle email failing to send
+  //   }
+  // }
 
   /**
    * Save the submission to the MongoDB database.
    */
-  try {
-    console.info(chalk.cyan("Saving message details to database..."));
-    const client = await mongodb.clientPromise;
-    const db = client.db("contact_form");
-    const result = await db.collection("submissions").insertOne({
-      name,
-      email,
-      message,
-      metadata: {
-        spamCheck: {
-          performed: spamCheckPerformed,
-          result: isSpam,
-        },
-        recaptchaVerification: {
-          performed: recaptchaVerificationPerformed,
-          result: recaptchaVerified,
-        },
-        emailSent,
-        userAgent,
-        referrer,
-      },
-    });
-    console.log("result", result);
-  } catch (e) {
-    // TODO: Handle error saving to MongoDB
-    console.error(e);
-  }
+  // TODO: Re-enable
+  // try {
+  //   console.info(chalk.cyan("Saving message details to database..."));
+  //   const client = await mongodb.clientPromise;
+  //   const db = client.db("contact_form");
+  //   const result = await db.collection("submissions").insertOne({
+  //     name,
+  //     email,
+  //     message,
+  //     metadata: {
+  //       spamCheck: {
+  //         performed: spamCheckPerformed,
+  //         result: isSpam,
+  //       },
+  //       recaptchaVerification: {
+  //         performed: recaptchaVerificationPerformed,
+  //         result: recaptchaVerified,
+  //       },
+  //       emailSent,
+  //       userAgent,
+  //       referrer,
+  //     },
+  //   });
+  //   console.log("result", result);
+  // } catch (e) {
+  //   // TODO: Handle error saving to MongoDB
+  //   console.error(e);
+  // }
 
   /**
    * Indicate that the message was saved/sent successfully.
