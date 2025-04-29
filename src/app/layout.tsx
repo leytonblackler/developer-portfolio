@@ -4,6 +4,7 @@ import {
 } from "next/font/google";
 import { type FunctionComponent, type ReactNode } from "react";
 import Head from "next/head";
+import { type Metadata } from "next";
 import { Header } from "@/components/shared/header";
 import { Providers } from "@/components/shared/providers";
 import { AnimatePagePresence } from "@/components/page-animation/animate-page-presence";
@@ -32,9 +33,19 @@ const notoColorEmojiFont = NotoColorEmoji({
   variable: "--font-noto-color-emoji",
 });
 
-export const metadata = {
+// eslint-disable-next-line react-refresh/only-export-components -- Metadata must be exported as per: https://nextjs.org/docs/app/building-your-application/optimizing/metadata#static-metadata
+export const metadata: Metadata = {
   title: "Leyton Blackler",
   description: "TODO",
+  viewport: [
+    Object.entries({
+      width: "device-width",
+      "user-scalable": "no",
+      "initial-scale": "1.0",
+      "maximum-scale": "1.0",
+      "minimum-scale": "1.0",
+    }).map(([key, value]) => `${key}=${value}`),
+  ].join(", "),
 };
 
 interface RootLayoutProps {
@@ -46,13 +57,6 @@ const RootLayout: FunctionComponent<RootLayoutProps> = ({ children }) => (
     lang="en"
     className={cn("root-bg", "h-dvh max-h-dvh", "max-w-dvw h-dvw", "relative")}
   >
-    <Head>
-      <meta
-        key="viewport"
-        name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
-      />
-    </Head>
     <body
       className={cn(
         plusJakartaSansFont.variable,
