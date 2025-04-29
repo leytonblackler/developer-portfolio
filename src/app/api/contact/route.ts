@@ -297,3 +297,11 @@ export const POST: ContactFormSubmissionEndpoint = async (request) => {
   console.info(chalk.green("Message processed successfully!\n"));
   return NextResponse.json(null, { status: StatusCodes.OK });
 };
+
+export const config = {
+  /**
+   * Ensures it’s NOT deployed as an Edge Function, as this can cause issues
+   * with chalk.
+   */
+  runtime: "nodejs",
+};
