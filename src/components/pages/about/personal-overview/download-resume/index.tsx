@@ -15,7 +15,7 @@ export const DownloadResumeButton: FunctionComponent = () => {
       <Button
         label="Download my resume"
         type="button"
-        icon={HiOutlineDocumentDownload}
+        icon={<HiOutlineDocumentDownload />}
         cardStyle="secondary"
       />
     ),

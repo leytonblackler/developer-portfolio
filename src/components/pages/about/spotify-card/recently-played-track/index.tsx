@@ -84,7 +84,7 @@ export const RecentlyPlayedTrack: FunctionComponent<{
       <div className="flex flex-row items-center gap-x-6">
         {/* TODO: Play preview on click */}
         <ImageWithFallback
-          fallbackIcon={HiMusicNote}
+          fallbackIcon={<HiMusicNote />}
           containerClassName="w-20 h-20 rounded-2xl"
           src={coverImage}
           alt={`${name} Artwork`}

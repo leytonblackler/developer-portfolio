@@ -22,12 +22,12 @@ const ErrorPage: FunctionComponent<ErrorPageProps> = ({ error, reset }) => {
       buttons={[
         {
           label: "Go back home",
-          icon: HiOutlineArrowLeft,
+          icon: <HiOutlineArrowLeft />,
           href: "/",
         },
         {
           label: "Reload page",
-          icon: HiOutlineRefresh,
+          icon: <HiOutlineRefresh />,
           onClick: reset,
         },
       ]}

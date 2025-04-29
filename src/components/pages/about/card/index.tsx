@@ -36,16 +36,6 @@ export const Card: FunctionComponent<CardProps> = ({ pageId, className }) => {
         className
       )}
     >
-      {/* <div
-        className={cn(
-          "absolute h-full w-full",
-          "flex items-start justify-start",
-          "p-8",
-          "opacity-5"
-        )}
-      >
-        <Icon className="h-20 w-20 shrink-0" />
-      </div> */}
       <div className="flex flex-row items-center justify-center gap-x-4">
         <h2 className="text-4xl font-medium leading-none opacity-50">
           {label}

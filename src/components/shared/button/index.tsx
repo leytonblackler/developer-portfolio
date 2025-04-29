@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, type FunctionComponent } from "react";
-import { type IconType } from "react-icons";
 import { cva, type VariantProps } from "class-variance-authority";
 import { motion } from "framer-motion";
 import { MotionLink } from "../motion-link";
@@ -10,6 +9,8 @@ import {
   type ButtonAnimationProps,
   createButtonAnimationProps,
 } from "@/utils/motion/create-button-animation-props";
+import { type ReactIcon } from "@/utils/icons/types";
+import { useStyledIcon } from "@/utils/icons/use-styled-icon";
 
 const constructClassName = cva(
   cn(
@@ -68,7 +69,7 @@ export type ButtonProps = NonNullable<
   VariantProps<typeof constructClassName>
 > & {
   label: string;
-  icon: IconType;
+  icon: ReactIcon;
   fillHeight?: boolean;
   minSize?: "sm" | "default";
   className?: string;
@@ -101,7 +102,7 @@ export type ButtonProps = NonNullable<
 
 export const Button: FunctionComponent<ButtonProps> = ({
   label,
-  icon: Icon,
+  icon,
   fillHeight = false,
   minSize = "default",
   className: _className,
@@ -141,11 +142,16 @@ export const Button: FunctionComponent<ButtonProps> = ({
   );
 
   /**
+   * Apply styles to the icon.
+   */
+  const styledIcon = useStyledIcon(icon, "size-5 shrink-0");
+
+  /**
    * Define the content for the button.
    */
   const content = (
     <motion.div data-button-content {...buttonAnimationProps.content}>
-      <Icon className="size-5 shrink-0" />
+      {styledIcon}
       <span>{label}</span>
     </motion.div>
   );

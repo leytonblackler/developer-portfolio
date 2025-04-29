@@ -29,7 +29,7 @@ export const DownloadResumeDrawer: FunctionComponent<{
         {/* TODO: Close drawer when either version is clicked */}
         <Button
           label="Light version"
-          icon={HiOutlineSun}
+          icon={<HiOutlineSun />}
           cardStyle="secondary_light"
           download={`/${encodeURIComponent(
             constructResumePdfFilename(ColorScheme.Light)
@@ -37,7 +37,7 @@ export const DownloadResumeDrawer: FunctionComponent<{
         />
         <Button
           label="Dark version"
-          icon={HiOutlineMoon}
+          icon={<HiOutlineMoon />}
           cardStyle="secondary_dark"
           download={`/${encodeURIComponent(
             constructResumePdfFilename(ColorScheme.Dark)

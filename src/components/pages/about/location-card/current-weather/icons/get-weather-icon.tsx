@@ -1,9 +1,9 @@
 import dayjs from "dayjs";
-import { type IconType } from "react-icons";
 import { iconMapping } from "./icon-mapping";
 import { type LocationDetails } from "@/utils/location/types/location-details";
+import { type ReactIcon } from "@/utils/icons/types";
 
-type GetWeatherIconFunction = (locationDetails: LocationDetails) => IconType;
+type GetWeatherIconFunction = (locationDetails: LocationDetails) => ReactIcon;
 
 export const getWeatherIcon: GetWeatherIconFunction = ({
   time: { timezone, sunriseTimestamp, sunsetTimestamp },
@@ -54,7 +54,12 @@ export const getWeatherIcon: GetWeatherIconFunction = ({
   const resolveIcon = Object.entries(iconMapping)[mappingIndex][1];
 
   /**
-   * Resolve and return the icon.
+   * Resolve the icon component.
    */
-  return resolveIcon(isDaytime);
+  const IconComponent = resolveIcon(isDaytime);
+
+  /**
+   * Render and return the icon component.
+   */
+  return <IconComponent />;
 };

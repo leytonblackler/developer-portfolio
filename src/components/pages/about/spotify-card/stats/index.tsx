@@ -21,14 +21,14 @@ export const Stats: FunctionComponent<
 
   const statItems = useMemo<StatItemProps[]>(
     () => [
-      { label: "Total Streams", value: totalStreams, icon: IoPlay },
-      { label: "Total Minutes", value: totalMinutes, icon: IoTime },
+      { label: "Total Streams", value: totalStreams, icon: <IoPlay /> },
+      { label: "Total Minutes", value: totalMinutes, icon: <IoTime /> },
       {
         label: "Unique Tracks",
         value: uniqueTracks,
-        icon: IoMusicalNotes,
+        icon: <IoMusicalNotes />,
       },
-      { label: "Unique Artists", value: uniqueArtists, icon: IoPerson },
+      { label: "Unique Artists", value: uniqueArtists, icon: <IoPerson /> },
     ],
     [totalStreams, totalMinutes, uniqueTracks, uniqueArtists]
   );

@@ -1,4 +1,3 @@
-import { type IconType } from "react-icons";
 import {
   HiOutlineAcademicCap,
   HiOutlineCode,
@@ -8,10 +7,11 @@ import {
 } from "react-icons/hi";
 import colors from "tailwindcss/colors";
 import { TopLevelPage } from "@/hygraph/generated/graphql";
+import { type ReactIcon } from "@/utils/icons/types";
 
 export interface PageConfigNavLink {
   label: string;
-  icon: IconType;
+  icon: ReactIcon;
   href: string;
 }
 
@@ -32,7 +32,7 @@ export const pagesConfig: Record<TopLevelPage, PageConfig> = {
     colors: null,
     navLink: {
       label: "About",
-      icon: HiOutlineUser,
+      icon: <HiOutlineUser />,
       href: "/",
     },
   },
@@ -44,7 +44,7 @@ export const pagesConfig: Record<TopLevelPage, PageConfig> = {
     },
     navLink: {
       label: "Experience",
-      icon: HiOutlineLightBulb,
+      icon: <HiOutlineLightBulb />,
       href: "/experience",
     },
   },
@@ -56,7 +56,7 @@ export const pagesConfig: Record<TopLevelPage, PageConfig> = {
     },
     navLink: {
       label: "Projects",
-      icon: HiOutlineCode,
+      icon: <HiOutlineCode />,
       href: "/projects",
     },
   },
@@ -68,7 +68,7 @@ export const pagesConfig: Record<TopLevelPage, PageConfig> = {
     },
     navLink: {
       label: "Education",
-      icon: HiOutlineAcademicCap,
+      icon: <HiOutlineAcademicCap />,
       href: "/education",
     },
   },
@@ -77,7 +77,7 @@ export const pagesConfig: Record<TopLevelPage, PageConfig> = {
     colors: null,
     navLink: {
       label: "Contact",
-      icon: HiOutlineMail,
+      icon: <HiOutlineMail />,
       href: "/contact",
     },
   },

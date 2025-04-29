@@ -43,7 +43,7 @@ export const PersonalOverviewSection: FunctionComponent<
                 >
                   <div className={cn("flex flex-col", "mb-6 sm:mb-0")}>
                     <ImageWithFallback
-                      fallbackIcon={HiUser}
+                      fallbackIcon={<HiUser />}
                       containerClassName={cn(
                         "rounded-full sm:rounded-6xl",
                         "max-w-auto",

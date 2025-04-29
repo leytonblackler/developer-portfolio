@@ -9,7 +9,7 @@ const NotFoundPage: FunctionComponent = () => (
     buttons={[
       {
         label: "Go back home",
-        icon: HiOutlineArrowLeft,
+        icon: <HiOutlineArrowLeft />,
         href: "/",
       },
     ]}

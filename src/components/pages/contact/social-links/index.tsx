@@ -13,7 +13,7 @@ export const SOCIAL_LINKS_PROPS: SocialLinkProps[] = [
    * LinkedIn
    */
   {
-    icon: FaLinkedinIn,
+    icon: <FaLinkedinIn />,
     href: "https://www.linkedin.com/in/leytonblackler",
     color: {
       base: "#0077B5",
@@ -24,7 +24,7 @@ export const SOCIAL_LINKS_PROPS: SocialLinkProps[] = [
    * GitHub
    */
   {
-    icon: FaGithub,
+    icon: <FaGithub />,
     href: "https://github.com/leytonblackler",
     color: {
       base: "#333",
@@ -35,7 +35,7 @@ export const SOCIAL_LINKS_PROPS: SocialLinkProps[] = [
    * Unicorn Factory
    */
   // {
-  //   icon: UnicornFactory,
+  //   icon: <UnicornFactory />,
   //   href: "TODO",
   //   color: {
   //     base: "#5E6AC6",
@@ -46,7 +46,7 @@ export const SOCIAL_LINKS_PROPS: SocialLinkProps[] = [
    * Email
    */
   {
-    icon: HiOutlineMail,
+    icon: <HiOutlineMail />,
     href: "mailto:hello@leytonblackler.dev",
   },
 ];

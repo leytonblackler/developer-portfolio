@@ -2,10 +2,19 @@ import { type FunctionComponent, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { type NavigationLinkItemProps } from "../../types";
 import { cn } from "@/utils/styling/cn";
+import { useStyledIcon } from "@/utils/icons/use-styled-icon";
 
 export const NavigationBarLinkItem: FunctionComponent<
   NavigationLinkItemProps
-> = ({ label, icon: Icon, href, active }) => {
+> = ({ label, icon, href, active }) => {
+  /**
+   * Apply styles to the icon.
+   */
+  const styledIcon = useStyledIcon(
+    icon,
+    cn("w-5", "h-5", "transition-colors duration-300")
+  );
+
   const labelRef = useRef<HTMLSpanElement>(null);
 
   const [labelWidth, setLabelWidth] = useState<number | undefined>();
@@ -37,7 +46,7 @@ export const NavigationBarLinkItem: FunctionComponent<
             )
       )}
     >
-      <Icon className={cn("w-5", "h-5", "transition-colors duration-300")} />
+      {styledIcon}
       <span
         className={cn(
           "font-medium",
