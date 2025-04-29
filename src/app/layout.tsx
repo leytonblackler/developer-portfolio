@@ -3,6 +3,7 @@ import {
   Noto_Color_Emoji as NotoColorEmoji,
 } from "next/font/google";
 import { type FunctionComponent, type ReactNode } from "react";
+import Head from "next/head";
 import { Header } from "@/components/shared/header";
 import { Providers } from "@/components/shared/providers";
 import { AnimatePagePresence } from "@/components/page-animation/animate-page-presence";
@@ -45,6 +46,13 @@ const RootLayout: FunctionComponent<RootLayoutProps> = ({ children }) => (
     lang="en"
     className={cn("root-bg", "h-dvh max-h-dvh", "max-w-dvw h-dvw", "relative")}
   >
+    <Head>
+      <meta
+        key="viewport"
+        name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+      />
+    </Head>
     <body
       className={cn(
         plusJakartaSansFont.variable,
