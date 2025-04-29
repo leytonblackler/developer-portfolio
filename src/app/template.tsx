@@ -5,9 +5,9 @@ import { AnimatedPage } from "@/components/page-animation/animated-page";
 const Template: FunctionComponent<{ children: ReactNode }> = ({ children }) => {
   return (
     <AnimatedPage>
-      <div id="animated-page-main-content" className="relative min-h-full">
+      <main id="animated-page-main-content" className="relative min-h-dvh">
         {children}
-      </div>
+      </main>
       <Footer />
     </AnimatedPage>
   );

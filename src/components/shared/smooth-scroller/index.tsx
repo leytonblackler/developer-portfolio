@@ -18,6 +18,7 @@ import {
 import OverscrollPlugin from "smooth-scrollbar/plugins/overscroll";
 import { isMobile } from "react-device-detect";
 import { type MotionValue } from "framer-motion";
+import { useHeroEntryContext } from "../hero/entry-provider/use-hero-context";
 import { ScrollContext } from "./provider";
 import { DisableHorizontalScrollPlugin } from "./disable-horizontal-scroll-plugin";
 import { useScrollMotionValues } from "./use-scroll-motion-values";
@@ -419,7 +420,8 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
                 // "[&>.scroll-content]:h-full",
                 "[&>.scroll-content]:min-h-full",
                 "[&>.scroll-content]:flex",
-                "[&>.scroll-content]:flex-col"
+                "[&>.scroll-content]:flex-col",
+                "[&>.scroll-content]:relative"
               ),
           className
         )}
@@ -431,7 +433,7 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
           : {})}
         {...props}
       >
-        <div className="relative min-h-full">{children}</div>
+        <div>{children}</div>
       </div>
     </div>
   );

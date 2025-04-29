@@ -43,7 +43,7 @@ export const AnimatedPage: FunctionComponent<{ children: ReactNode }> = ({
   const [isAnimating, setIsAnimating] = useState<boolean>(true);
 
   return (
-    <motion.main
+    <motion.div
       key="page"
       variants={variants}
       initial="initial"
@@ -60,6 +60,6 @@ export const AnimatedPage: FunctionComponent<{ children: ReactNode }> = ({
       <AnimatedPageContext.Provider value={{ isAnimating }}>
         {children}
       </AnimatedPageContext.Provider>
-    </motion.main>
+    </motion.div>
   );
 };
