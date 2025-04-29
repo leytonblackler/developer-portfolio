@@ -57,7 +57,11 @@ export const RotatingTextCircle: FunctionComponent<RotatingTextCircleProps> = ({
    */
   const supportsTrigonometry = useMemo<boolean | null>(
     () =>
-      typeof window !== undefined
+      /**
+       * The CSS namespace is not available when server side rendering, so
+       * trigonometry support cannot be determined until rendered client-side.
+       */
+      typeof window !== "undefined"
         ? CSS.supports("(top: calc(sin(1) * 1px))")
         : null,
     []
