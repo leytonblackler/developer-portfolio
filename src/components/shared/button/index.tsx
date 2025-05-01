@@ -94,7 +94,7 @@ export type ButtonProps = NonNullable<
       }
     | {
         type?: never;
-        onClick?: never;
+        onClick?: () => void;
         href?: never;
         download: string;
       }
@@ -168,18 +168,29 @@ export const Button: FunctionComponent<ButtonProps> = ({
         fillHeight ? "flex-1" : "flex-initial"
       )}
     >
-      {"onClick" in props || ("type" in props && props.type === "button") ? (
-        <motion.button
+      {"download" in props ? (
+        <motion.a
           {...buttonAnimationProps.inner}
-          type="button"
           className={className}
+          download
+          href={props.download}
           onClick={props.onClick}
         >
           {content}
-        </motion.button>
+        </motion.a>
       ) : (
         <>
-          {"href" in props && props.href !== undefined ? (
+          {"onClick" in props ||
+          ("type" in props && props.type === "button") ? (
+            <motion.button
+              {...buttonAnimationProps.inner}
+              type="button"
+              className={className}
+              onClick={props.onClick}
+            >
+              {content}
+            </motion.button>
+          ) : (
             <MotionLink
               {...buttonAnimationProps.inner}
               className={className}
@@ -187,15 +198,6 @@ export const Button: FunctionComponent<ButtonProps> = ({
             >
               {content}
             </MotionLink>
-          ) : (
-            <motion.a
-              {...buttonAnimationProps.inner}
-              className={className}
-              download
-              href={props.download}
-            >
-              {content}
-            </motion.a>
           )}
         </>
       )}
