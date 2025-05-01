@@ -13,6 +13,7 @@ export const MarkdownParagraph = ({
       "card-text-primary",
       "text-opacity-80 dark:text-opacity-70",
       "text-sm font-medium leading-loose",
+      "mb-3 last:mb-0",
       className
     )}
     {...props}
