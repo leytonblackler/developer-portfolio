@@ -8,8 +8,6 @@ import {
   useCallback,
   useContext,
   useRef,
-  useMemo,
-  useState,
 } from "react";
 import Scrollbar from "smooth-scrollbar";
 import {

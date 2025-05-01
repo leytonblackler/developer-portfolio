@@ -2,7 +2,7 @@ import {
   HiOutlineAcademicCap,
   HiOutlineCode,
   HiOutlineLightBulb,
-  HiOutlineMail,
+  // HiOutlineMail,
   HiOutlineUser,
 } from "react-icons/hi";
 import colors from "tailwindcss/colors";

@@ -80,9 +80,7 @@ export const ResumeProfileSection: FunctionComponent<
         >
           leytonblackler.dev
         </Link>
-        <Text style={tw(isDarkMode ? "opacity-70" : "opacity-80")}>
-          {" for my showcase and to learn more about me."}
-        </Text>
+        <Text style={tw(isDarkMode ? "opacity-70" : "opacity-80")}>.</Text>
       </Text>
     </ResumeSection>
   );

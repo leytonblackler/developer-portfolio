@@ -33,9 +33,11 @@ const ContactPage: FunctionComponent = async () => {
   /**
    * Deconstruct the contact page data.
    */
-  const { heading, subHeading, sections } = contactPageData;
+  // const { heading, subHeading, sections } = contactPageData;
 
   return null;
+
+  contactPageData;
 
   // TODO: Restore contact page
   // return (
