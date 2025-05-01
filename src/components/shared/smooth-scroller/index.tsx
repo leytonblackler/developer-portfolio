@@ -554,7 +554,6 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
           isMobile
             ? cn("flex flex-col", "overflow-y-auto")
             : cn(
-                // "[&>.scroll-content]:h-full",
                 "[&>.scroll-content]:min-h-full",
                 "[&>.scroll-content]:flex",
                 "[&>.scroll-content]:flex-col",
