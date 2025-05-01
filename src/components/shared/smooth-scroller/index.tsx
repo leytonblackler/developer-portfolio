@@ -128,10 +128,13 @@ const SCROLLBAR_OPTIONS = {
  * Track the last window size in which the scroll position was corrected based
  * on as non-reactive state.
  */
-let lastWindowSize: ReturnType<typeof useWindowSize> = {
-  width: window.innerWidth,
-  height: window.innerHeight,
-};
+let lastWindowSize: ReturnType<typeof useWindowSize> | null =
+  typeof window !== "undefined"
+    ? {
+        width: window.innerWidth,
+        height: window.innerHeight,
+      }
+    : null;
 
 /**
  * A container enabling smooth scrolling of the content on non-mobile devices.
@@ -203,6 +206,7 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
       if (
         ref.current &&
         instance !== null &&
+        lastWindowSize !== null &&
         (lastWindowSize.width !== currentWindowSize.width ||
           lastWindowSize.height !== currentWindowSize.height)
       ) {
