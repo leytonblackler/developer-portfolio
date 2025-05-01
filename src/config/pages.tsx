@@ -72,13 +72,14 @@ export const pagesConfig: Record<TopLevelPage, PageConfig> = {
       href: "/education",
     },
   },
-  [TopLevelPage.Contact]: {
-    hygraphPageId: "cljdog1ky5v9a0c2vf8m0la75",
-    colors: null,
-    navLink: {
-      label: "Contact",
-      icon: <HiOutlineMail />,
-      href: "/contact",
-    },
-  },
+  // TODO: Restore contact page
+  // [TopLevelPage.Contact]: {
+  //   hygraphPageId: "cljdog1ky5v9a0c2vf8m0la75",
+  //   colors: null,
+  //   navLink: {
+  //     label: "Contact",
+  //     icon: <HiOutlineMail />,
+  //     href: "/contact",
+  //   },
+  // },
 };

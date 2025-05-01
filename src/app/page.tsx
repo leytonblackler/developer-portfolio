@@ -40,7 +40,8 @@ const HomePage: FunctionComponent = async () => {
             <SectionsRenderer sections={sections} />
           </div>
 
-          <div>TODO: Contact</div>
+          {/* TODO: Add link to contact page */}
+          {/* <div>TODO: Contact</div> */}
         </SafeArea>
       </div>
     </HeroEntryProvider>

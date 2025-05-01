@@ -1,6 +1,10 @@
+/* eslint-disable no-console -- Allow console logs for displaying in Vercel */
+
 import { type NextRequest, NextResponse } from "next/server";
 import { StatusCodes } from "http-status-codes";
 import { ZodError } from "zod";
+import * as emoji from "node-emoji";
+import chalk from "chalk";
 import {
   type ContactFormData,
   ContactFormSchema,
@@ -56,9 +60,28 @@ export const POST: ContactFormSubmissionEndpoint = async (request) => {
   /**
    * Deconstruct the form data.
    */
-  const { name, email, message, honeypot, userIP, reCaptchaToken } = formData;
+  const {
+    name,
+    email,
+    message,
+    // honeypot, userIP, reCaptchaToken
+  } = formData;
 
-  console.log(name, email, message, honeypot, userIP, reCaptchaToken);
+  /**
+   * Log the details of the message.
+   */
+  console.info(
+    emoji.emojify(
+      `\n${chalk.cyan(
+        [
+          ":email:  New contact form submission:",
+          `- Name: ${chalk.white.italic(name)}`,
+          `- Email: ${chalk.white.italic(email)}`,
+          `- Message: ${chalk.white.italic(message)}`,
+        ].join("\n")
+      )}\n`
+    )
+  );
 
   /**
    * Indicate that the message was saved/sent successfully.
