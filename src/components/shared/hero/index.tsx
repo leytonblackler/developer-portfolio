@@ -172,7 +172,7 @@ export const Hero: FunctionComponent<HeroProps> = ({
             "mx-auto box-border w-full",
             "flex flex-col",
             "items-center justify-center text-center",
-            "px-4 pb-20",
+            "px-4 pb-12",
             large ? "gap-y-7" : "gap-y-4"
           )}
         >
