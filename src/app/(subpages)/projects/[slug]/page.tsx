@@ -90,8 +90,8 @@ const ProjectPage: FunctionComponent<ProjectPageProps> = async ({
           </Markdown>
         </Card>
         <TechnologiesCard technologies={technologies} />
-        <LaptopCard />
-        <PhoneCard />
+        {/* <LaptopCard /> */}
+        {/* <PhoneCard /> */}
       </AfterHero>
     </div>
   );
