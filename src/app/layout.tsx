@@ -73,7 +73,7 @@ const RootLayout: FunctionComponent<RootLayoutProps> = ({ children }) => (
       )}
     >
       <Providers>
-        <SmoothScroller id={ScrollInstanceId.Main}>
+        <SmoothScroller id={ScrollInstanceId.Main} correctOnWindowResize>
           <AnimatePagePresence>{children}</AnimatePagePresence>
         </SmoothScroller>
         <Header />

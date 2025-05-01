@@ -8,6 +8,8 @@ import {
   useCallback,
   useContext,
   useRef,
+  useMemo,
+  useState,
 } from "react";
 import Scrollbar from "smooth-scrollbar";
 import {
@@ -18,6 +20,7 @@ import {
 import OverscrollPlugin from "smooth-scrollbar/plugins/overscroll";
 import { isMobile } from "react-device-detect";
 import { type MotionValue } from "framer-motion";
+import { useWindowSize } from "usehooks-ts";
 import { ScrollContext } from "./provider";
 import { DisableHorizontalScrollPlugin } from "./disable-horizontal-scroll-plugin";
 import { useScrollMotionValues } from "./use-scroll-motion-values";
@@ -33,6 +36,7 @@ import { ScrollInstanceId } from "@/constants/scroll-instance-ids";
 type SmoothScrollerProps = {
   id: ScrollInstanceId;
   defaultDisabled?: boolean;
+  correctOnWindowResize?: boolean;
   children: ReactNode;
   className?: HTMLAttributes<HTMLDivElement>["className"];
 } & Omit<HTMLAttributes<HTMLDivElement>, "id" | "children" | "className">;
@@ -123,11 +127,21 @@ const SCROLLBAR_OPTIONS = {
 } satisfies Partial<ScrollbarOptions>;
 
 /**
+ * Track the last window size in which the scroll position was corrected based
+ * on as non-reactive state.
+ */
+let lastWindowSize: ReturnType<typeof useWindowSize> = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+};
+
+/**
  * A container enabling smooth scrolling of the content on non-mobile devices.
  */
 export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
   id,
   defaultDisabled = false,
+  correctOnWindowResize = false,
   children,
   className,
   ...props
@@ -167,6 +181,57 @@ export const SmoothScroller: FunctionComponent<SmoothScrollerProps> = ({
       unregisterInstance(id);
     };
   }, [id, defaultDisabled, registerInstance, unregisterInstance]);
+
+  /**
+   * Watch for changing to the window size.
+   */
+  const currentWindowSize = useWindowSize();
+
+  /**
+   * If the option has been enabled, correct the scroll position when the
+   * window is resized.
+   *
+   * This is particularly important for mobile browsers, where the URL bar can
+   * show and hide, and without this enabled, the content of the page can jump
+   * erratically as a result.
+   */
+  useEffect(() => {
+    if (correctOnWindowResize) {
+      /**
+       * Adjust the scroll position by the difference between the last window
+       * size and the new window size when the window size changes and the
+       * scroll instance has been initialised.
+       */
+      if (
+        ref.current &&
+        instance !== null &&
+        (lastWindowSize.width !== currentWindowSize.width ||
+          lastWindowSize.height !== currentWindowSize.height)
+      ) {
+        /**
+         * Calculate the horizontal and vertical difference.
+         */
+        const difference = {
+          x: lastWindowSize.width - currentWindowSize.width,
+          y: lastWindowSize.height - currentWindowSize.height,
+        };
+
+        /**
+         * Scroll to the new position.
+         */
+        ref.current.scrollTo(
+          instance.motionValues.x.get() - difference.x,
+          instance.motionValues.y.get() - difference.y
+        );
+      }
+    }
+
+    /**
+     * Set the current window size as the last window size to reference for
+     * future changes to the window size.
+     */
+    lastWindowSize = currentWindowSize;
+  }, [correctOnWindowResize, instance, currentWindowSize]);
 
   /**
    * Update the disabled state on the scrollbar plugin when the instance state
