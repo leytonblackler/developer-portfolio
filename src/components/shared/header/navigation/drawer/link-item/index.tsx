@@ -4,11 +4,14 @@ import { Button } from "@/components/shared/button";
 
 // TODO: Display active state
 export const NavigationDrawerLinkItem: FunctionComponent<
-  NavigationLinkItemProps
+  NavigationLinkItemProps & {
+    onClick: () => void;
+  }
 > = ({
   label,
   icon,
   href,
+  onClick,
   // active
 }) => (
   <Button
@@ -18,5 +21,6 @@ export const NavigationDrawerLinkItem: FunctionComponent<
     fillHeight
     minSize="sm"
     href={href}
+    onClick={onClick}
   />
 );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FunctionComponent } from "react";
+import { useCallback, useState, type FunctionComponent } from "react";
 import { motion } from "framer-motion";
 import { type NavigationComponentProps } from "../types";
 import { useHeaderRect } from "../../use-header-rect";
@@ -18,9 +18,16 @@ export const NavigationDrawer: FunctionComponent<NavigationComponentProps> = ({
   const headerRect = useHeaderRect();
 
   /**
-   * Track when the drawer opens and closes.
+   * Whether the drawer is currently open.
    */
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  /**
+   * Handle closing the drawer.
+   */
+  const closeDrawer = useCallback(() => {
+    setIsOpen(false);
+  }, []);
 
   return (
     <Drawer
@@ -69,14 +76,19 @@ export const NavigationDrawer: FunctionComponent<NavigationComponentProps> = ({
     >
       {/* Items */}
       <ul className={cn("h-full", "flex flex-col gap-y-2", "justify-start")}>
-        {Object.values(pagesConfig).map(({ navLink }, index) => (
-          <li key={navLink.href} className="relative flex flex-1 flex-col">
-            <NavigationDrawerLinkItem
-              {...navLink}
-              active={activePageIndex === index}
-            />
-          </li>
-        ))}
+        {Object.values(pagesConfig).map(({ navLink }, index) => {
+          const isActive = activePageIndex === index;
+          // TODO: Show in disabled state when active rather than omitting
+          return isActive ? null : (
+            <li key={navLink.href} className="relative flex flex-1 flex-col">
+              <NavigationDrawerLinkItem
+                {...navLink}
+                active={activePageIndex === index}
+                onClick={closeDrawer}
+              />
+            </li>
+          );
+        })}
       </ul>
     </Drawer>
   );
