@@ -75,7 +75,7 @@ export const CardListSection: FunctionComponent<
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
       transition={{
-        staggerChildren: 0.15,
+        staggerChildren: 0.2,
       }}
       className={cn(
         "mx-auto w-full max-w-6xl",
