@@ -43,6 +43,7 @@ export const Card: FunctionComponent<CardProps> = ({
 
   return (
     <motion.div
+      initial="hidden"
       animate={isInView ? "visible" : "hidden"}
       {...IN_VIEW_ANIMATION_PROPS}
       ref={ref}
