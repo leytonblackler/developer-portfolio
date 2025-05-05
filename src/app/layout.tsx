@@ -5,7 +5,6 @@ import {
 import { type FunctionComponent, type ReactNode } from "react";
 import { type Metadata, type Viewport } from "next";
 import colors from "tailwindcss/colors";
-import { Head } from "next/document";
 import { Header } from "@/components/shared/header";
 import { Providers } from "@/components/shared/providers";
 import { AnimatePagePresence } from "@/components/page-animation/animate-page-presence";
