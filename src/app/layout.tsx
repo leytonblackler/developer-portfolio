@@ -36,7 +36,32 @@ const notoColorEmojiFont = NotoColorEmoji({
 // eslint-disable-next-line react-refresh/only-export-components -- Metadata must be exported as per: https://nextjs.org/docs/app/building-your-application/optimizing/metadata#static-metadata
 export const metadata: Metadata = {
   title: "Leyton Blackler",
-  description: "TODO",
+  description:
+    "Frontend-focused software engineer with expertise in React, TypeScript & UI/UX. View projects, skills, and experience.",
+  icons: {
+    icon: [
+      // Fallback (no theme mode set)
+      {
+        rel: "icon",
+        type: "image/png",
+        url: "/favicons/light.png",
+      },
+      // Show dark icon in light mode
+      {
+        rel: "icon",
+        type: "image/png",
+        url: "/favicons/dark.png",
+        media: "(prefers-color-scheme: light)",
+      },
+      // Show light icon in dark mode
+      {
+        rel: "icon",
+        type: "image/png",
+        url: "/favicons/light.png",
+        media: "(prefers-color-scheme: dark)",
+      },
+    ],
+  },
 };
 
 // eslint-disable-next-line react-refresh/only-export-components -- Viewport must be exported as per: https://nextjs.org/docs/app/api-reference/functions/generate-viewport#the-viewport-object

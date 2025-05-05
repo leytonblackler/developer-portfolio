@@ -79,7 +79,6 @@ export const CardListSection: FunctionComponent<
       }}
       className={cn(
         "mx-auto w-full max-w-6xl",
-        // "px-8 sm:px-10",
         "pb-10 md:pb-16",
         "grid grid-cols-1 gap-2 md:grid-cols-2"
       )}
