@@ -5,6 +5,7 @@ import {
 import { type FunctionComponent, type ReactNode } from "react";
 import { type Metadata, type Viewport } from "next";
 import colors from "tailwindcss/colors";
+import { Head } from "next/document";
 import { Header } from "@/components/shared/header";
 import { Providers } from "@/components/shared/providers";
 import { AnimatePagePresence } from "@/components/page-animation/animate-page-presence";
@@ -38,30 +39,31 @@ export const metadata: Metadata = {
   title: "Leyton Blackler",
   description:
     "Frontend-focused software engineer with expertise in React, TypeScript & UI/UX. View projects, skills, and experience.",
-  icons: {
-    icon: [
-      // Fallback (no theme mode set)
-      {
-        rel: "icon",
-        type: "image/png",
-        url: "/favicons/light.png",
-      },
-      // Show dark icon in light mode
-      {
-        rel: "icon",
-        type: "image/png",
-        url: "/favicons/dark.png",
-        media: "(prefers-color-scheme: light)",
-      },
-      // Show light icon in dark mode
-      {
-        rel: "icon",
-        type: "image/png",
-        url: "/favicons/light.png",
-        media: "(prefers-color-scheme: dark)",
-      },
-    ],
-  },
+  // TODO: Support Next.js 15 for below to work
+  // icons: {
+  //   icon: [
+  //     // Fallback (no theme mode set)
+  //     {
+  //       rel: "icon",
+  //       type: "image/png",
+  //       url: "/favicons/light.png",
+  //     },
+  //     // Show dark icon in light mode
+  //     {
+  //       rel: "icon",
+  //       type: "image/png",
+  //       url: "/favicons/dark.png",
+  //       media: "(prefers-color-scheme: light)",
+  //     },
+  //     // Show light icon in dark mode
+  //     {
+  //       rel: "icon",
+  //       type: "image/png",
+  //       url: "/favicons/light.png",
+  //       media: "(prefers-color-scheme: dark)",
+  //     },
+  //   ],
+  // },
 };
 
 // eslint-disable-next-line react-refresh/only-export-components -- Viewport must be exported as per: https://nextjs.org/docs/app/api-reference/functions/generate-viewport#the-viewport-object
@@ -90,6 +92,36 @@ const RootLayout: FunctionComponent<RootLayoutProps> = ({ children }) => (
     lang="en"
     className={cn("root-bg", "h-dvh max-h-dvh", "max-w-dvw h-dvw", "relative")}
   >
+    <head>
+      <link
+        rel="icon"
+        type="image/png"
+        sizes="32x32"
+        href="/favicons/dark-32.png"
+        media="(prefers-color-scheme: light)"
+      />
+      <link
+        rel="icon"
+        type="image/png"
+        sizes="16x16"
+        href="/favicons/dark-16.png"
+        media="(prefers-color-scheme: light)"
+      />
+      <link
+        rel="icon"
+        type="image/png"
+        sizes="32x32"
+        href="/favicons/light-32.png"
+        media="(prefers-color-scheme: dark)"
+      />
+      <link
+        rel="icon"
+        type="image/png"
+        sizes="16x16"
+        href="/favicons/light-16.png"
+        media="(prefers-color-scheme: dark)"
+      />
+    </head>
     <body
       className={cn(
         plusJakartaSansFont.variable,
