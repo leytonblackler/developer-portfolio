@@ -20,9 +20,9 @@ export const Belief: FunctionComponent<
   >
     <div
       className={cn(
-        "mb-8",
+        "mb-4",
         "text-lg",
-        "text-gray-700 dark:text-gray-400",
+        "card-text-secondary",
         "font-semibold",
         "whitespace-nowrap"
       )}
@@ -34,12 +34,7 @@ export const Belief: FunctionComponent<
     >
       <span>{title}</span>
     </div>
-    <div
-      className={cn(
-        "text-gray-700 dark:text-gray-400",
-        "text-sm leading-loose"
-      )}
-    >
+    <div className={cn("card-text-secondary", "text-sm leading-loose")}>
       {description}
     </div>
   </motion.li>

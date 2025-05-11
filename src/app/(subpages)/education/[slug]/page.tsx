@@ -8,6 +8,7 @@ import { Card } from "@/components/shared/card";
 import { MarkdownParagraph } from "@/components/shared/markdown/paragraph";
 import { AfterHero } from "@/components/shared/hero/entry-provider/after-hero";
 import { getEducationalInstitution } from "@/hygraph/queries/educational-institution";
+import { CredentialsCard } from "@/components/pages/educational-institution/credentials-card";
 
 interface EducationalInstitutionPageParams {
   slug: string;
@@ -42,7 +43,7 @@ const EducationalInstitutionPage: FunctionComponent<
   /**
    * Deconstruct the educational institution page data.
    */
-  const { name, subtitle, description } = educationalInstitution;
+  const { name, subtitle, description, credentials } = educationalInstitution;
 
   return (
     <div className={cn("bounded-page-content-x", "flex flex-col gap-y-2")}>
@@ -57,6 +58,7 @@ const EducationalInstitutionPage: FunctionComponent<
             {description.markdown}
           </Markdown>
         </Card>
+        <CredentialsCard credentials={credentials} />
       </AfterHero>
     </div>
   );

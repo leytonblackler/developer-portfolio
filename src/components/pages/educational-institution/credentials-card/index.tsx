@@ -2,23 +2,30 @@
 
 import { type FunctionComponent } from "react";
 import { motion } from "framer-motion";
-import { Belief } from "./belief";
+import { Credential } from "./credential";
+import { Card } from "@/components/shared/card";
 import {
-  type BeliefsSectionDataFragment,
-  BeliefDataFragmentDoc,
+  EducationalInstitutionPageCredentialDataFragmentDoc,
+  type EducationalInstitutionPageDataFragment,
 } from "@/hygraph/generated/graphql";
 import { getFragmentData } from "@/hygraph/generated";
-import { cn } from "@/utils/styling/cn";
-import { Card } from "@/components/shared/card";
 import { useInView } from "@/components/shared/smooth-scroller/use-in-view";
+import { cn } from "@/utils/styling/cn";
 
-export const BeliefsSection: FunctionComponent<BeliefsSectionDataFragment> = ({
-  beliefs,
+interface CredentialsCardProps {
+  credentials: EducationalInstitutionPageDataFragment["credentials"];
+}
+
+export const CredentialsCard: FunctionComponent<CredentialsCardProps> = ({
+  credentials,
 }) => {
   /**
-   * Get the fragment data for the belief entries.
+   * Get the fragment data for each of the credentials.
    */
-  const beliefsData = getFragmentData(BeliefDataFragmentDoc, beliefs);
+  const credentialsData = getFragmentData(
+    EducationalInstitutionPageCredentialDataFragmentDoc,
+    credentials
+  );
 
   /**
    * Observe when the card first enters the viewport.
@@ -27,7 +34,7 @@ export const BeliefsSection: FunctionComponent<BeliefsSectionDataFragment> = ({
 
   return (
     <Card
-      title="My beliefs"
+      title="Credentials"
       contentClassName={cn("px-4 pb-4")}
       contentPadding={{ left: false, right: false, bottom: false }}
     >
@@ -39,10 +46,10 @@ export const BeliefsSection: FunctionComponent<BeliefsSectionDataFragment> = ({
           delayChildren: 0.3,
           staggerChildren: 0.2,
         }}
-        className={cn("grid grid-cols-1 lg:grid-cols-2", "gap-2")}
+        className={cn("flex flex-col", "gap-2")}
       >
-        {beliefsData.map((beliefData, index) => (
-          <Belief key={beliefData.id} index={index} {...beliefData} />
+        {credentialsData.map((credentialData) => (
+          <Credential key={credentialData.id} {...credentialData} />
         ))}
       </motion.ul>
     </Card>

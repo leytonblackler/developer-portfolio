@@ -63,6 +63,7 @@ export const SocialLinks: FunctionComponent = () => {
   return (
     <div ref={ref} className="@container">
       <motion.ul
+        initial="hidden"
         animate={isInView ? "visible" : "hidden"}
         transition={{
           staggerChildren: 0.2,

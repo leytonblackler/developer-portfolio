@@ -1,3 +1,84 @@
+fragment EducationalInstitutionPageCredentialCourseData on Course {
+  id
+  name
+  code
+  categories
+  description
+  url
+  grade
+  timeFrame {
+    startDate
+    endDate
+  }
+  projects(first: 200) {
+    id
+    name
+    slug
+    logo {
+      iconLight {
+        url(transformation: { image: { resize: { width: 128, height: 128 } } })
+      }
+      iconDark {
+        url(transformation: { image: { resize: { width: 128, height: 128 } } })
+      }
+      iconIsCircle
+    }
+    colors {
+      foregroundLight {
+        hex
+        rgba {
+          r
+          g
+          b
+        }
+      }
+      backgroundLight {
+        hex
+        rgba {
+          r
+          g
+          b
+        }
+      }
+      foregroundDark {
+        hex
+        rgba {
+          r
+          g
+          b
+        }
+      }
+      backgroundDark {
+        hex
+        rgba {
+          r
+          g
+          b
+        }
+      }
+    }
+  }
+}
+
+fragment EducationalInstitutionPageCredentialData on Credential {
+  id
+  name
+  code
+  url
+  type
+  endorsement
+  description {
+    markdown
+  }
+  certificate {
+    mimeType
+    url
+  }
+  courses(first: 200) {
+    ...EducationalInstitutionPageCredentialCourseData
+  }
+}
+
 fragment EducationalInstitutionPageData on EducationalInstitution {
   id
   name
@@ -8,27 +89,19 @@ fragment EducationalInstitutionPageData on EducationalInstitution {
   logo {
     primaryLight {
       id
-      url(transformation: {
-        image: {
-          resize: {
-            width: 512,
-            height: 512,
-            fit: max
-          }
+      url(
+        transformation: {
+          image: { resize: { width: 512, height: 512, fit: max } }
         }
-      })
+      )
     }
     primaryDark {
       id
-      url(transformation: {
-        image: {
-          resize: {
-            width: 512,
-            height: 512,
-            fit: max
-          }
+      url(
+        transformation: {
+          image: { resize: { width: 512, height: 512, fit: max } }
         }
-      })
+      )
     }
   }
   # colors {
@@ -65,11 +138,13 @@ fragment EducationalInstitutionPageData on EducationalInstitution {
   #     }
   #   }
   # }
-}
-
-query EducationalInstitutionPage($slug: String) {
-  educationalInstitution(stage: PUBLISHED, where: {slug: $slug}) {
-    ...EducationalInstitutionPageData
+  credentials(first: 200) {
+    ...EducationalInstitutionPageCredentialData
   }
 }
 
+query EducationalInstitutionPage($slug: String) {
+  educationalInstitution(stage: PUBLISHED, where: { slug: $slug }) {
+    ...EducationalInstitutionPageData
+  }
+}

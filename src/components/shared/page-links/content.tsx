@@ -19,6 +19,7 @@ export const PageLinksSectionContent: FunctionComponent<{
   return (
     <motion.ul
       ref={ref}
+      initial="hidden"
       animate={isInView ? "visible" : "hidden"}
       transition={{
         delayChildren: 0.3,

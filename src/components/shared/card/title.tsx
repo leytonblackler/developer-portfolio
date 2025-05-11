@@ -11,7 +11,6 @@ export const CardTitle: FunctionComponent<{
       "font-semibold",
       "whitespace-nowrap",
       "card-text-primary",
-      "opacity-80 dark:text-opacity-70",
       centred ? "text-center" : "text-left"
     )}
   >

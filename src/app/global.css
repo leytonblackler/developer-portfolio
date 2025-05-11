@@ -183,7 +183,7 @@ body, main {
 }
 
 .card-bg-secondary--hoverable {
-  @apply hover:bg-gray-75 dark:hover:bg-gray-900;
+  @apply hover:bg-gray-100 dark:hover:bg-gray-875;
 }
 
 /* Card background secondary (light) */
@@ -218,6 +218,51 @@ body, main {
 
 .card-border-secondary--dark {
   @apply border border-gray-875;
+}
+
+
+/* Card background tertiary */
+
+.card-bg-tertiary {
+  @apply bg-gray-200/70 dark:bg-gray-800;
+}
+
+.card-bg-tertiary--hoverable {
+  @apply hover:bg-gray-50 dark:hover:bg-gray-700;
+}
+
+/* Card background tertiary (light) */
+
+.card-bg-tertiary-light {
+  @apply bg-gray-200/70;
+}
+
+.card-bg-tertiary-light--hoverable {
+  @apply bg-gray-50;
+}
+
+/* Card background tertiary (dark) */
+
+.card-bg-tertiary-dark {
+  @apply bg-gray-850;
+}
+
+.card-bg-tertiary-dark--hoverable {
+  @apply hover:bg-gray-800;
+}
+
+/* Card border tertiary */
+
+.card-border-tertiary {
+  @apply border border-gray-200 dark:border-gray-700/40;
+}
+
+.card-border-tertiary--light {
+  @apply border border-gray-200;
+}
+
+.card-border-tertiary--dark {
+  @apply border border-gray-700/40;
 }
 
 /* Card text secondary */

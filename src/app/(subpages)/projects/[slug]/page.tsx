@@ -6,7 +6,7 @@ import { getSSRApolloClient } from "@/hygraph/client/ssr";
 // import { LaptopCard } from "@/components/shared/device-cards/laptop";
 // import { PhoneCard } from "@/components/shared/device-cards/phone";
 import { cn } from "@/utils/styling/cn";
-import { TechnologiesCard } from "@/components/pages/project/technologies";
+import { TechnologiesCard } from "@/components/pages/project/technologies-card";
 import { Hero } from "@/components/shared/hero";
 import { Card } from "@/components/shared/card";
 import { MarkdownParagraph } from "@/components/shared/markdown/paragraph";

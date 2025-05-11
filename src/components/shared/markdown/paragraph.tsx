@@ -10,8 +10,7 @@ export const MarkdownParagraph = ({
   ExtraProps): JSX.Element => (
   <p
     className={cn(
-      "card-text-primary",
-      "text-opacity-80 dark:text-opacity-70",
+      "card-text-secondary",
       "text-sm font-medium leading-loose",
       "mb-3 last:mb-0",
       className
