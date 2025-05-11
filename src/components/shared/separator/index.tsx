@@ -2,6 +2,7 @@
 
 import { type FunctionComponent } from "react";
 import { motion } from "framer-motion";
+import { NotoColorEmoji } from "../noto-color-emoji";
 import { type SeparatorSectionDataFragment } from "@/hygraph/generated/graphql";
 import { useInView } from "@/components/shared/smooth-scroller/use-in-view";
 
@@ -34,12 +35,14 @@ export const SeparatorSection: FunctionComponent<
         }
         transition={{
           duration: 1,
+          delay: 0.5,
           type: "spring",
           bounce: 0.3,
         }}
-        className="font-emoji text-2xl"
       >
-        {emoji}
+        <NotoColorEmoji alt="Emoji" height={32}>
+          {emoji}
+        </NotoColorEmoji>
       </motion.span>
     </div>
   );

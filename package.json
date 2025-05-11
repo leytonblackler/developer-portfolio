@@ -14,6 +14,7 @@
     "dev:generate:resume": "env-cmd -f .env.local yarn generate:resume",
     "generate:hygraph-types": "graphql-codegen --config src/hygraph/codegen.ts",
     "dev:generate:hygraph-types": "env-cmd -f .env.local yarn generate:hygraph-types --watch",
+    "dev:dl-emoji": "bash ./scripts/download-noto-color-emoji.sh",
     "deploy:staging": "git push origin main:staging --force && git push origin main:staging-preview --force",
     "deploy:production": "git push origin main:production --force && git push origin main:production-preview --force",
     "script:migrate-color-sets": "env-cmd -f .env.local npx tsx scripts/migrate-color-sets.ts"

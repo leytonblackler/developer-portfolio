@@ -66,7 +66,7 @@ export const ResumeProfileSection: FunctionComponent<
         }}
       >
         <Text style={tw(isDarkMode ? "opacity-70" : "opacity-80")}>
-          {"Check out my website at "}
+          {"To learn more about me, I welcome you to check out my website at "}
         </Text>
         <Link
           href="https://leytonblackler.dev/"

@@ -8,6 +8,8 @@ import {
   WAVE_ENTER_DELAY,
   WAVE_INTERVAL,
 } from "./constants";
+import { getEmojiSvgLocation } from "@/utils/emoji/get-emoji-svg-filename";
+import { NotoColorEmoji } from "@/components/shared/noto-color-emoji";
 
 interface WaveEmojiProps {
   show: boolean;
@@ -84,10 +86,12 @@ export const WaveEmoji: FunctionComponent<WaveEmojiProps> = ({
       }}
     >
       <motion.span
-        className="inline-block origin-center font-emoji text-6xl"
+        className="inline-block origin-center text-6xl"
         animate={controls}
       >
-        👋
+        <NotoColorEmoji alt="Wave Emoji" height={70}>
+          👋
+        </NotoColorEmoji>
       </motion.span>
     </motion.div>
   );
