@@ -29,7 +29,7 @@ export const Credential: FunctionComponent<
           "mb-4",
           "text-base",
           "card-text-secondary",
-          "opacity-80",
+          "opacity-60",
           "font-semibold",
           "whitespace-nowrap",
           "italic"

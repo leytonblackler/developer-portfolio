@@ -47,6 +47,7 @@ export const CredentialCourses: FunctionComponent<CredentialCoursesProps> = ({
           staggerChildren: 0.05,
         }}
         className={cn(
+          "relative",
           "grid grid-cols-1 xs:grid-cols-2",
           "md:flex md:flex-row md:flex-wrap",
           "gap-2"
