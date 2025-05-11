@@ -46,7 +46,11 @@ export const CredentialCourses: FunctionComponent<CredentialCoursesProps> = ({
           delayChildren: 0.3,
           staggerChildren: 0.05,
         }}
-        className={cn("flex flex-row flex-wrap", "gap-2")}
+        className={cn(
+          "grid grid-cols-1 xs:grid-cols-2",
+          "md:flex md:flex-row md:flex-wrap",
+          "gap-2"
+        )}
       >
         {coursesData.map((courseData) => (
           <CourseTag key={courseData.id} {...courseData} />
