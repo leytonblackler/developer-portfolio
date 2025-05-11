@@ -8,6 +8,10 @@ const nextConfig = {
        */
       {
         protocol: "https",
+        hostname: "**.graphassets.com",
+      },
+      {
+        protocol: "https",
         hostname: "media.graphassets.com",
       },
       /**
