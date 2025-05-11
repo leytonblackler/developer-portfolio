@@ -8,7 +8,6 @@ import {
   WAVE_ENTER_DELAY,
   WAVE_INTERVAL,
 } from "./constants";
-import { getEmojiSvgLocation } from "@/utils/emoji/get-emoji-svg-filename";
 import { NotoColorEmoji } from "@/components/shared/noto-color-emoji";
 
 interface WaveEmojiProps {
