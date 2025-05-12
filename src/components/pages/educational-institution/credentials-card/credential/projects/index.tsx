@@ -2,29 +2,29 @@
 
 import { type FunctionComponent } from "react";
 import { motion } from "framer-motion";
-import { CourseTag } from "./course-tag";
-import { type EducationalInstitutionPageCredentialCourseDataFragment } from "@/hygraph/generated/graphql";
+import { ProjectTag } from "./project-tag";
+import { type EducationalInstitutionPageCredentialCourseProjectDataFragment } from "@/hygraph/generated/graphql";
 import { useInView } from "@/components/shared/smooth-scroller/use-in-view";
 import { cn } from "@/utils/styling/cn";
 
-interface CredentialCoursesProps {
-  coursesData: readonly EducationalInstitutionPageCredentialCourseDataFragment[];
+interface CredentialProjectsProps {
+  projectsData: readonly EducationalInstitutionPageCredentialCourseProjectDataFragment[];
 }
 
-export const CredentialCourses: FunctionComponent<CredentialCoursesProps> = ({
-  coursesData,
+export const CredentialProjects: FunctionComponent<CredentialProjectsProps> = ({
+  projectsData,
 }) => {
   /**
    * Observe when the card first enters the viewport.
    */
   const [ref, isInView] = useInView<HTMLUListElement>();
 
-  return (
+  return projectsData.length === 0 ? null : (
     <div className="flex flex-col">
       <div
         className={cn("card-text-primary", "font-semibold", "text-xl", "mb-4")}
       >
-        <span>Courses</span>
+        <span>Projects</span>
       </div>
       <motion.ul
         ref={ref}
@@ -41,8 +41,8 @@ export const CredentialCourses: FunctionComponent<CredentialCoursesProps> = ({
           "gap-2"
         )}
       >
-        {coursesData.map((courseData) => (
-          <CourseTag key={courseData.id} {...courseData} />
+        {projectsData.map((projectData) => (
+          <ProjectTag key={projectData.id} {...projectData} />
         ))}
       </motion.ul>
     </div>

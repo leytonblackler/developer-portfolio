@@ -9,6 +9,7 @@ import { MarkdownParagraph } from "@/components/shared/markdown/paragraph";
 import { AfterHero } from "@/components/shared/hero/entry-provider/after-hero";
 import { getEducationalInstitution } from "@/hygraph/queries/educational-institution";
 import { CredentialsCard } from "@/components/pages/educational-institution/credentials-card";
+import { getFragmentData } from "@/hygraph/generated";
 
 interface EducationalInstitutionPageParams {
   slug: string;

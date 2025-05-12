@@ -1,3 +1,52 @@
+fragment EducationalInstitutionPageCredentialCourseProjectData on Project {
+  id
+  name
+  slug
+  logo {
+    iconLight {
+      url(transformation: { image: { resize: { width: 128, height: 128 } } })
+    }
+    iconDark {
+      url(transformation: { image: { resize: { width: 128, height: 128 } } })
+    }
+    iconIsCircle
+  }
+  colors {
+    foregroundLight {
+      hex
+      rgba {
+        r
+        g
+        b
+      }
+    }
+    backgroundLight {
+      hex
+      rgba {
+        r
+        g
+        b
+      }
+    }
+    foregroundDark {
+      hex
+      rgba {
+        r
+        g
+        b
+      }
+    }
+    backgroundDark {
+      hex
+      rgba {
+        r
+        g
+        b
+      }
+    }
+  }
+}
+
 fragment EducationalInstitutionPageCredentialCourseData on Course {
   id
   name
@@ -11,52 +60,7 @@ fragment EducationalInstitutionPageCredentialCourseData on Course {
     endDate
   }
   projects(first: 200) {
-    id
-    name
-    slug
-    logo {
-      iconLight {
-        url(transformation: { image: { resize: { width: 128, height: 128 } } })
-      }
-      iconDark {
-        url(transformation: { image: { resize: { width: 128, height: 128 } } })
-      }
-      iconIsCircle
-    }
-    colors {
-      foregroundLight {
-        hex
-        rgba {
-          r
-          g
-          b
-        }
-      }
-      backgroundLight {
-        hex
-        rgba {
-          r
-          g
-          b
-        }
-      }
-      foregroundDark {
-        hex
-        rgba {
-          r
-          g
-          b
-        }
-      }
-      backgroundDark {
-        hex
-        rgba {
-          r
-          g
-          b
-        }
-      }
-    }
+    ...EducationalInstitutionPageCredentialCourseProjectData
   }
 }
 
