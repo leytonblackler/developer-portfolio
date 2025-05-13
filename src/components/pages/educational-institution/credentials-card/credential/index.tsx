@@ -4,7 +4,6 @@ import Markdown from "react-markdown";
 import { CredentialCourses } from "./courses";
 import { CredentialProjects } from "./projects";
 import {
-  type EducationalInstitutionPageCredentialCourseDataFragment,
   EducationalInstitutionPageCredentialCourseDataFragmentDoc,
   type EducationalInstitutionPageCredentialCourseProjectDataFragment,
   EducationalInstitutionPageCredentialCourseProjectDataFragmentDoc,

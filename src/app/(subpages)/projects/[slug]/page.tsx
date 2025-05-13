@@ -11,6 +11,8 @@ import { Hero } from "@/components/shared/hero";
 import { Card } from "@/components/shared/card";
 import { MarkdownParagraph } from "@/components/shared/markdown/paragraph";
 import { AfterHero } from "@/components/shared/hero/entry-provider/after-hero";
+import { ImageCard } from "@/components/shared/image-card";
+import { parseColorSet } from "@/hygraph/utils/parse-color-set";
 
 interface ProjectPageParams {
   slug: string;
@@ -49,19 +51,32 @@ const ProjectPage: FunctionComponent<ProjectPageProps> = async ({
     subtitle,
     description,
     // logo,
-    // colors: unparsedColorSet,
+    colors: unparsedColorSet,
+    mainImage,
     technologies,
   } = project;
 
   /**
    * Parse the HEX color values from the color set.
    */
-  // const parsedColorSet = parseColorSet(unparsedColorSet);
+  const parsedColorSet = parseColorSet(unparsedColorSet);
 
   return (
     <div className={cn("bounded-page-content-x", "flex flex-col gap-y-2")}>
       <Hero heading={name} subHeading={subtitle} reposition />
       <AfterHero>
+        {parsedColorSet !== null &&
+        mainImage &&
+        typeof mainImage.width === "number" &&
+        typeof mainImage.height === "number" ? (
+          <ImageCard
+            src={mainImage.url}
+            width={mainImage.width}
+            height={mainImage.height}
+            alt={`${name} Photo`}
+            backgroundColor={parsedColorSet.dark.background.hex}
+          />
+        ) : null}
         <Card title="About">
           {/* <div className="flex flex-row gap-x-12"> */}
           {/* <div

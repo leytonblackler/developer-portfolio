@@ -94,6 +94,11 @@ fragment ProjectPageData on Project {
       })
     }
   }
+  mainImage {
+    width,
+    height,
+    url(transformation: { image: { resize: { height: 400 } } })
+  }
   colors {
     foregroundLight {
       hex
