@@ -38,9 +38,6 @@ interface BubblesProps {
   data: BubbleData[];
 }
 
-// TODO: Fade other bubbles on hover, but not when dragging
-// TODO: Hide tooltip when dragging
-
 /**
  * Displays the provided data set as interactive bubbles.
  */
@@ -144,15 +141,37 @@ export const Bubbles: FunctionComponent<BubblesProps> = ({
     }
 
     /**
-     * Calculate the maximum size based on the current surface area of the
-     * container and the number of bubbles to render.
+     * Get the smallest dimension from the width and height.
      */
-    const max =
-      (Math.min(containerRect.width, containerRect.height) * 0.25) / 2;
+    const smallestDimension = Math.min(
+      containerRect.width,
+      containerRect.height
+    );
+
+    /**
+     * Limit the maximum bubble radius to an eighth of the smallest dimension to
+     * prevent extremely large bubbles.
+     */
+    const radiusLimit = smallestDimension / 8;
+
+    /**
+     * Calculate the surface area of the container in pixels.
+     */
     const surfaceArea = containerRect.width * containerRect.height;
+
+    /**
+     * Calculate the maximum surface area within the container a single bubble
+     * is allowed to occupy.
+     */
     const maxArea = surfaceArea / totalBubbles;
+
+    /**
+     * Calculate the radius for the area, accounting for spacing, and apply an
+     * additional buffer of 75% for safety.
+     */
     const maxRadius = (Math.sqrt(maxArea) / 2 - IDLE_SPACING * 2) * 0.75;
-    return Math.min(max, maxRadius);
+
+    return Math.min(radiusLimit, maxRadius);
   }, [
     containerMeasured,
     containerRect.width,
